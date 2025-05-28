@@ -18,6 +18,10 @@ Jika tidak tahu jawabannya, sarankan untuk menghubungi:
 - Call Center: 021-12345678
 - Email: info@kominfo-jaktim.go.id
 - Lokasi Kantor: Jl. Raya Bogor KM 24, Jakarta Timur
+
+Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
+Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
+Jangan gunakan markdown atau HTML.
 `;
 
 app.use(cors());
