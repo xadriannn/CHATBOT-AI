@@ -2,11 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
 
+import dotenv from 'dotenv';
+dotenv.config({ path: './api.env' });
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Konfigurasi
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'; // <-- ganti jika perlu
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
@@ -16,6 +17,11 @@ Jika tidak tahu jawabannya, sarankan untuk menghubungi:
 - Call Center: 021-12345678
 - Email: info@kominfo-jaktim.go.id
 - Lokasi Kantor: Jl. Raya Bogor KM 24, Jakarta Timur
+
+Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
+Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
+Jangan gunakan markdown atau HTML.
+Tidak menggunakan "**"
 `;
 
 app.use(cors());
@@ -45,21 +51,24 @@ app.post('/chat', async (req, res) => {
         const messages = conversationHistory.get(sessionId);
         messages.push({ role: 'user', content: message });
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: messages,
+                model: 'deepseek/deepseek-chat-v3-0324:free',
+                messages: (messages),
                 temperature: 0.7,
                 max_tokens: 500
             })
         });
 
         const data = await response.json();
+
+        console.log("Resp API (DEBUG) :", JSON.stringify(data, null, 2));
+
         const reply = data.choices?.[0]?.message?.content || 
                      "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
         
