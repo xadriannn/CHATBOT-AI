@@ -7,7 +7,7 @@ dotenv.config({ path: './api.env' });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const OPENROUTER_API_KEY = process.env.GEMINI_API;
 
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
@@ -58,7 +58,7 @@ app.post('/chat', async (req, res) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'deepseek/deepseek-chat-v3-0324:free',
+                model: 'google/gemini-2.0-flash-exp:free',
                 messages: (messages),
                 temperature: 0.7,
                 max_tokens: 500
