@@ -2,11 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
 
+import dotenv from 'dotenv';
+dotenv.config({ path: './api.env' });
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Konfigurasi
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'; // <-- ganti jika perlu
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
@@ -60,6 +61,9 @@ app.post('/chat', async (req, res) => {
         });
 
         const data = await response.json();
+
+        console.log("Resp API (DEBUG) :", JSON.stringify(data, null, 2));
+
         const reply = data.choices?.[0]?.message?.content || 
                      "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
         
