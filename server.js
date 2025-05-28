@@ -6,8 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Konfigurasi
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'; // <-- ganti jika perlu
-
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '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'
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
 Tugas Anda adalah memberikan informasi yang akurat dan membantu masyarakat.
