@@ -8,7 +8,6 @@ dotenv.config({ path: './api.env' });
 const app = express();
 const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-// const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
@@ -22,6 +21,7 @@ Jika tidak tahu jawabannya, sarankan untuk menghubungi:
 Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
 Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
 Jangan gunakan markdown atau HTML.
+Tidak menggunakan "**"
 `;
 
 app.use(cors());
@@ -59,7 +59,7 @@ app.post('/chat', async (req, res) => {
             },
             body: JSON.stringify({
                 model: 'deepseek/deepseek-chat-v3-0324:free',
-                messages: messages,
+                messages: (messages),
                 temperature: 0.7,
                 max_tokens: 500
             })
