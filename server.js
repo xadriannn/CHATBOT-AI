@@ -1,6 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import fetch from 'node-fetch';
+import sqlite3 from 'sqlite3';
+import path from 'path';
+import bodyParser from 'body-parser';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import dotenv from 'dotenv';
 dotenv.config({ path: './api.env' });
@@ -8,6 +13,8 @@ dotenv.config({ path: './api.env' });
 const app = express();
 const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+
+
 
 const SYSTEM_PROMPT = `
 Anda adalah Chatbot Resmi Kominfo Jakarta Timur. 
@@ -83,6 +90,102 @@ app.post('/chat', async (req, res) => {
             reply: "Maaf, terjadi gangguan teknis. Silakan hubungi Call Center kami di 021-12345678." 
         });
     }
+});
+
+//Database admin
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const db = new sqlite3.Database('admin.db', (err) => {
+  if (err) console.error("SQLite error:", err.message);
+  else console.log("Terhubung ke admin.db");
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join('public', 'login.html'));
+});
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+    console.log("Username yang dikirim:", username);
+    console.log("Password yang dikirim:", password);
+
+
+  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Kesalahan server");
+    }
+
+    if (row) {
+      res.sendFile(path.join('public', 'dashboard.html'));
+    } else {
+      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Coba Lagi</a>`);
+    }
+  });
+});
+
+// Halaman login admin
+app.get('/', (req, res) => {
+  res.sendFile(path.join('public', 'login.html'));
+});
+
+// Proses login admin
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  console.log("Username:", username);
+  console.log("Password:", password);
+
+  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Kesalahan server");
+    }
+
+    if (row) {
+      res.redirect('/dashboard'); // Redirect ke dashboard
+    } else {
+      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Kembali</a>`);
+    }
+  });
+});
+
+// Halaman login admin
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// Proses login admin
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  console.log("Username:", username);
+  console.log("Password:", password);
+
+  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Kesalahan server");
+    }
+
+    if (row) {
+      res.redirect('/dashboard'); // Redirect ke dashboard
+    } else {
+      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Kembali</a>`);
+    }
+  });
+});
+
+// Halaman dashboard admin
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join('public', 'dashboard.html'));
+});
+
+// Halaman chatbot AI
+app.get('/chatbot', (req, res) => {
+  res.sendFile(path.join('public', 'index.html'));
 });
 
 app.listen(PORT, () => {
