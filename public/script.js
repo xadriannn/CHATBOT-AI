@@ -32,7 +32,7 @@ removeFileBtn.addEventListener('click', function () {
     
     // Pesan pembuka dari bot
     setTimeout(() => {
-        addBotMessage("Halo! Saya Chatbot Resmi Kominfo Jakarta Timur. Ada yang bisa saya bantu hari ini?");
+        addBotMessage("Halo Saya Si Zecky! Chatbot Resmi Kominfotik Jakarta Timur. Ada yang bisa saya bantu hari ini?");
     }, 500);
     
     // Fungsi untuk menambahkan pesan bot
