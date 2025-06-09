@@ -118,6 +118,9 @@ app.post('/chat', async (req, res) => {
     }
 });
 
+
+
+
 //Database admin
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -180,8 +183,9 @@ app.post('/login', (req, res) => {
 
 // Halaman login admin
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  res.sendFile(path.join(__dirname, 'public',  'login.html'));
 });
+
 
 // Proses login admin
 app.post('/login', (req, res) => {
@@ -194,15 +198,18 @@ app.post('/login', (req, res) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send("Kesalahan server");
+    } else {
+        console.log("Row:", row);
     }
 
     if (row) {
-      res.redirect('/dashboard'); // Redirect ke dashboard
+        res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
     } else {
       res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Kembali</a>`);
     }
   });
 });
+
 
 // Halaman dashboard admin
 app.get('/dashboard', (req, res) => {
