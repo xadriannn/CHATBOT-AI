@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styling/style.css">
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <div class="chatbot-container" role="application" aria-label="Aplikasi Chatbot">
         <header class="chatbot-header">
@@ -26,19 +27,20 @@
         <div class="chat-input">
             <span id="file-name" class="file-name" aria-live="polite"></span>
             <button id="remove-file" class="remove-file-button hidden" aria-label="Hapus file" title="Hapus file">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-</button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+
             <!-- Tombol Attach File -->
             <label for="file-input" class="attach-button" aria-label="Lampirkan file">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" 
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-        class="feather feather-paperclip">
-        <path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95L9.88 17.78"/>
-    </svg>
-</label>
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                    class="feather feather-paperclip">
+                    <path d="M21.44 11.05l-9.19 9.19a5 5 0 01-7.07-7.07l9.19-9.19a3.5 3.5 0 014.95 4.95L9.88 17.78"/>
+                </svg>
+            </label>
 
             <input 
                 type="file" 
