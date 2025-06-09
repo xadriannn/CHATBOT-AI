@@ -6,6 +6,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import session from 'express-session'; // Import express-session
 
 import dotenv from 'dotenv';
 dotenv.config({ path: './api.env' });
@@ -13,8 +14,6 @@ dotenv.config({ path: './api.env' });
 const app = express();
 const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-
-
 
 const SYSTEM_PROMPT = `
 Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
@@ -28,7 +27,7 @@ Tugas utama Anda adalah memberikan informasi yang akurat dan membantu masyarakat
 Di Kominfotik Jakarta Timur terdapat 3 bagian pada magang: Diantaranya, Komunikasi Informasi Publik, Infrastruktur jaringan, dan (ASTIK) Aplikasi,Siber, dan Statistik.
 Cara daftar magang disini bisa datang ke lokasi langsung / bisa via whatsapp.
 Jam masuk magang di sini 08:00 - 15:00
-Syarat dan Ketentuan magang di sini SMK atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
+Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
 
 Tugas sampingan anda adalah memberikan informasi yang anda ketahui.
 Seperti menjawab semua pertanyaan user dan berikan sumbernya.
@@ -60,6 +59,14 @@ Tidak menggunakan '**'
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
+// Configure express-session
+app.use(session({
+    secret: 'your_secret_key', // Ganti dengan kunci rahasia yang kuat dan unik
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 // Simpan history percakapan
 const conversationHistory = new Map();
@@ -103,7 +110,7 @@ app.post('/chat', async (req, res) => {
         console.log("Resp API (DEBUG) :", JSON.stringify(data, null, 2));
 
         const reply = data.choices?.[0]?.message?.content || 
-                     "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
+                      "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
         
         // Simpan balasan ke history
         messages.push({ role: 'assistant', content: reply });
@@ -124,95 +131,83 @@ const __dirname = dirname(__filename);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = new sqlite3.Database('admin.db', (err) => {
-  if (err) console.error("SQLite error:", err.message);
-  else console.log("Terhubung ke admin.db");
+    if (err) console.error("SQLite error:", err.message);
+    else console.log("Terhubung ke admin.db");
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join('public', 'login.html'));
-});
-
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-    console.log("Username yang dikirim:", username);
-    console.log("Password yang dikirim:", password);
-
-
-  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("Kesalahan server");
-    }
-
-    if (row) {
-      res.sendFile(path.join('public', 'dashboard.html'));
-    } else {
-      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Coba Lagi</a>`);
-    }
-  });
-});
-
-// Halaman login admin
-app.get('/', (req, res) => {
-  res.sendFile(path.join('public', 'login.html'));
-});
 
 // Proses login admin
 app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
 
-  console.log("Username:", username);
-  console.log("Password:", password);
+    db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
+        if (err) {
+            console.error(err.message);
+            return res.status(500).send("Kesalahan server");
+        }
 
-  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("Kesalahan server");
-    }
+        if (row) {
+            req.session.loggedIn = true;
+            res.redirect('/dashboard');
+        } else {
+            res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/login">Kembali ke Login</a>`);
+        }
+    });
+});
 
-    if (row) {
-      res.redirect('/dashboard'); // Redirect ke dashboard
+
+
+// HANDLER LOGIN / LOGOUT ADMIN AAAH
+
+function isAuthenticated(req, res, next) {
+    if (req.session.loggedIn) {
+        next();
     } else {
-      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Kembali</a>`);
+        res.redirect('/login');
     }
-  });
-});
+}
 
-// Halaman login admin
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-// Proses login admin
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  console.log("Username:", username);
-  console.log("Password:", password);
-
-  db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("Kesalahan server");
-    }
-
-    if (row) {
-      res.redirect('/dashboard'); // Redirect ke dashboard
+const autoLogout = (req, res, next) => {
+    if (req.session.loggedIn) {
+        req.session.destroy(err => {
+            if (err) {
+                console.error("Error destroying session on auto-logout:", err);
+            }
+            next();
+            console.log("Harusnya Terlogout");
+        });
     } else {
-      res.send(`<h3>Login gagal. Username atau password salah.</h3><a href="/">Kembali</a>`);
+        next();
     }
-  });
+};
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).send("Gagal logout");
+        }
+        res.redirect('/login');
+    });
 });
 
-// Halaman dashboard admin
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname,'public', 'dashboard.html'));
+
+
+// ROUTING ============================================================
+app.get('/', autoLogout, (req, res) => {
+    res.sendFile(path.join(__dirname, './public', '/index.html'));
 });
 
-// Halaman chatbot AI
-app.get('/chatbot', (req, res) => {
-  res.sendFile(path.join(__dirname ,'public', 'index.html'));
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, './public', '/dashboard.html'));
 });
+
+app.get('/login', autoLogout, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
