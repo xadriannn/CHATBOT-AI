@@ -87,34 +87,66 @@
       <header>
         <h1>Data Admin</h1>
       </header>
+
+      <div class="admin-action">
+  <button id="add-admin-button" class="primary-btn"> Tambahkan Admin</button>
+</div>
+
+<!-- Form Pop-up Tambah Admin -->
+<div class="modal hidden" id="add-admin-modal">
+  <div class="modal-content">
+    <h3>Tambah Admin Baru</h3>
+    <form id="add-admin-form">
+      <input type="text" id="new-username" placeholder="Username" required />
+      <input type="password" id="new-password" placeholder="Password" required />
+      <div class="modal-actions">
+        <button type="submit" class="primary-btn">Simpan</button>
+        <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
       <section class="chart-container">
         <table>
-          <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Username</th>
-              <th>Status</th>
-              <th>Aktivitas Terakhir</th>
-            </tr>
-          </thead>
+<thead>
+  <tr>
+    <th class="action-cell">Nama</th>
+    <th class="action-cell">Username</th>
+    <th class="action-cell">Status</th>
+    <th class="action-cell">Aktivitas Terakhir</th>
+    <th class="action-cell">Aksi</th>
+  </tr>
+  <tr>
+  <td class="action-cell">Zecky</td>
+  <td class="action-cell">zecky@kominfo.go.id</td>
+  <td class="action-cell">Aktif</td>
+  <td class="action-cell">Hari ini, 10:00</td>
+                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
+</tr>
+</thead>
           <tbody>
             <tr>
-              <td>Zecky</td>
-              <td>zecky@kominfo.go.id</td>
-              <td>Aktif</td>
-              <td>Hari ini, 10:00</td>
+              <td class="action-cell">Zecky</td>
+              <td class="action-cell"></td>
+              <td class="action-cell">Aktif</td>
+              <td class="action-cell">Hari ini, 10:00</td>
+                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
             </tr>
             <tr>
-              <td>Andi</td>
-              <td>andi@kominfo.go.id</td>
-              <td>Nonaktif</td>
-              <td>3 hari lalu</td>
+              <td class="action-cell">Andi</td>
+              <td class="action-cell"></td>
+              <td class="action-cell">Nonaktif</td>
+              <td class="action-cell">3 hari lalu</td>
+                                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
             </tr>
             <tr>
-              <td>Siti</td>
-              <td>siti@kominfo.go.id</td>
-              <td>Aktif</td>
-              <td>Kemarin</td>
+              <td class="action-cell">Siti</td>
+              <td class="action-cell"></td>
+              <td class="action-cell">Aktif</td>
+              <td class="action-cell">Kemarin</td>
+                                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
             </tr>
           </tbody>
         </table>

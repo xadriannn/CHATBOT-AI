@@ -205,6 +205,24 @@ app.get('/login', autoLogout, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
+// Endpoint untuk inisialisasi database admin (buat tabel jika belum ada)
+app.post('/init-db', (req, res) => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS admin (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL
+        )
+    `, (err) => {
+        if (err) {
+            console.error('Gagal membuat tabel admin:', err.message);
+            return res.status(500).json({ message: 'Gagal membuat tabel admin.' });
+        }
+
+        res.json({ message: 'Tabel admin berhasil dibuat atau sudah ada.' });
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
 });

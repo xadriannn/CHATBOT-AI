@@ -150,3 +150,103 @@
       font-weight: 600;
       color: #2563eb;
     }
+
+    /* Tombol Tambah Admin */
+.primary-btn {
+  background-color: #2563eb;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.primary-btn:hover {
+  background-color: #1e40af;
+}
+
+.cancel-btn {
+  background-color: #e2e8f0;
+  color: #1e293b;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.cancel-btn:hover {
+  background-color: #cbd5e1;
+}
+
+.admin-action {
+  margin: 1rem 0;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 41, 59, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-content input {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.delete-btn {
+  background-color: #dc2626;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Pusatkan isi kolom aksi */
+.action-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Opsional: ukuran kolom aksi tetap */
+th.action-cell, td.action-cell {
+  width: 120px;
+}
