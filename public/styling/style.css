@@ -49,6 +49,12 @@ body {
     gap: 12px;
 }
 
+.character-image {
+    margin-left: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
 .header-text {
     flex: 1;
 }
