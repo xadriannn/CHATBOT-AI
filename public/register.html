@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrasi Akun</title>
+  <link rel="stylesheet" href="styling/register.css" />
+</head>
+
+<body>
+  <div class="register-container">
+    <h2>Daftar Akun</h2>
+    <div id="alertBox" class="alert-box"></div>
+
+     <form id="registerForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required />
+        <!--
+      <label for="email">Email (Gmail)</label>
+      <input type="email" id="email" name="email" required /> -->
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <label for="confirm">Verifikasi Password</label>
+      <input type="password" id="confirm" name="confirm" required />
+
+      <button type="submit">Daftar</button>
+    </form>
+    <p>Sudah punya akun? <a href="user.html">Login di sini</a></p>
+  </div>
+
+  <script>
+  const form = document.getElementById("registerForm");
+  const alertBox = document.getElementById("alertBox");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm").value;
+
+    const isValid = validatePassword(password);
+
+    if (!isValid) {
+      alertBox.style.display = "block";
+      alertBox.innerText = "Password harus minimal 8 karakter dan mengandung huruf besar, huruf kecil, angka, dan simbol.";
+      return;
+    }
+
+    if (password !== confirm) {
+      alertBox.style.display = "block";
+      alertBox.innerText = "Konfirmasi password tidak cocok.";
+      return;
+    }
+
+    alertBox.style.display = "none";
+
+    // Kirim data ke server atau tampilkan pesan sukses
+    alert("Registrasi berhasil!");
+    form.reset();
+  });
+
+  function validatePassword(password) {
+    const lengthCheck = password.length >= 8;
+    const upperCheck = /[A-Z]/.test(password);
+    const lowerCheck = /[a-z]/.test(password);
+    const numberCheck = /[0-9]/.test(password);
+    const symbolCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return lengthCheck && upperCheck && lowerCheck && numberCheck && symbolCheck;
+  }
+</script>
+
+</body>
+</html>

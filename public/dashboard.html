@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Dashboard - User Statistics</title>
-  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="icon" href="assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="styling/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <nav class="sidebar">
+   <nav class="sidebar">
     <h2>Admin Panel</h2>
-    <a href="#" class="nav-link active" aria-current="page" onclick="showSection('dashboard-section', this)">
+
+    <a href="#" class="nav-link active" onclick="showSection('dashboard-section', this)">
       <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
       Dashboard
     </a>
+
     <a href="#" class="nav-link" onclick="showSection('admin-table-section', this)">
       <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
       Admins
     </a>
+
     <a href="#" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
       Users
     </a>
+
     <a href="#" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h10v2H4zm0 5h16v2H4z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.31,0.06-0.63,0.06-0.94s-0.02-0.63-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.4,0.12-0.61l-1.92-3.32c-0.11-0.21-0.36-0.3-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.63-0.94L14.5,2.5c-0.05-0.23-0.25-0.4-0.49-0.4h-4c-0.24,0-0.44,0.17-0.49,0.4L9.22,5.28c-0.6,0.24-1.13,0.56-1.63,0.94l-2.39-0.96c-0.23-0.09-0.48,0.01-0.59,0.22L2.69,9.8c-0.11,0.21-0.06,0.47,0.12,0.61l2.03,1.58C4.76,12.37,4.73,12.68,4.73,13s0.02,0.63,0.06,0.94l-2.03,1.58c-0.18,0.14-0.23,0.4-0.12,0.61l1.92,3.32c0.11,0.21,0.36,0.3,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.63,0.94l0.29,2.78c0.05,0.23,0.25,0.4,0.49,0.4h4c0.24,0,0.44-0.17,0.49-0.4l0.29-2.78c0.6-0.24,1.13-0.56,1.63-0.94l2.39,0.96c0.23,0.09,0.48-0.01,0.59-0.22l1.92-3.32c0.11-0.21,0.06-0.47-0.12-0.61L19.14,12.94z M12,15.5c-1.93,0-3.5-1.57-3.5-3.5S10.07,8.5,12,8.5s3.5,1.57,3.5,3.5S13.93,15.5,12,15.5z"/></svg>
       Settings
     </a>
+
     <a href="#" class="nav-link" onclick="logout()">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-        <path d="M13 3h-2v10h2V3zm4.95 2.05l-1.41 1.41A7 7 0 0 1 19 12a7 7 0 1 1-14 0 7 7 0 0 1 2.46-5.34l-1.41-1.41A9 9 0 1 0 22 12a9 9 0 0 0-4.05-6.95z"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.95 2.05l-1.41 1.41A7 7 0 0 1 19 12a7 7 0 1 1-14 0 7 7 0 0 1 2.46-5.34l-1.41-1.41A9 9 0 1 0 22 12a9 9 0 0 0-4.05-6.95z"/></svg>
       Logout
     </a>
   </nav>
@@ -41,46 +44,19 @@
       <header>
         <h1>Dashboard</h1>
         <div class="admin-info">
-       <span id="admin-name">Selamat Datang! <span id="admin-username">...</span></span>
+          <span id="admin-name">Selamat Datang! <span id="admin-username">...</span></span>
         </div>
       </header>
 
-      <section class="stats" aria-label="User statistics">
-        <div class="stat-card">
-          <div class="stat-title">Total Admins</div>
-          <div class="stat-value" id="totalAdmins">4</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Active Users</div>
-          <div class="stat-value" id="activeUsers">128</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">New Users (30d)</div>
-          <div class="stat-value" id="newUsers">58</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-title">Churn Rate</div>
-          <div class="stat-value" id="churnRate">5.4%</div>
-        </div>
+      <section class="stats">
+        <div class="stat-card"><div class="stat-title">Total Admins</div><div class="stat-value" id="totalAdmins">0</div></div>
+        <div class="stat-card"><div class="stat-title">Active Users</div><div class="stat-value" id="activeUsers">128</div></div>
+        <div class="stat-card"><div class="stat-title">New Users (30d)</div><div class="stat-value" id="newUsers">58</div></div>
+        <div class="stat-card"><div class="stat-title">Churn Rate</div><div class="stat-value" id="churnRate">5.4%</div></div>
       </section>
 
-      <section class="chart-container" aria-label="User registrations over time">
-        <canvas id="userChart"></canvas>
-      </section>
-
-      <section class="chart-container" aria-label="Chat volume">
-        <h3>Chat Volume (7 Hari)</h3>
-        <canvas id="chatVolumeChart"></canvas>
-      </section>
-
-      <section class="chart-container" aria-label="Recent user activity">
-        <h3>Aktivitas Terakhir</h3>
-        <ul id="activity-log">
-          <li>09.00 - User A bertanya tentang layanan publik</li>
-          <li>09.15 - User B mengupload dokumen</li>
-          <li>10.00 - Admin Zecky menambahkan FAQ</li>
-        </ul>
-      </section>
+      <section class="chart-container"><canvas id="userChart"></canvas></section>
+      <section class="chart-container"><h3>Chat Volume (7 Hari)</h3><canvas id="chatVolumeChart"></canvas></section>
     </section>
 
     <section id="admin-table-section" class="hidden-section">
@@ -89,74 +65,65 @@
       </header>
 
       <div class="admin-action">
-  <button id="add-admin-button" class="primary-btn"> Tambahkan Admin</button>
-</div>
-
-<!-- Form Pop-up Tambah Admin -->
-<div class="modal hidden" id="add-admin-modal">
-  <div class="modal-content">
-    <h3>Tambah Admin Baru</h3>
-    <form id="add-admin-form">
-      <input type="text" id="new-username" placeholder="Username" required />
-      <input type="password" id="new-password" placeholder="Password" required />
-      <div class="modal-actions">
-        <button type="submit" class="primary-btn">Simpan</button>
-        <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
+        <button id="add-admin-button" class="primary-btn"> Tambahkan Admin</button>
       </div>
-    </form>
-  </div>
-</div>
-
 
       <section class="chart-container">
         <table>
-<thead>
-  <tr>
-    <th class="action-cell">Nama</th>
-    <th class="action-cell">Username</th>
-    <th class="action-cell">Status</th>
-    <th class="action-cell">Aktivitas Terakhir</th>
-    <th class="action-cell">Aksi</th>
-  </tr>
-  <tr>
-  <td class="action-cell">Zecky</td>
-  <td class="action-cell">zecky@kominfo.go.id</td>
-  <td class="action-cell">Aktif</td>
-  <td class="action-cell">Hari ini, 10:00</td>
-                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
-</tr>
-</thead>
-          <tbody>
+          <thead>
             <tr>
-              <td class="action-cell">Zecky</td>
-              <td class="action-cell"></td>
-              <td class="action-cell">Aktif</td>
-              <td class="action-cell">Hari ini, 10:00</td>
-                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
+              <th>Username</th>
+              <th>Status</th>
+              <th>Aktivitas Terakhir</th>
+              <th class="action-cell">Aksi</th>
             </tr>
-            <tr>
-              <td class="action-cell">Andi</td>
-              <td class="action-cell"></td>
-              <td class="action-cell">Nonaktif</td>
-              <td class="action-cell">3 hari lalu</td>
-                                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
-            </tr>
-            <tr>
-              <td class="action-cell">Siti</td>
-              <td class="action-cell"></td>
-              <td class="action-cell">Aktif</td>
-              <td class="action-cell">Kemarin</td>
-                                <td class="action-cell"><button class="delete-btn" onclick="deleteAdmin('Admin')"> Hapus</button></td>
-            </tr>
+          </thead>
+          <tbody id="admin-table-body">
+            <!-- Baris akan diisi lewat JavaScript -->
           </tbody>
         </table>
       </section>
     </section>
 
+    <!-- Modal Tambah Admin -->
+    <div class="modal hidden" id="add-admin-modal">
+      <div class="modal-content">
+        <h3>Tambah Admin Baru</h3>
+        <form id="add-admin-form">
+          <input type="text" id="new-username" placeholder="Username" required />
+          <input type="password" id="new-password" placeholder="Password" required />
+          <div class="modal-actions">
+            <button type="submit" class="primary-btn">Simpan</button>
+            <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <footer>
       &copy; 2025 Admin Dashboard. All rights reserved.
     </footer>
   </main>
+ <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch('/api/user', {
+      credentials: 'include' // ⬅ penting agar cookie session dikirim
+    });
+    const data = await res.json();
+
+    if (data.username) {
+      document.getElementById('admin-username').textContent = data.username;
+    } else {
+      document.getElementById('admin-username').textContent = 'Admin';
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data user:', err);
+    document.getElementById('admin-username').textContent = 'Admin';
+  }
+});
+</script>
+
   <script src="script.js"></script>
 </body>
 </html>

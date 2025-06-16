@@ -1,0 +1,101 @@
+/* Reset dan pengaturan global */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-210deg, #cdd1d4, #ffffff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Kontainer form */
+.register-container {
+  background-color: #ffffff;
+  padding: 30px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+/* Judul form */
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 24px;
+  font-size: 22px;
+}
+
+/* Label input */
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Input field */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%; /* disamakan semua */
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Tombol */
+button {
+  width: 100%; /* sama dengan input */
+  margin-top: 20px;
+  padding: 10px 14px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Paragraf dan link */
+p {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+}
+
+a {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.alert-box {
+  display: none;
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}

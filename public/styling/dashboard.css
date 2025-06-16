@@ -4,7 +4,7 @@
   }
   body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background: #f4f7fc;
     color: #333;
   }
@@ -250,3 +250,16 @@
 th.action-cell, td.action-cell {
   width: 120px;
 }
+
+ nav.sidebar svg {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      vertical-align: middle;
+      fill: currentColor;
+    }
+    nav.sidebar a.nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }

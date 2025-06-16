@@ -9,14 +9,36 @@ document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   const failed = urlParams.get('failed');
   const form = document.getElementById('loginForm');
+  const addBtn = document.getElementById('add-admin-button');
+  const modal = document.getElementById('add-admin-modal');
+  const cancelModal = document.getElementById('cancel-modal');
+  const addForm = document.getElementById('add-admin-form');
+  const adminTableBody = document.getElementById('admin-table-body');
+  const storedName = localStorage.getItem('adminName');
+  const nameSpan = document.getElementById('admin-username');
 
-  // ✅ Simpan username ke localStorage saat login
-  if (form) {
-    form.addEventListener('submit', function () {
-      const username = form.elements['username'].value;
-      localStorage.setItem('adminName', username);
-    });
+
+  async function fetchAdminName() {
+  try {
+    const res = await fetch('/me');
+    if (!res.ok) throw new Error("Unauthorized");
+
+    const data = await res.json();
+    const nameSpan = document.getElementById('admin-username');
+
+    if (nameSpan && data.username) {
+      nameSpan.textContent = data.username.charAt(0).toUpperCase() + data.username.slice(1);
+    }
+  } catch (err) {
+    console.error("Gagal ambil nama admin:", err);
+    window.location.href = '/login'; // redirect jika belum login
   }
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  fetchAdminName(); // ✅ Panggil fungsi saat DOM siap
+});
 
   // ✅ Tampilkan alert jika login gagal
   if (failed === '1' && alertBox) {
@@ -134,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     userInput.focus();
   }
-});
 
 // ✅ Logout bersihkan localStorage
 function logout() {
@@ -195,6 +216,8 @@ if (ctx2) {
   });
 }
 
+
+
 // ✅ Tampilkan greeting admin di dashboard
 document.addEventListener('DOMContentLoaded', () => {
   const storedName = localStorage.getItem('adminName');
@@ -204,3 +227,92 @@ document.addEventListener('DOMContentLoaded', () => {
     nameSpan.textContent = capitalized;
   }
 });
+
+  if (storedName && nameSpan) {
+    nameSpan.textContent = storedName.charAt(0).toUpperCase() + storedName.slice(1);
+  }
+
+  // Fungsi logout
+  window.logout = function () {
+    localStorage.removeItem('adminName');
+    window.location.href = 'login.html';
+  };
+
+  // Navigasi antar section
+  window.showSection = function (sectionId, link) {
+    document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden-section'));
+    document.getElementById(sectionId).classList.remove('hidden-section');
+    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    link.classList.add('active');
+  };
+
+  // Ambil data admin dari server
+  async function loadAdmins() {
+    const res = await fetch('/admin-list');
+    const admins = await res.json();
+    adminTableBody.innerHTML = '';
+
+    admins.forEach(admin => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${admin.username}</td>
+        <td>Aktif</td>
+        <td>Baru Ditambahkan</td>
+        <td class="action-cell">
+          <button class="delete-btn" onclick="deleteAdmin('${admin.username}')"> Hapus</button>
+        </td>
+      `;
+      adminTableBody.appendChild(tr);
+    });
+
+    document.getElementById('totalAdmins').textContent = admins.length;
+  } 
+  // Tambahkan admin
+  if (addBtn && modal && cancelModal && addForm) {
+    addBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+    cancelModal.addEventListener('click', () => modal.classList.add('hidden'));
+
+    addForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('new-username').value;
+      const password = document.getElementById('new-password').value;
+
+      const res = await fetch('/add-admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      if (res.ok) {
+        modal.classList.add('hidden');
+        addForm.reset();
+        loadAdmins();
+      }
+    });
+  }
+
+  loadAdmins(); // Tampilkan admin saat halaman dimuat
+
+  // Fungsi hapus admin (global)
+  window.deleteAdmin = function (username) {
+    if (!confirm(`Yakin ingin menghapus admin "${username}"?`)) return;
+
+    fetch('/delete-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadAdmins();
+      })
+      .catch(err => {
+        alert('Gagal menghapus admin.');
+        console.error(err);
+      });
+  };
+});
+

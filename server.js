@@ -22,7 +22,6 @@ Nickname anda adalah Zeck atau Zecky.
 Si Zecky dibuat ditanggal 5 Juni 2025 oleh Adrian Syah Putra mahasiswa dari Universitas Siliwangi, Tasikmalaya. Program Studi Informatika Angkatan 2022
 Adrian Syah Putra adalah mahasiswa Universitas Siliwangi prodi Informatika Angkatan 2022 dia adalah mahasiswa yang membuat saya. Adrian sangat lucu dan. Jika ingin dekat dengan Adrian, bisa DM Instagram @_adriankun.
 Zecky menyukai makanan, diantaranya Nasi Goreng dan Kue Nastar.
-
 Penampilan Fisik anda, menggunakan kacamata dan memiliki rambut warna kecoklatan.
 
 Tugas utama Anda adalah memberikan informasi yang akurat dan membantu masyarakat.
@@ -30,6 +29,22 @@ Di Kominfotik Jakarta Timur terdapat 3 bagian pada magang: Diantaranya, Komunika
 Cara daftar magang disini bisa datang ke lokasi langsung / bisa via whatsapp.
 Jam masuk magang di sini 08:00 - 15:00
 Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
+Ilmu pengetahuan di Seluruh DKI Jakarta sebagai anak Gaul dan Hits.
+Fix kodingan sederhana.
+
+Program apa yang dipunya di sini.
+Cara Menjadi PNS Terbaru
+Cara menjadi ASN Terbaru
+Cara menjadi Pegawai Terbar
+Cara menjadi anak magang terbaru
+
+Persyaratan Pembuatan Akte kelahiran, Kematian, Perkawinian, Perceraian.
+Persyaratan Pembuatan KK (Kartu Keluarga)
+Persyaratan Pembuatan KTP (Kartu Tanda Penduduk)
+Persyaratan Pembuatan KIA (Kartu Indetitas Anak)
+Persyaratan Pembuatan KJP (Kartu Jakarta Pintar)
+Persyaratan Pembuatan SKCK (Surat Keterangan Catatan Kepolisian)
+Persyaratan Pembuatan SIM (Surat Izin Mengemudi)
 
 Tugas sampingan anda adalah memberikan informasi yang anda ketahui.
 Jawablah semua pertanyaan yang diketikan oleh user
@@ -138,21 +153,43 @@ const db = new sqlite3.Database('admin.db', (err) => {
 
 // Proses login admin
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    db.get("SELECT * FROM admin WHERE username=? AND password=?", [username, password], (err, row) => {
-        if (err) {
-            console.error(err.message);
-            return res.status(500).send("Kesalahan server");
-        }
+  db.get("SELECT * FROM admin WHERE username = ? AND password = ?", [username, password], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send("Kesalahan server");
+    }
 
-        if (row) {
-            req.session.loggedIn = true;
-            res.redirect(`/dashboard?user=${encodeURIComponent(username)}`);
-        } else {
-            res.redirect('/login?failed=1');
-        }
-    });
+    if (row) {
+      req.session.loggedIn = true;
+      req.session.username = row.username; // ✅ Simpan ke session
+      res.redirect('/dashboard');
+    } else {
+      res.redirect('/login?failed=1');
+    }
+  });
+  req.session.user = { username }; // username diambil dari req.body.username
+});
+
+
+app.get('/me', (req, res) => {
+  if (!req.session.loggedIn || !req.session.username) {
+    return res.status(401).json({ message: 'Belum login' });
+  }
+
+  db.get("SELECT * FROM admin WHERE username = ?", [req.session.username], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ message: 'Gagal mengambil data admin' });
+    }
+
+    if (row) {
+      res.json({ username: row.username });
+    } else {
+      res.status(404).json({ message: 'Admin tidak ditemukan' });
+    }
+  });
 });
 
 
@@ -190,7 +227,70 @@ app.get('/logout', (req, res) => {
     });
 });
 
+app.post('/init-db', (req, res) => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS admin (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL
+    )
+  `, (err) => {
+    if (err) {
+      console.error('Gagal membuat tabel admin:', err.message);
+      return res.status(500).json({ message: 'Gagal membuat tabel admin.' });
+    }
 
+    res.json({ message: 'Tabel admin berhasil dibuat atau sudah ada.' });
+  });
+});
+
+// Tambah Admin
+app.post('/add-admin', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username dan password harus diisi.' });
+    }
+
+    db.run(`INSERT INTO admin (username, password) VALUES (?, ?)`, [username, password], function (err) {
+        if (err) {
+            console.error("Gagal tambah admin:", err.message);
+            return res.status(500).json({ message: 'Gagal menambahkan admin. Username mungkin sudah dipakai.' });
+        }
+        res.json({ message: 'Admin berhasil ditambahkan.' });
+    });
+});
+
+// Hapus Admin
+app.post('/delete-admin', (req, res) => {
+    const { username } = req.body;
+    if (!username) {
+        return res.status(400).json({ message: 'Username diperlukan.' });
+    }
+
+    db.run(`DELETE FROM admin WHERE username = ?`, [username], function (err) {
+        if (err) {
+            console.error("Gagal hapus admin:", err.message);
+            return res.status(500).json({ message: 'Gagal menghapus admin.' });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ message: 'Admin tidak ditemukan.' });
+        }
+
+        res.json({ message: `Admin ${username} telah dihapus.` });
+    });
+});
+
+// Ambil semua admin
+app.get('/admin-list', (req, res) => {
+    db.all(`SELECT username FROM admin`, (err, rows) => {
+        if (err) {
+            console.error("Gagal mengambil data admin:", err.message);
+            return res.status(500).json({ message: 'Gagal mengambil data admin.' });
+        }
+        res.json(rows);
+    });
+});
 
 // ROUTING ============================================================
 app.get('/', autoLogout, (req, res) => {
@@ -201,26 +301,22 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, './public', '/dashboard.html'));
 });
 
-app.get('/login', autoLogout, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+app.get('/dashboard', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.sendFile(__dirname + '/public/dashboard.html'); // atau render template jika pakai EJS/Pug
 });
 
-// Endpoint untuk inisialisasi database admin (buat tabel jika belum ada)
-app.post('/init-db', (req, res) => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS admin (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
-        )
-    `, (err) => {
-        if (err) {
-            console.error('Gagal membuat tabel admin:', err.message);
-            return res.status(500).json({ message: 'Gagal membuat tabel admin.' });
-        }
+app.get('/api/user', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  res.json({ username: req.session.user.username });
+});
 
-        res.json({ message: 'Tabel admin berhasil dibuat atau sudah ada.' });
-    });
+app.get('/login', autoLogout, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.listen(PORT, () => {
