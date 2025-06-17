@@ -263,3 +263,24 @@ th.action-cell, td.action-cell {
       align-items: center;
       gap: 8px;
     }
+
+    .danger-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background-color: #c0392b;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

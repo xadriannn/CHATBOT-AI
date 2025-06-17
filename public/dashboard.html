@@ -23,10 +23,13 @@
       Admins
     </a>
 
-    <a href="#" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-      Users
-    </a>
+    <a href="#" class="nav-link" onclick="showSection('user-table-section', this)">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+  </svg>
+  Users
+</a>
+
 
     <a href="#" class="nav-link">
       <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.31,0.06-0.63,0.06-0.94s-0.02-0.63-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.4,0.12-0.61l-1.92-3.32c-0.11-0.21-0.36-0.3-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.63-0.94L14.5,2.5c-0.05-0.23-0.25-0.4-0.49-0.4h-4c-0.24,0-0.44,0.17-0.49,0.4L9.22,5.28c-0.6,0.24-1.13,0.56-1.63,0.94l-2.39-0.96c-0.23-0.09-0.48,0.01-0.59,0.22L2.69,9.8c-0.11,0.21-0.06,0.47,0.12,0.61l2.03,1.58C4.76,12.37,4.73,12.68,4.73,13s0.02,0.63,0.06,0.94l-2.03,1.58c-0.18,0.14-0.23,0.4-0.12,0.61l1.92,3.32c0.11,0.21,0.36,0.3,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.63,0.94l0.29,2.78c0.05,0.23,0.25,0.4,0.49,0.4h4c0.24,0,0.44-0.17,0.49-0.4l0.29-2.78c0.6-0.24,1.13-0.56,1.63-0.94l2.39,0.96c0.23,0.09,0.48-0.01,0.59-0.22l1.92-3.32c0.11-0.21,0.06-0.47-0.12-0.61L19.14,12.94z M12,15.5c-1.93,0-3.5-1.57-3.5-3.5S10.07,8.5,12,8.5s3.5,1.57,3.5,3.5S13.93,15.5,12,15.5z"/></svg>
@@ -85,6 +88,38 @@
       </section>
     </section>
 
+  <section id="user-table-section" class="hidden-section">
+  <header>
+    <h1>Data User</h1>
+  </header>
+
+  <div class="admin-action">
+    <button id="delete-user-button" class="danger-btn">Hapus User</button>
+  </div>
+
+  <section class="chart-container">
+    <table>
+      <thead>
+        <tr>
+          <th>
+  <label for="select-all-users" class="visually-hidden">Pilih Semua User</label>
+  <input type="checkbox" id="select-all-users" aria-label="Pilih Semua User" />
+</th>
+
+          <th>Username</th>
+          <th>Password</th>
+          <th>Tanggal Pembuatan</th>
+          <th class="action-cell">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="user-table-body">
+        <!-- Baris user akan di-generate dengan JS -->
+      </tbody>
+    </table>
+  </section>
+</section>
+
+
     <!-- Modal Tambah Admin -->
     <div class="modal hidden" id="add-admin-modal">
       <div class="modal-content">
@@ -122,6 +157,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById('admin-username').textContent = 'Admin';
   }
 });
+
+function showSection(sectionId, element) {
+  // Sembunyikan semua section
+  document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden-section'));
+
+  // Tampilkan section yang dipilih
+  const selected = document.getElementById(sectionId);
+  if (selected) {
+    selected.classList.remove('hidden-section');
+  }
+
+  // Atur tombol sidebar yang aktif
+  document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+  if (element) {
+    element.classList.add('active');
+  }
+}
+
+document.getElementById('select-all-users').addEventListener('change', (e) => {
+  const isChecked = e.target.checked;
+  document.querySelectorAll('.select-user').forEach(cb => {
+    cb.checked = isChecked;
+  });
+});
+
+
 </script>
 
   <script src="script.js"></script>
