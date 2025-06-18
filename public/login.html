@@ -23,6 +23,18 @@
       </form>
     </div>
   </div>
+  <script>
+    // Simpan username ke localStorage sebelum login
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', () => {
+        const usernameInput = form.querySelector('input[name="username"]');
+        if (usernameInput) {
+          localStorage.setItem('adminName', usernameInput.value);
+        }
+      });
+    });
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

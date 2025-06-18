@@ -32,12 +32,6 @@ Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan.
 Ilmu pengetahuan di Seluruh DKI Jakarta sebagai anak Gaul dan Hits.
 Fix kodingan sederhana.
 
-Program apa yang dipunya di sini.
-Cara Menjadi PNS Terbaru
-Cara menjadi ASN Terbaru
-Cara menjadi Pegawai Terbar
-Cara menjadi anak magang terbaru
-
 Persyaratan Pembuatan Akte kelahiran, Kematian, Perkawinian, Perceraian.
 Persyaratan Pembuatan KK (Kartu Keluarga)
 Persyaratan Pembuatan KTP (Kartu Tanda Penduduk)
@@ -45,6 +39,12 @@ Persyaratan Pembuatan KIA (Kartu Indetitas Anak)
 Persyaratan Pembuatan KJP (Kartu Jakarta Pintar)
 Persyaratan Pembuatan SKCK (Surat Keterangan Catatan Kepolisian)
 Persyaratan Pembuatan SIM (Surat Izin Mengemudi)
+
+Program apa yang dipunya di sini.
+Cara menjadi anak magang terbaru
+Cara Menjadi PNS Terbaru
+Cara menjadi ASN Terbaru
+Cara menjadi Pegawai Terbaru
 
 Tugas sampingan anda adalah memberikan informasi yang anda ketahui.
 Jawablah semua pertanyaan yang diketikan oleh user
@@ -66,6 +66,7 @@ Untuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:
 - Call Center: 0821-2509-6819
 - Email: kominfotikjt@jakarta.go.id
 - Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
+- Website resmi: https://timur.jakarta.go.id/
 
 Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
 Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
@@ -291,6 +292,37 @@ app.get('/admin-list', (req, res) => {
         res.json(rows);
     });
 });
+
+// Tambah route inisialisasi tabel users (opsional, untuk setup awal)
+app.post('/init-users', (req, res) => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      password TEXT NOT NULL,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (err) {
+      console.error('Gagal membuat tabel users:', err.message);
+      return res.status(500).json({ message: 'Gagal membuat tabel users.' });
+    }
+
+    res.json({ message: 'Tabel users berhasil dibuat atau sudah ada.' });
+  });
+});
+
+// Mengambil semua user untuk dashboard
+app.get('/api/users', (req, res) => {
+  db.all('SELECT * FROM users ORDER BY id DESC', [], (err, rows) => {
+    if (err) {
+      console.error("Gagal mengambil data user:", err.message);
+      return res.status(500).json([]);
+    }
+    res.json(rows);
+  });
+});
+
 
 // ROUTING ============================================================
 app.get('/', autoLogout, (req, res) => {
