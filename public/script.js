@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // ✅ Pesan pembuka dari bot
   if (chatMessages) {
     setTimeout(() => {
-      addBotMessage("Halo Saya Si Zecky! Chatbot Resmi Kominfotik Jakarta Timur. Ada yang bisa saya bantu hari ini?");
+      addBotMessage("Halo Saya Si Jete! Chatbot Resmi Kominfotik Jakarta Timur. Ada yang bisa saya bantu hari ini?");
     }, 500);
   }
 

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="google-signin-client_id" content="1025050418446-9m2l6m51tijp2b0ksd8di1qjtgf4hpmo.apps.googleusercontent.com">
   <title>Login User</title>
   <link rel="stylesheet" href="styling/user.css">
-  <link rel="icon" icon href="assets/logo.png">
+  <link rel="icon" href="assets/logo.png">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="login-container">
@@ -22,17 +24,47 @@
 
     <div class="divider">atau</div>
 
-    <button id="googleLogin" class="google-btn">
-  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="google-logo">
-  <span>Login dengan Google</span>
-</button>
+    <!-- Tombol login Google -->
+    <div id="g_id_onload"
+         data-client_id="1025050418446-9m2l6m51tijp2b0ksd8di1qjtgf4hpmo.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
 
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="pill"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
 
     <p class="register-text">
-      Belum punya akun? <a href="register.html" id="createAccount">Buat Akun</a>
+      Belum punya akun? <a href="register.html">Buat Akun</a>
     </p>
   </div>
 
-  <script ></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    function handleCredentialResponse(response) {
+      // Mendapatkan token JWT Google
+      const jwt = response.credential;
+
+      // Decode token untuk mendapatkan data user (opsional)
+      const payload = JSON.parse(atob(jwt.split('.')[1]));
+      console.log("User Google:", payload);
+
+      // Simpan data ke sessionStorage/localStorage (opsional)
+      sessionStorage.setItem("userGoogle", JSON.stringify(payload));
+
+      // Redirect ke halaman utama
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>

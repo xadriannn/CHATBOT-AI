@@ -208,24 +208,3 @@ body, html {
       gap: 1.2rem;
     }
   }
-
-  .init-db-btn {
-  margin-top: 10px;
-  padding: 8px 16px;
-  font-weight: 500;
-  background-color: #e2e8f0;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.init-db-btn:hover {
-  background-color: #cbd5e1;
-}
-
-.db-status-msg {
-  color: #2563eb;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-}
