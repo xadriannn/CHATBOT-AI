@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrasi Akun Si Jete | Kominfotik Jakarta Timur</title>
   <link rel="icon" href="assets/logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="styling/register.css" />
+  <link rel="stylesheet" href="styling/lupapw.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -19,7 +19,7 @@
   <div class="register-container">
     <div class="brand-header">
       <img src="assets/Karakter1.png" alt="Logo Si Jete" class="logo">
-      <h1>Daftar Akun</h1>
+      <h1>Lupa Password</h1>
       <p class="tagline">Chatbot Resmi Kominfotik Jakarta Timur</p>
     </div>
 
@@ -33,13 +33,13 @@
 
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="password" name="password" placeholder="Password" required />
+        <input type="password" id="password" name="password" placeholder="Password Baru" required />
         <i class="fas fa-eye toggle-password" onclick="togglePassword('password')"></i>
       </div>
 
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="confirm" name="confirm" placeholder="Konfirmasi Password" required />
+        <input type="password" id="confirm" name="confirm" placeholder="Konfirmasi Password Baru" required />
         <i class="fas fa-eye toggle-password" onclick="togglePassword('confirm')"></i>
       </div>
 
@@ -55,7 +55,7 @@
       </div>
 
       <button type="submit" class="register-btn">
-        <span>Daftar Sekarang</span>
+        <span>Ganti Passwrod</span>
         <i class="fas fa-arrow-right"></i>
       </button>
     </form>
@@ -74,41 +74,29 @@
       validatePasswordStrength(e.target.value);
     });
 
-    // Ganti bagian form.addEventListener("submit")
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  const confirm = document.getElementById("confirm").value;
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
 
-  // Validasi password
-  if (password !== confirm) {
-    showAlert("Konfirmasi password tidak cocok.");
-    return;
-  }
+      const isValid = validatePassword(password);
 
-  try {
-    const response = await fetch('/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    
-    const data = await response.json();
-    
-    if (response.ok) {
+      if (!isValid) {
+        showAlert("Password harus memenuhi semua persyaratan keamanan.");
+        return;
+      }
+
+      if (password !== confirm) {
+        showAlert("Konfirmasi password tidak cocok.");
+        return;
+      }
+
+      // Kirim data ke server atau tampilkan pesan sukses
       showAlert("Registrasi berhasil!", "success");
-      setTimeout(() => {
-        window.location.href = 'user.html'; // atau login.html
-      }, 2000);
-    } else {
-      showAlert(data.error || "Gagal melakukan registrasi");
-    }
-  } catch (err) {
-    showAlert("Terjadi kesalahan jaringan");
-  }
-});
+      form.reset();
+      resetPasswordValidation();
+    });
 
     function validatePassword(password) {
       const lengthCheck = password.length >= 8;

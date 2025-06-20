@@ -196,7 +196,6 @@ app.get('/me', (req, res) => {
 });
 
 
-
 // HANDLER LOGIN / LOGOUT ADMIN AAAH ==============================
 function isAuthenticated(req, res, next) {
     if (req.session.loggedIn) {
@@ -325,6 +324,130 @@ app.get('/api/users', (req, res) => {
   });
 });
 
+// Di server.js, tambahkan setelah koneksi database
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    email TEXT,
+    reset_token TEXT,
+    token_expiry INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
+});
+
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+  
+  // Validasi input
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username dan password harus diisi' });
+  }
+
+  // Hash password (sederhana - sebaiknya gunakan bcrypt di production)
+  const hashedPassword = password; // Ganti dengan bcrypt.hashSync(password, 10)
+
+  try {
+    const stmt = db.prepare('INSERT INTO users (username, password) VALUES (?, ?)');
+    await stmt.run(username, hashedPassword);
+    stmt.finalize();
+    
+    res.json({ success: true, message: 'Registrasi berhasil' });
+  } catch (err) {
+    if (err.message.includes('UNIQUE constraint failed')) {
+      res.status(400).json({ error: 'Username sudah digunakan' });
+    } else {
+      console.error('Error registrasi:', err);
+      res.status(500).json({ error: 'Gagal melakukan registrasi' });
+    }
+  }
+});
+
+app.post('/reset-password', async (req, res) => {
+  const { username, newPassword } = req.body;
+  
+  // Validasi input
+  if (!username || !newPassword) {
+    return res.status(400).json({ error: 'Username dan password baru harus diisi' });
+  }
+
+  // Hash password baru
+  const hashedPassword = newPassword; // Ganti dengan bcrypt.hashSync(newPassword, 10)
+
+  try {
+    const stmt = db.prepare('UPDATE users SET password = ? WHERE username = ?');
+    const result = await stmt.run(hashedPassword, username);
+    stmt.finalize();
+    
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'User tidak ditemukan' });
+    }
+    
+    res.json({ success: true, message: 'Password berhasil diubah' });
+  } catch (err) {
+    console.error('Error reset password:', err);
+    res.status(500).json({ error: 'Gagal mengubah password' });
+  }
+});
+app.post('/login-user', async (req, res) => {
+  const { username, password } = req.body;
+  
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username dan password harus diisi' });
+  }
+
+  try {
+    const user = await db.get('SELECT * FROM users WHERE username = ?', username);
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Username atau password salah' });
+    }
+    
+    // Verifikasi password (sederhana - gunakan bcrypt.compareSync di production)
+    if (password !== user.password) {
+      return res.status(401).json({ error: 'Username atau password salah' });
+    }
+    
+    // Buat session
+    req.session.user = {
+      id: user.id,
+      username: user.username
+    };
+    
+    res.json({ success: true, redirect: '/index.html' });
+  } catch (err) {
+    console.error('Error login:', err);
+    res.status(500).json({ error: 'Gagal melakukan login' });
+  }
+});
+
+function checkUserAuth(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/user.html');
+  }
+}
+// Cek apakah user sudah login
+async function checkAuth() {
+  try {
+    const response = await fetch('/api/current-user');
+    if (!response.ok) {
+      window.location.href = 'user.html';
+    }
+  } catch (err) {
+    console.error('Auth check failed:', err);
+    window.location.href = 'user.html';
+  }
+}
+
+
+
+// Proteksi route index.html
+app.get('/index.html', checkUserAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // ROUTING ============================================================
 app.get('/', autoLogout, (req, res) => {
@@ -351,6 +474,13 @@ app.get('/api/user', (req, res) => {
 
 app.get('/login', autoLogout, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/api/current-user', (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  res.json({ user: req.session.user });
 });
 
 app.listen(PORT, () => {
