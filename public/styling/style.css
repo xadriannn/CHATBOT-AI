@@ -16,7 +16,7 @@
 
 body {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(to right, #e0f7fa, #d9eefa);
+    background: linear-gradient(to left, #d6f9fd, #ffffff);
     background-color: var(--light-gray);
     color: var(--text-color);
     line-height: 1.6;
