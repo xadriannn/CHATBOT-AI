@@ -16,6 +16,7 @@
 
 body {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(to right, #e0f7fa, #d9eefa);
     background-color: var(--light-gray);
     color: var(--text-color);
     line-height: 1.6;
@@ -42,7 +43,7 @@ body {
 
 /* Header */
 .chatbot-header {
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
     color: var(--white);
     padding: 15px 20px;
     display: flex;
@@ -283,3 +284,34 @@ body {
     text-overflow: ellipsis;
 }
 
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Tombol Logout */
+.logout-button {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.logout-button svg {
+    width: 20px;
+    height: 20px;
+}
