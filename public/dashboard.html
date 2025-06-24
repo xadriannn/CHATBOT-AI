@@ -6,6 +6,7 @@
   <title>Admin Dashboard - User Statistics</title>
   <link rel="icon" href="assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="styling/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fz3vhgp0Zq6z8r5UnDgoXh2Zjv7VoQzHo9YtIkSxq8KItFO4e5Rz5shLMQH+Onzz2OBsKjztG+aGvXUIR9dqXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -14,30 +15,30 @@
     <h2>Admin Panel</h2>
 
     <a href="#" class="nav-link active" onclick="showSection('dashboard-section', this)">
-      <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+      <i class="fas fa-user-shield"></i>
       Dashboard
     </a>
 
     <a href="#" class="nav-link" onclick="showSection('admin-table-section', this)">
-      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <i class="fas fa-user-shield"></i>
       Admins
     </a>
 
     <a href="#" class="nav-link" onclick="showSection('user-table-section', this)">
-  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.03 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-  </svg>
-  Users
-</a>
+      <i class="fas fa-users"></i>
+      Users
+    </a>
 
-
-    <a href="#" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.31,0.06-0.63,0.06-0.94s-0.02-0.63-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.4,0.12-0.61l-1.92-3.32c-0.11-0.21-0.36-0.3-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.63-0.94L14.5,2.5c-0.05-0.23-0.25-0.4-0.49-0.4h-4c-0.24,0-0.44,0.17-0.49,0.4L9.22,5.28c-0.6,0.24-1.13,0.56-1.63,0.94l-2.39-0.96c-0.23-0.09-0.48,0.01-0.59,0.22L2.69,9.8c-0.11,0.21-0.06,0.47,0.12,0.61l2.03,1.58C4.76,12.37,4.73,12.68,4.73,13s0.02,0.63,0.06,0.94l-2.03,1.58c-0.18,0.14-0.23,0.4-0.12,0.61l1.92,3.32c0.11,0.21,0.36,0.3,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.63,0.94l0.29,2.78c0.05,0.23,0.25,0.4,0.49,0.4h4c0.24,0,0.44-0.17,0.49-0.4l0.29-2.78c0.6-0.24,1.13-0.56,1.63-0.94l2.39,0.96c0.23,0.09,0.48-0.01,0.59-0.22l1.92-3.32c0.11-0.21,0.06-0.47-0.12-0.61L19.14,12.94z M12,15.5c-1.93,0-3.5-1.57-3.5-3.5S10.07,8.5,12,8.5s3.5,1.57,3.5,3.5S13.93,15.5,12,15.5z"/></svg>
-      Settings
+    <a href="#" class="nav-link" onclick="showSection('file-upload-section', this)">
+      <i class="fas fa-cloud-upload-alt"></i>
+      File Upload
+    </a>
+     <a href="#" class="nav-link" onclick="showSection('file-manager-section', this)">
+      <i class="fas fa-folder-open"></i> Manajemen File
     </a>
 
     <a href="#" class="nav-link" onclick="logout()">
-      <svg viewBox="0 0 24 24"><path d="M13 3h-2v10h2V3zm4.95 2.05l-1.41 1.41A7 7 0 0 1 19 12a7 7 0 1 1-14 0 7 7 0 0 1 2.46-5.34l-1.41-1.41A9 9 0 1 0 22 12a9 9 0 0 0-4.05-6.95z"/></svg>
+      <i class="fas fa-sign-out-alt"></i>
       Logout
     </a>
   </nav>
@@ -105,7 +106,6 @@
   <label for="select-all-users" class="visually-hidden">Pilih Semua User</label>
   <input type="checkbox" id="select-all-users" aria-label="Pilih Semua User" />
 </th>
-
           <th>Username</th>
           <th>Password</th>
           <th>Tanggal Pembuatan</th>
@@ -134,6 +134,62 @@
         </form>
       </div>
     </div>
+
+    <div id="float-alert" class="alert-float hidden">
+  <span id="float-alert-text"></span>
+</div>
+
+  <span id="float-alert-text"></span>
+</div>
+
+    <section id="file-upload-section" class="hidden-section">
+  <header>
+    <h1><i class="fas fa-cloud-upload-alt"></i> Upload Dokumen</h1>
+  </header>
+
+  <div class="upload-container">
+    <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload">
+      <label for="file-input">
+        <i class="fas fa-file-upload"></i> Pilih Dokumen:
+      </label>
+      <input
+        type="file"
+        id="file-input"
+        name="file"
+        multiple
+        accept=".pdf,.doc,.docx,.xls,.xlsx"
+        required
+      />
+
+      <button type="submit" class="primary-btn">
+        <i class="fas fa-upload"></i> Upload File
+      </button>
+    </form>
+
+    <div id="upload-status"></div>
+  </div>
+</section>
+
+<section id="file-manager-section" class="hidden-section">
+      <header>
+        <h1><i class="fas fa-folder-open"></i> Manajemen File</h1>
+      </header>
+      <div class="chart-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama File</th>
+              <th>Tanggal Upload</th>
+              <th class="action-cell">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="file-manager-body">
+            <div id="pagination-container" class="pagination-controls"></div>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
 
     <footer>
       &copy; 2025 Admin Dashboard. All rights reserved.
@@ -181,9 +237,144 @@ document.getElementById('select-all-users').addEventListener('change', (e) => {
     cb.checked = isChecked;
   });
 });
-
-
 </script>
+
+<script>
+  document.getElementById("upload-form").addEventListener("submit", function (e) {
+    const fileInput = document.getElementById("file-input");
+    if (!fileInput.value) {
+      e.preventDefault();
+      document.getElementById("upload-status").textContent = "Silakan pilih file terlebih dahulu.";
+      document.getElementById("upload-status").style.color = "red";
+    } else {
+      document.getElementById("upload-status").textContent = "Mengupload file...";
+      document.getElementById("upload-status").style.color = "green";
+    }
+  });
+</script>
+
+<script>
+// 🔽 Menangani Upload Banyak File
+document.getElementById("upload-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const fileInput = document.getElementById("file-input");
+  const statusDiv = document.getElementById("upload-status");
+
+  if (!fileInput.files.length) {
+    statusDiv.textContent = "Silakan pilih file terlebih dahulu.";
+    statusDiv.style.color = "red";
+    showFloatAlert("Silakan pilih file terlebih dahulu.", "error");
+    return;
+  }
+
+  const formData = new FormData();
+  for (let i = 0; i < fileInput.files.length; i++) {
+    formData.append("files", fileInput.files[i]); // name: files
+  }
+
+  fetch("/upload-multiple", {
+    method: "POST",
+    body: formData,
+  })
+  .then(async (res) => {
+    const text = await res.text(); // ✅ Panggil hanya sekali
+    if (res.ok) {
+      statusDiv.textContent = text;
+      statusDiv.style.color = "green";
+      showFloatAlert("✅ File berhasil diupload!");
+      fileInput.value = "";
+      fetchUploadedFiles(); // Refresh tampilan daftar file
+    } else {
+      statusDiv.textContent = "❌ Gagal upload: " + text;
+      statusDiv.style.color = "red";
+      showFloatAlert("❌ Gagal upload file.", "error");
+    }
+  })
+  .catch((err) => {
+    console.error("Upload error:", err);
+    statusDiv.textContent = "❌ Terjadi kesalahan saat mengupload file.";
+    statusDiv.style.color = "red";
+    showFloatAlert("❌ Terjadi kesalahan saat upload.", "error");
+  });
+});
+</script>
+
+<script>
+// 🔽 Alert Mengambang
+function showFloatAlert(message, type = "success") {
+  const alertBox = document.getElementById("float-alert");
+  const alertText = document.getElementById("float-alert-text");
+
+  alertText.textContent = message;
+
+  alertBox.classList.remove("error");
+  if (type === "error") {
+    alertBox.classList.add("error");
+  }
+
+  alertBox.classList.add("show");
+
+  setTimeout(() => {
+    alertBox.classList.remove("show");
+  }, 3000);
+}
+</script>
+
+<script>
+// 🔽 Ambil dan tampilkan file di tabel Manajemen File
+async function fetchUploadedFiles() {
+  try {
+    const res = await fetch('/files');
+    const files = await res.json();
+    const tbody = document.getElementById('file-manager-body');
+    tbody.innerHTML = '';
+
+    files.forEach(file => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+  <td>${file.name}</td>
+  <td>${new Date(file.date).toLocaleString()}</td>
+  <td class="action-cell">
+    <div class="file-action-buttons">
+      <a href="/uploads/${encodeURIComponent(file.name)}" download class="primary-btn">Download</a>
+      <button class="danger-btn" onclick="deleteFileFromManager('${file.name}')">
+        <i class="fas fa-trash"></i> Hapus
+      </button>
+    </div>
+  </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error('Gagal memuat daftar file:', err);
+  }
+}
+// 🔽 Hapus file dari server
+function deleteFileFromManager(filename) {
+  if (!confirm(`Yakin ingin menghapus file ${filename}?`)) return;
+
+  fetch(`/files/${encodeURIComponent(filename)}`, { method: 'DELETE' })
+    .then(res => {
+      if (res.ok) {
+        showFloatAlert('🗑️ File berhasil dihapus');
+        fetchUploadedFiles();
+      } else {
+        showFloatAlert('❌ Gagal menghapus file', 'error');
+      }
+    })
+    .catch(err => {
+      console.error('Gagal hapus:', err);
+      showFloatAlert('❌ Kesalahan server saat hapus file', 'error');
+    });
+}
+
+// 🔽 Jalankan saat halaman siap
+document.addEventListener('DOMContentLoaded', () => {
+  fetchUploadedFiles();
+});
+</script>
+
+
 
   <script src="script.js"></script>
 </body>

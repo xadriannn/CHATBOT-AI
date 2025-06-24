@@ -17,6 +17,7 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "fetch": "^1.1.0",
+    "multer": "^2.0.1",
     "node-fetch": "^2.7.0",
     "ors": "^1.0.0",
     "sqlite3": "^5.1.7"

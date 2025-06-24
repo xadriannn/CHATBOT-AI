@@ -6,7 +6,10 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import session from 'express-session'; // Import express-session
+import session from 'express-session';
+import multer from 'multer';
+import fs from 'fs';
+
 
 import dotenv from 'dotenv';
 dotenv.config({ path: './api.env' });
@@ -33,6 +36,7 @@ Jam masuk magang di sini 08:00 - 15:00
 Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
 Ilmu pengetahuan di Seluruh DKI Jakarta sebagai anak Gaul dan Hits.
 Fix kodingan sederhana.
+Bu mawar adalah Kasie di Kominfotik Jakarta Timur dan beliau adalah salah satu mentor di sana.
 
 Persyaratan Pembuatan Akte kelahiran, Kematian, Perkawinian, Perceraian.
 Persyaratan Pembuatan KK (Kartu Keluarga)
@@ -78,6 +82,7 @@ Jangan gunakan markdown atau HTML.
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
+
 
 // Configure express-session
 app.use(session({
@@ -153,6 +158,49 @@ const db = new sqlite3.Database('admin.db', (err) => {
     if (err) console.error("SQLite error:", err.message);
     else console.log("Terhubung ke admin.db");
 });
+
+// Buat folder uploads jika belum ada
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+// Konfigurasi penyimpanan multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /pdf|doc|docx|xls|xlsx/;
+  const ext = path.extname(file.originalname).toLowerCase();
+  if (allowedTypes.test(ext)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Tipe file tidak diizinkan'), false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
+
+app.post('/upload-multiple', upload.array('files'), (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).send('Tidak ada file yang diupload atau format tidak didukung.');
+  }
+
+  const uploadedFiles = req.files.map(file => file.originalname).join(', ');
+  console.log('File berhasil diupload:', uploadedFiles);
+
+  res.status(200).send(`File berhasil diupload: ${uploadedFiles}`);
+});
+
+
+
 
 // Proses login admin
 app.post('/login', (req, res) => {
@@ -336,6 +384,40 @@ db.serialize(() => {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 });
+
+app.get('/files', (req, res) => {
+  fs.readdir(uploadDir, (err, files) => {
+    if (err) {
+      console.error("Gagal membaca direktori uploads:", err);
+      return res.status(500).json([]);
+    }
+
+    const fileList = files.map(file => {
+      const stats = fs.statSync(path.join(uploadDir, file));
+      return {
+        name: file,
+        date: stats.mtime
+      };
+    });
+
+    res.json(fileList);
+  });
+});
+
+app.delete('/files/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(uploadDir, filename);
+
+  fs.unlink(filePath, err => {
+    if (err) {
+      console.error(`Gagal menghapus file ${filename}:`, err);
+      return res.status(500).send('Gagal menghapus file');
+    }
+    res.send('File berhasil dihapus');
+  });
+});
+
+
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;

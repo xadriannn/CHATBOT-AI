@@ -5,14 +5,14 @@
   body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #f4f7fc;
+    background: whitesmoke;
     color: #333;
   }
   .sidebar {
     position: fixed;
     height: 100vh;
     width: 250px;
-    background: #1e293b;
+    background: linear-gradient(135deg, #1e3a8a, #4f545e);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -285,3 +285,130 @@ th.action-cell, td.action-cell {
   overflow: hidden;
 }
 
+.upload-container {
+  margin-top: 20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  max-width: 600px;
+}
+
+.upload-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-container label {
+  font-weight: bold;
+  color: #333;
+}
+
+.upload-container input[type="file"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.upload-container button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.upload-container button:hover {
+  background-color: #004c99;
+}
+
+#upload-status {
+  margin-top: 10px;
+  color: green;
+}
+
+.alert-float {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4CAF50; /* Hijau default untuk sukses */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.alert-float.show {
+  display: block;
+  opacity: 1;
+}
+
+.alert-float.error {
+  background-color: #f44336; /* Merah untuk error */
+}
+
+.file-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.file-table th, .file-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.file-table th {
+  background-color: #f1f5f9;
+}
+
+.danger-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.file-action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.pagination-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.pagination-controls button.active {
+  background-color: #1e40af;
+}
+
+.pagination-controls button:hover {
+  background-color: #1e3a8a;
+}
