@@ -201,10 +201,7 @@ body, html {
   transform: translateX(5px);
 }
 
-/* Animasi saat halaman dimuat */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('.login-container').classList.add('loaded');
-});
+
 
 /* Responsive */
 @media (max-width: 480px) {
