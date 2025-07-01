@@ -71,6 +71,10 @@
 </div>
   </div>
 
+  <div id="float-alert" class="float-alert hidden">
+  <span id="float-alert-text"></span>
+</div>
+
   <script src="https://apis.google.com/js/platform.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -103,5 +107,28 @@
       document.querySelector('.login-container').classList.add('loaded');
     });
   </script>
+
+  <script>
+  function showFloatAlert(message, type = "error") {
+    const alertBox = document.getElementById("float-alert");
+    const alertText = document.getElementById("float-alert-text");
+
+    alertText.textContent = message;
+    alertBox.classList.remove("show", "success");
+    alertBox.classList.add("show");
+
+    if (type === "success") {
+      alertBox.style.backgroundColor = "#52c41a";
+    } else {
+      alertBox.style.backgroundColor = "#ff4d4f";
+    }
+
+    setTimeout(() => {
+      alertBox.classList.remove("show");
+    }, 3000);
+  }
+</script>
+
+
 </body>
 </html>

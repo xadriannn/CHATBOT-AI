@@ -361,6 +361,8 @@ app.post('/init-users', (req, res) => {
   });
 });
 
+//Membuat database untuk users
+
 // Mengambil semua user untuk dashboard
 app.get('/api/users', (req, res) => {
   db.all('SELECT * FROM users ORDER BY id DESC', [], (err, rows) => {

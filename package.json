@@ -24,6 +24,7 @@
     "ors": "^1.0.0",
     "pdf-parse": "^1.1.1",
     "pinecone-client": "^2.0.0",
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
   "repository": {

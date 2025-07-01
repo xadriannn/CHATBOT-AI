@@ -235,3 +235,23 @@ body {
     font-size: 1.5rem;
   }
 }
+
+.float-alert {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff4d4f;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .float-alert.show {
+    opacity: 1;
+  }
+  .float-alert.success {
+    background-color: #52c41a;
+  }
