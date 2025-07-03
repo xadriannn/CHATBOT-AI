@@ -1,0 +1,14 @@
+# Mengabaikan folder node_modules
+node_modules/
+
+# Mengabaikan semua file log
+.log
+
+# Mengabaikan file .env
+api.env
+db.env
+
+# Mengabaikan semua file sementara dari sistem
+admin.db
+users.db
+
