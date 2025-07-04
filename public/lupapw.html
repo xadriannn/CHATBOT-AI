@@ -74,9 +74,10 @@
       validatePasswordStrength(e.target.value);
     });
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
+      const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
       const confirm = document.getElementById("confirm").value;
 
@@ -92,10 +93,24 @@
         return;
       }
 
-      // Kirim data ke server atau tampilkan pesan sukses
-      showAlert("Registrasi berhasil!", "success");
-      form.reset();
-      resetPasswordValidation();
+      // Kirim data ke backend untuk reset password
+      try {
+        const response = await fetch("/reset-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, newPassword: password })
+        });
+        const data = await response.json();
+        if (response.ok && data.success) {
+          showAlert("Password berhasil diubah! Silakan login dengan password baru.", "success");
+          form.reset();
+          resetPasswordValidation();
+        } else {
+          showAlert(data.error || data.message || "Username tidak ditemukan.");
+        }
+      } catch (err) {
+        showAlert("Terjadi kesalahan server. Silakan coba lagi nanti.");
+      }
     });
 
     function validatePassword(password) {

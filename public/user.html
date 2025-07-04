@@ -24,6 +24,7 @@
       <p class="tagline">Chatbot Resmi Kominfotik Jakarta Timur</p>
     </div>
 
+    <div id="login-notification" class="login-notification"></div>
     <form id="loginForm" class="login-form">
       <div class="input-group">
         <i class="fas fa-user"></i>
@@ -71,9 +72,7 @@
 </div>
   </div>
 
-  <div id="float-alert" class="float-alert hidden">
-  <span id="float-alert-text"></span>
-</div>
+
 
   <script src="https://apis.google.com/js/platform.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -108,26 +107,31 @@
     });
   </script>
 
+
+
+
   <script>
-  function showFloatAlert(message, type = "error") {
-    const alertBox = document.getElementById("float-alert");
-    const alertText = document.getElementById("float-alert-text");
-
-    alertText.textContent = message;
-    alertBox.classList.remove("show", "success");
-    alertBox.classList.add("show");
-
+  function showLoginNotification(message, type = "error") {
+    const notif = document.getElementById("login-notification");
+    notif.textContent = message;
+    notif.className = "login-notification " + type;
+    notif.style.display = "block";
+    notif.style.opacity = 1;
     if (type === "success") {
-      alertBox.style.backgroundColor = "#52c41a";
+      setTimeout(() => {
+        notif.style.opacity = 0;
+      }, 1200);
     } else {
-      alertBox.style.backgroundColor = "#ff4d4f";
+      setTimeout(() => {
+        notif.style.opacity = 0;
+      }, 2500);
     }
-
     setTimeout(() => {
-      alertBox.classList.remove("show");
+      notif.style.display = "none";
+      notif.textContent = "";
     }, 3000);
   }
-</script>
+  </script>
 
 
   <script>
@@ -139,7 +143,7 @@
       const password = document.getElementById('password').value;
 
       if (!username || !password) {
-        showFloatAlert('Username dan password harus diisi');
+        showLoginNotification('Username dan password harus diisi', 'error');
         return;
       }
 
@@ -153,17 +157,16 @@
         const data = await response.json();
 
         if (response.ok && data.success) {
-          showFloatAlert('Login berhasil!', 'success');
-          // Redirect setelah alert tampil sebentar
+          showLoginNotification('Login berhasil!', 'success');
           setTimeout(() => {
             window.location.href = data.redirect || 'index.html';
           }, 1200);
         } else {
-          showFloatAlert(data.error || 'Username atau password salah');
+          showLoginNotification(data.error || 'Username atau password salah', 'error');
         }
       } catch (err) {
         console.error('Login request failed:', err);
-        showFloatAlert('Terjadi kesalahan jaringan');
+        showLoginNotification('Terjadi kesalahan jaringan', 'error');
       }
     });
   </script>
