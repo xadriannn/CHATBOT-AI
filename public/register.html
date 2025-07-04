@@ -89,10 +89,15 @@ form.addEventListener("submit", async function(e) {
   }
 
   try {
+
+    // Kirim waktu pembuatan user dengan zona Asia/Bangkok (GMT+7)
+    const nowBangkok = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+    const created_at = nowBangkok.toISOString();
+
     const response = await fetch('/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password, created_at })
     });
     
     const data = await response.json();

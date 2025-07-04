@@ -117,7 +117,77 @@
         <!-- Baris user akan di-generate dengan JS -->
 
 <script>
-// Ambil data user dan tampilkan di tabel user
+
+// Chart.js instance for user chart
+let userChartInstance = null;
+
+// Fungsi untuk update statistik dan chart user
+function updateUserStatsAndChart(users) {
+  // Update Active Users
+  document.getElementById('activeUsers').textContent = users.length;
+
+
+  // Gunakan zona waktu Asia/Bangkok (GMT+7)
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+  const days30Ago = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const newUsers = users.filter(u => {
+    if (!u.created_at) return false;
+    const userDate = new Date(new Date(u.created_at).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+    return userDate >= days30Ago;
+  });
+  document.getElementById('newUsers').textContent = newUsers.length;
+
+  // Data chart: jumlah user per hari (30 hari terakhir)
+  const dateMap = {};
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(now.getTime() - (29 - i) * 24 * 60 * 60 * 1000);
+    // Format YYYY-MM-DD di zona Asia/Bangkok
+    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    dateMap[key] = 0;
+  }
+  users.forEach(u => {
+    if (u.created_at) {
+      const d = new Date(new Date(u.created_at).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+      const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      if (dateMap[key] !== undefined) dateMap[key]++;
+    }
+  });
+  // Akumulasi running total user
+  let runningTotal = 0;
+  const chartLabels = Object.keys(dateMap);
+  const chartData = chartLabels.map(date => (runningTotal += dateMap[date]));
+
+  // Render/Update Chart.js
+  const ctx = document.getElementById('userChart').getContext('2d');
+  if (userChartInstance) userChartInstance.destroy();
+  userChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartLabels,
+      datasets: [{
+        label: 'Total User',
+        data: chartData,
+        borderColor: '#007bff',
+        backgroundColor: 'rgba(0,123,255,0.1)',
+        fill: true,
+        tension: 0.2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: false }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Tanggal' } },
+        y: { title: { display: true, text: 'Total User' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// Ambil data user dan tampilkan di tabel user, update statistik & chart
 async function fetchUsers() {
   try {
     const res = await fetch('/api/users');
@@ -126,17 +196,24 @@ async function fetchUsers() {
     tbody.innerHTML = '';
     users.forEach(user => {
       const tr = document.createElement('tr');
+      // Format tanggal Asia/Bangkok
+      let createdAtStr = '-';
+      if (user.created_at) {
+        const d = new Date(new Date(user.created_at).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+        createdAtStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+      }
       tr.innerHTML = `
         <td><input type="checkbox" class="select-user" value="${user.username}"></td>
         <td>${user.username}</td>
         <td>${user.password}</td>
-        <td>${user.created_at ? new Date(user.created_at).toLocaleString() : '-'}</td>
+        <td>${createdAtStr}</td>
         <td class="action-cell">
           <button class="danger-btn" onclick="deleteUser('${user.username}')"><i class="fas fa-trash"></i> Hapus</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
+    updateUserStatsAndChart(users);
   } catch (err) {
     console.error('Gagal memuat data user:', err);
   }

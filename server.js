@@ -86,11 +86,6 @@ Jangan gunakan markdown atau HTML.
 app.use(cors());
 app.use(express.json());
 
-
-
-
-// Sudah dideklarasikan di atas, jangan deklarasi ulang di bawah
-
 // Serve public folder (for HTML, CSS, JS, etc)
 app.use(express.static('public'));
 
@@ -377,6 +372,7 @@ app.post('/init-users', (req, res) => {
 //Membuat database untuk users
 
 // Mengambil semua user untuk dashboard
+
 app.get('/api/users', (req, res) => {
   db.all('SELECT * FROM users ORDER BY id DESC', [], (err, rows) => {
     if (err) {
@@ -384,6 +380,24 @@ app.get('/api/users', (req, res) => {
       return res.status(500).json([]);
     }
     res.json(rows);
+  });
+});
+
+// Hapus user (fitur admin)
+app.post('/delete-user', (req, res) => {
+  const { username } = req.body;
+  if (!username) {
+    return res.status(400).json({ error: 'Username diperlukan.' });
+  }
+  db.run('DELETE FROM users WHERE username = ?', [username], function (err) {
+    if (err) {
+      console.error('Gagal menghapus user:', err && err.message ? err.message : err);
+      return res.status(500).json({ error: 'Gagal menghapus user.' });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ error: 'User tidak ditemukan.' });
+    }
+    res.json({ success: true, message: `User ${username} telah dihapus.` });
   });
 });
 
@@ -435,7 +449,7 @@ app.delete('/files/:filename', (req, res) => {
 
 
 app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, created_at } = req.body;
   // Validasi input
   if (!username || !password) {
     return res.status(400).json({ error: 'Username dan password harus diisi' });
@@ -452,13 +466,22 @@ app.post('/register', async (req, res) => {
     if (row) {
       return res.status(400).json({ error: 'Username sudah digunakan' });
     }
-    // Insert user baru
-    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err2) {
-      if (err2) {
-        return res.status(500).json({ error: 'Gagal melakukan registrasi' });
-      }
-      res.json({ success: true, message: 'Registrasi berhasil' });
-    });
+    // Insert user baru, simpan created_at jika ada
+    if (created_at) {
+      db.run('INSERT INTO users (username, password, created_at) VALUES (?, ?, ?)', [username, hashedPassword, created_at], function (err2) {
+        if (err2) {
+          return res.status(500).json({ error: 'Gagal melakukan registrasi' });
+        }
+        res.json({ success: true, message: 'Registrasi berhasil' });
+      });
+    } else {
+      db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err2) {
+        if (err2) {
+          return res.status(500).json({ error: 'Gagal melakukan registrasi' });
+        }
+        res.json({ success: true, message: 'Registrasi berhasil' });
+      });
+    }
   });
 });
 
