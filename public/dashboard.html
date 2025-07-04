@@ -6,7 +6,7 @@
   <title>Admin Dashboard - User Statistics</title>
   <link rel="icon" href="assets/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="styling/dashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Fz3vhgp0Zq6z8r5UnDgoXh2Zjv7VoQzHo9YtIkSxq8KItFO4e5Rz5shLMQH+Onzz2OBsKjztG+aGvXUIR9dqXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -34,7 +34,7 @@
       File Upload
     </a>
      <a href="#" class="nav-link" onclick="showSection('file-manager-section', this)">
-      <i class="fas fa-folder-open"></i> Manajemen File
+      <i class="fas fa-folder-open"></i> File Managers
     </a>
 
     <a href="#" class="nav-link" onclick="logout()">
@@ -94,8 +94,9 @@
     <h1>Data User</h1>
   </header>
 
+
   <div class="admin-action">
-    <button id="delete-user-button" class="danger-btn">Hapus User</button>
+    <button id="delete-user-button" class="danger-btn">Hapus User Terpilih</button>
   </div>
 
   <section class="chart-container">
@@ -114,6 +115,87 @@
       </thead>
       <tbody id="user-table-body">
         <!-- Baris user akan di-generate dengan JS -->
+
+<script>
+// Ambil data user dan tampilkan di tabel user
+async function fetchUsers() {
+  try {
+    const res = await fetch('/api/users');
+    const users = await res.json();
+    const tbody = document.getElementById('user-table-body');
+    tbody.innerHTML = '';
+    users.forEach(user => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox" class="select-user" value="${user.username}"></td>
+        <td>${user.username}</td>
+        <td>${user.password}</td>
+        <td>${user.created_at ? new Date(user.created_at).toLocaleString() : '-'}</td>
+        <td class="action-cell">
+          <button class="danger-btn" onclick="deleteUser('${user.username}')"><i class="fas fa-trash"></i> Hapus</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error('Gagal memuat data user:', err);
+  }
+}
+
+// Hapus user satuan
+async function deleteUser(username) {
+  if (!confirm(`Yakin ingin menghapus user ${username}?`)) return;
+  try {
+    const res = await fetch('/delete-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      showFloatAlert('User berhasil dihapus');
+      await fetchUsers();
+    } else {
+      showFloatAlert(data.error || 'Gagal menghapus user', 'error');
+    }
+  } catch (err) {
+    showFloatAlert('Gagal menghapus user', 'error');
+  }
+}
+
+// Hapus user terpilih (checkbox)
+document.getElementById('delete-user-button').addEventListener('click', async () => {
+  const checked = Array.from(document.querySelectorAll('.select-user:checked'));
+  if (checked.length === 0) {
+    showFloatAlert('Pilih user yang ingin dihapus', 'error');
+    return;
+  }
+  if (!confirm('Yakin ingin menghapus user terpilih?')) return;
+  let allSuccess = true;
+  for (const cb of checked) {
+    try {
+      const res = await fetch('/delete-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: cb.value })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) allSuccess = false;
+    } catch {
+      allSuccess = false;
+    }
+  }
+  if (allSuccess) {
+    showFloatAlert('User terpilih berhasil dihapus');
+  } else {
+    showFloatAlert('Sebagian user gagal dihapus', 'error');
+  }
+  await fetchUsers();
+});
+
+// Tampilkan data user saat halaman siap
+document.addEventListener('DOMContentLoaded', fetchUsers);
+</script>
       </tbody>
     </table>
   </section>

@@ -6,6 +6,10 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+
+// ES Modules: Dapatkan __filename dan __dirname di paling atas!
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 import session from 'express-session';
 import multer from 'multer';
 import fs from 'fs';
@@ -81,7 +85,17 @@ Jangan gunakan markdown atau HTML.
 
 app.use(cors());
 app.use(express.json());
+
+
+
+
+// Sudah dideklarasikan di atas, jangan deklarasi ulang di bawah
+
+// Serve public folder (for HTML, CSS, JS, etc)
 app.use(express.static('public'));
+
+// Serve uploads folder for file downloads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Configure express-session
@@ -150,8 +164,7 @@ app.post('/chat', async (req, res) => {
 });
 
 //Database admin
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = new sqlite3.Database('admin.db', (err) => {
@@ -423,7 +436,6 @@ app.delete('/files/:filename', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
-  
   // Validasi input
   if (!username || !password) {
     return res.status(400).json({ error: 'Username dan password harus diisi' });
@@ -432,20 +444,22 @@ app.post('/register', async (req, res) => {
   // Hash password (sederhana - sebaiknya gunakan bcrypt di production)
   const hashedPassword = password; // Ganti dengan bcrypt.hashSync(password, 10)
 
-  try {
-    const stmt = db.prepare('INSERT INTO users (username, password) VALUES (?, ?)');
-    await stmt.run(username, hashedPassword);
-    stmt.finalize();
-    
-    res.json({ success: true, message: 'Registrasi berhasil' });
-  } catch (err) {
-    if (err.message.includes('UNIQUE constraint failed')) {
-      res.status(400).json({ error: 'Username sudah digunakan' });
-    } else {
-      console.error('Error registrasi:', err);
-      res.status(500).json({ error: 'Gagal melakukan registrasi' });
+  // Cek apakah username sudah ada
+  db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: 'Gagal memeriksa database' });
     }
-  }
+    if (row) {
+      return res.status(400).json({ error: 'Username sudah digunakan' });
+    }
+    // Insert user baru
+    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err2) {
+      if (err2) {
+        return res.status(500).json({ error: 'Gagal melakukan registrasi' });
+      }
+      res.json({ success: true, message: 'Registrasi berhasil' });
+    });
+  });
 });
 
 app.post('/reset-password', async (req, res) => {
@@ -476,34 +490,27 @@ app.post('/reset-password', async (req, res) => {
 });
 app.post('/login-user', async (req, res) => {
   const { username, password } = req.body;
-  
   if (!username || !password) {
-    return res.status(400).json({ error: 'Username dan password harus diisi' });
+    return res.status(400).json({ success: false, error: 'Username dan password harus diisi' });
   }
-
-  try {
-    const user = await db.get('SELECT * FROM users WHERE username = ?', username);
-    
-    if (!user) {
-      return res.status(401).json({ error: 'Username atau password salah' });
+  db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+    if (err) {
+      return res.status(500).json({ success: false, error: 'Gagal memeriksa database' });
     }
-    
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Username atau password salah' });
+    }
     // Verifikasi password (sederhana - gunakan bcrypt.compareSync di production)
     if (password !== user.password) {
-      return res.status(401).json({ error: 'Username atau password salah' });
+      return res.status(401).json({ success: false, error: 'Username atau password salah' });
     }
-    
     // Buat session
     req.session.user = {
       id: user.id,
       username: user.username
     };
-    
-    res.json({ success: true, redirect: '/index.html' });
-  } catch (err) {
-    console.error('Error login:', err);
-    res.status(500).json({ error: 'Gagal melakukan login' });
-  }
+    res.json({ success: true, redirect: 'index.html' });
+  });
 });
 
 function checkUserAuth(req, res, next) {

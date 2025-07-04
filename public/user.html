@@ -130,5 +130,43 @@
 </script>
 
 
+  <script>
+    // Proses login user
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        showFloatAlert('Username dan password harus diisi');
+        return;
+      }
+
+      try {
+        const response = await fetch('/login-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showFloatAlert('Login berhasil!', 'success');
+          // Redirect setelah alert tampil sebentar
+          setTimeout(() => {
+            window.location.href = data.redirect || 'index.html';
+          }, 1200);
+        } else {
+          showFloatAlert(data.error || 'Username atau password salah');
+        }
+      } catch (err) {
+        console.error('Login request failed:', err);
+        showFloatAlert('Terjadi kesalahan jaringan');
+      }
+    });
+  </script>
+
 </body>
 </html>
