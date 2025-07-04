@@ -53,14 +53,28 @@
       </header>
 
       <section class="stats">
-        <div class="stat-card"><div class="stat-title">Total Admins</div><div class="stat-value" id="totalAdmins">0</div></div>
-        <div class="stat-card"><div class="stat-title">Active Users</div><div class="stat-value" id="activeUsers">128</div></div>
-        <div class="stat-card"><div class="stat-title">New Users (30d)</div><div class="stat-value" id="newUsers">58</div></div>
-        <div class="stat-card"><div class="stat-title">Churn Rate</div><div class="stat-value" id="churnRate">5.4%</div></div>
+        <div class="stat-card gradient-blue">
+          <div class="stat-title"><i class="fas fa-user-shield"></i> Total Admins</div>
+          <div class="stat-value" id="totalAdmins">0</div>
+        </div>
+        <div class="stat-card gradient-green">
+          <div class="stat-title"><i class="fas fa-users"></i> Active Users</div>
+          <div class="stat-value" id="activeUsers">128</div>
+        </div>
+        <div class="stat-card gradient-yellow">
+          <div class="stat-title"><i class="fas fa-user-plus"></i> New Users (30d)</div>
+          <div class="stat-value" id="newUsers">58</div>
+        </div>
       </section>
 
-      <section class="chart-container"><canvas id="userChart"></canvas></section>
-      <section class="chart-container"><h3>Chat Volume (7 Hari)</h3><canvas id="chatVolumeChart"></canvas></section>
+      <section class="chart-container">
+        <h3 class="chart-title user-growth">User Growth (30 Hari)</h3>
+        <canvas id="userChart"></canvas>
+      </section>
+      <section class="chart-container">
+        <h3 class="chart-title chat-volume">Chat Volume (7 Hari)</h3>
+        <canvas id="chatVolumeChart"></canvas>
+      </section>
     </section>
 
     <section id="admin-table-section" class="hidden-section">
@@ -331,7 +345,7 @@ document.addEventListener('DOMContentLoaded', fetchUsers);
 
 <section id="file-manager-section" class="hidden-section">
       <header>
-        <h1><i class="fas fa-folder-open"></i> Manajemen File</h1>
+        <h1><i class="fas fa-folder-open"></i> File Managers</h1>
       </header>
       <div class="chart-container">
         <table>

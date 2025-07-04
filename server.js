@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import fetch from 'node-fetch';
 import sqlite3 from 'sqlite3';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -102,11 +101,68 @@ app.use(session({
 }));
 
 // Simpan history percakapan
+
 const conversationHistory = new Map();
+// Helper: Read all text files in uploads dir and search for relevant content
+import mammoth from 'mammoth';
+import xlsx from 'xlsx';
+
+// Ensure uploads directory exists at server start
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+async function extractTextFromFile(filePath, ext) {
+  if (ext === '.txt' || ext === '.md' || ext === '.csv') {
+    return fs.readFileSync(filePath, 'utf8');
+  } else if (ext === '.pdf') {
+    const data = fs.readFileSync(filePath);
+    try {
+      const pdfData = await pdfParse(data);
+      return pdfData.text;
+    } catch { return ''; }
+  } else if (ext === '.docx') {
+    try {
+      const result = await mammoth.extractRawText({ path: filePath });
+      return result.value;
+    } catch { return ''; }
+  } else if (ext === '.xlsx') {
+    try {
+      const workbook = xlsx.readFile(filePath);
+      let text = '';
+      workbook.SheetNames.forEach(sheet => {
+        const sheetData = xlsx.utils.sheet_to_csv(workbook.Sheets[sheet]);
+        text += sheetData + '\n';
+      });
+      return text;
+    } catch { return ''; }
+  }
+  return '';
+}
+
+async function searchFilesForContext(query, uploadsDir) {
+  const files = fs.readdirSync(uploadsDir);
+  let contextSnippets = [];
+  for (const file of files) {
+    const ext = path.extname(file).toLowerCase();
+    if ([".txt", ".md", ".csv", ".pdf", ".docx", ".xlsx"].includes(ext)) {
+      try {
+        const content = await extractTextFromFile(path.join(uploadsDir, file), ext);
+        if (content && content.toLowerCase().includes(query.toLowerCase())) {
+          // Get a snippet around the query
+          const idx = content.toLowerCase().indexOf(query.toLowerCase());
+          const snippet = content.substring(Math.max(0, idx - 100), idx + 200);
+          contextSnippets.push(`Dari file: ${file}\n${snippet}`);
+        }
+      } catch (e) { /* ignore file read errors */ }
+    }
+  }
+  return contextSnippets.join('\n\n');
+}
 
 app.post('/chat', async (req, res) => {
     const { message, sessionId = 'default' } = req.body;
-    
     if (!message || typeof message !== 'string') {
         return res.status(400).json({ 
             reply: "Mohon masukkan pesan yang valid" 
@@ -120,9 +176,21 @@ app.post('/chat', async (req, res) => {
                 { role: 'system', content: SYSTEM_PROMPT }
             ]);
         }
-        
         const messages = conversationHistory.get(sessionId);
         messages.push({ role: 'user', content: message });
+
+        // Cari konteks dari file uploads (File Managers)
+        const uploadsDir = path.join(__dirname, 'uploads');
+        let fileContext = '';
+        if (fs.existsSync(uploadsDir)) {
+          fileContext = await searchFilesForContext(message, uploadsDir);
+        }
+
+        // Tambahkan konteks file ke prompt jika ada
+        let systemPrompt = SYSTEM_PROMPT;
+        if (fileContext) {
+          systemPrompt += `\n\nBerikut adalah informasi tambahan dari file yang diupload admin:\n${fileContext}`;
+        }
 
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
@@ -132,24 +200,21 @@ app.post('/chat', async (req, res) => {
             },
             body: JSON.stringify({
                 model: 'deepseek/deepseek-chat-v3-0324:free',
-                messages: (messages),
+                messages: [
+                  { role: 'system', content: systemPrompt },
+                  ...messages.filter(m => m.role !== 'system')
+                ],
                 temperature: 0.7,
                 max_tokens: 500
             })
         });
 
         const data = await response.json();
-
-        console.log("Resp API (DEBUG) :", JSON.stringify(data, null, 2));
-
         const reply = data.choices?.[0]?.message?.content || 
                       "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
-        
         // Simpan balasan ke history
         messages.push({ role: 'assistant', content: reply });
-        
         res.json({ reply });
-
     } catch (err) {
         console.error('Error:', err);
         res.status(500).json({ 
@@ -185,8 +250,8 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /pdf|doc|docx|xls|xlsx/;
-  const ext = path.extname(file.originalname).toLowerCase();
+  const allowedTypes = /pdf|doc|docx|xls|xlsx|txt|md|csv/;
+  const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
   if (allowedTypes.test(ext)) {
     cb(null, true);
   } else {
@@ -536,13 +601,15 @@ app.post('/login-user', async (req, res) => {
   });
 });
 
-function checkUserAuth(req, res, next) {
+// Only declare checkUserAuth once
+
+const checkUserAuth = (req, res, next) => {
   if (req.session.user) {
     next();
   } else {
     res.redirect('/user.html');
   }
-}
+};
 // Cek apakah user sudah login
 async function checkAuth() {
   try {
