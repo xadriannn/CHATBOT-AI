@@ -59,6 +59,7 @@ app.get('/manual-qa', (req, res) => {
 });
 
 const SYSTEM_PROMPT = `
+Berikan berita terkini pada tahun 2025
 Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
 Nama anda adalah Si Jete.
 Nickname anda adalah Jet atau Jete.
@@ -104,15 +105,18 @@ Jika seseorang mengetikan "Hai" , "Hello" , "Selamat Pagi" , "Selamat Siang" , "
 Jika seseorang mengatakan hal yang tidak sopan dengan kata kata toxic di Indonesia, Maka jawablah dengan sopan dan berikan instan pertanyaan
 Jika seseorang mengatakan hal yang tidak sopan namun dengan bahasa yang lain, Maka jawablah dengan sopan dan berikan instan pertanyaan
 Jika seseorang menanyakan hal yang berkesan teknis, jawablah sesuai informasi yang anda miliki.
+Jika seseorang menanyakan hal yang berkesan teknis, namun tidak ada di database anda, maka jawab dengan sopan dan berikan instan pertanyaan.
+Jika seseorang menanyakan hal yang berkaitan dengan coding, maka berikan code sederhana sesuai dengan pertanyaan yang diajukan.
 
 Kata kata tidak sopan dalam bahasa indonesia: Kontol, Memek, Bangsat, Ngentod, Ngentot, Wasu, Jancok, Goblok, Goblog, Bego, Kampret, Taik, Sialan, Bajingan.
 
 Di setiap akhir paragraf tambahkan info berikut ini.
 Untuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:
-- Call Center: 0821-2509-6819
-- Email: kominfotikjt@jakarta.go.id
-- Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
-- Website resmi: https://timur.jakarta.go.id/
+☎️ Call Center: 0821-2509-6819
+💌 Email: kominfotikjt@jakarta.go.id
+🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
+🌐 Website resmi: https://timur.jakarta.go.id/
+▶️ YouTube:https://www.youtube.com/@KotaJakartaTimur
 
 Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
 Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
@@ -267,17 +271,43 @@ app.post('/chat', async (req, res) => {
         const data = await response.json();
         let reply = data.choices?.[0]?.message?.content || 
                       "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
-        // Cetak tebal untuk Key Point: baris yang mengandung kata 'Key Point' atau 'Poin Penting'
-        // dan juga untuk **text** atau __text__
+        // 1. Bold for **text** or __text__
         reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
         reply = reply.replace(/__(.*?)__/g, '<b>$1</b>');
-        // Bold baris yang mengandung kata kunci "Key Point" atau "Poin Penting"
+
+        // 2. Bullet points: lines starting with '-', '*', or '•' become bolded bullets
+        // Replace bullets with <li><b>...</b></li> and wrap in <ul>
+        let bulletRegex = /^(?:-|\*|•) (.+)$/gm;
+        if (bulletRegex.test(reply)) {
+          reply = reply.replace(bulletRegex, (m, p1) => `<li><b>${p1}</b></li>`);
+          // Wrap consecutive <li> in <ul>
+          reply = reply.replace(/(<li>.*?<\/li>\s*)+/gs, match => `<ul>${match}</ul>`);
+        }
+
+        // 3. Make links blue, underlined, and clickable
+        reply = reply.replace(/(https?:\/\/[\w\-._~:/?#\[\]@!$&'()*+,;=%]+|www\.[\w\-._~:/?#\[\]@!$&'()*+,;=%]+)/gi, function(url) {
+          let href = url;
+          if (!href.startsWith('http')) href = 'http://' + href;
+          return `<a href="${href}" target="_blank" style="color:#1976d2;text-decoration:underline;">${url}</a>`;
+        });
+
+        // 4. Bold lines containing "Key Point" or "Poin Penting"
         reply = reply.split('\n').map(line => {
           if (/key point|poin penting/i.test(line)) {
             return '<b>' + line + '</b>';
           }
           return line;
         }).join('\n');
+
+        // 5. Clean up: multiple newlines to max 2, trim spaces, add paragraph spacing, etc.
+        reply = reply.replace(/\n{3,}/g, '\n\n');
+        reply = reply.replace(/\n\n/g, '</p><p>');
+        reply = reply.replace(/\n/g, '<br>');
+        reply = '<p>' + reply + '</p>';
+        // Remove empty paragraphs
+        reply = reply.replace(/<p>\s*<\/p>/g, '');
+        reply = reply.trim();
+
         // Simpan balasan ke history
         messages.push({ role: 'assistant', content: reply });
         res.json({ reply });

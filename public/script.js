@@ -235,16 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const usernameInput = document.getElementById('new-username');
-      const username = usernameInput.value;
+      const username = document.getElementById('new-username').value;
       const password = document.getElementById('new-password').value;
-
-      // Cek username tidak boleh mengandung spasi
-      if (/\s/.test(username)) {
-        alert('Username tidak boleh mengandung spasi!');
-        usernameInput.focus();
-        return;
-      }
 
       const res = await fetch('/add-admin', {
         method: 'POST',
