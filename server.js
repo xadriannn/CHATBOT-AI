@@ -265,8 +265,19 @@ app.post('/chat', async (req, res) => {
         });
 
         const data = await response.json();
-        const reply = data.choices?.[0]?.message?.content || 
+        let reply = data.choices?.[0]?.message?.content || 
                       "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
+        // Cetak tebal untuk Key Point: baris yang mengandung kata 'Key Point' atau 'Poin Penting'
+        // dan juga untuk **text** atau __text__
+        reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        reply = reply.replace(/__(.*?)__/g, '<b>$1</b>');
+        // Bold baris yang mengandung kata kunci "Key Point" atau "Poin Penting"
+        reply = reply.split('\n').map(line => {
+          if (/key point|poin penting/i.test(line)) {
+            return '<b>' + line + '</b>';
+          }
+          return line;
+        }).join('\n');
         // Simpan balasan ke history
         messages.push({ role: 'assistant', content: reply });
         res.json({ reply });
