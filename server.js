@@ -276,12 +276,12 @@ app.post('/chat', async (req, res) => {
         reply = reply.replace(/__(.*?)__/g, '<b>$1</b>');
 
         // 2. Bullet points: lines starting with '-', '*', or '•' become bolded bullets
-        // Replace bullets with <li><b>...</b></li> and wrap in <ul>
+        // Replace bullets with <li><b>...</b></li> and wrap in <ul>, add spacing after each bullet
         let bulletRegex = /^(?:-|\*|•) (.+)$/gm;
         if (bulletRegex.test(reply)) {
-          reply = reply.replace(bulletRegex, (m, p1) => `<li><b>${p1}</b></li>`);
-          // Wrap consecutive <li> in <ul>
-          reply = reply.replace(/(<li>.*?<\/li>\s*)+/gs, match => `<ul>${match}</ul>`);
+          reply = reply.replace(bulletRegex, (m, p1) => `<li style="margin-bottom:12px;"><b>${p1}</b></li>`);
+          // Wrap consecutive <li> in <ul> and add left padding for indentation
+          reply = reply.replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, match => `<ul style="margin-bottom:18px; padding-left: 32px;">${match}</ul>`);
         }
 
         // 3. Make links blue, underlined, and clickable
@@ -301,11 +301,12 @@ app.post('/chat', async (req, res) => {
 
         // 5. Clean up: multiple newlines to max 2, trim spaces, add paragraph spacing, etc.
         reply = reply.replace(/\n{3,}/g, '\n\n');
-        reply = reply.replace(/\n\n/g, '</p><p>');
+        // Pisahkan paragraf dengan <p style="margin-bottom:18px;"> dan beri jarak antar paragraf
+        reply = reply.replace(/\n\n/g, '</p><p style="margin-bottom:18px;">');
         reply = reply.replace(/\n/g, '<br>');
-        reply = '<p>' + reply + '</p>';
+        reply = '<p style="margin-bottom:18px;">' + reply + '</p>';
         // Remove empty paragraphs
-        reply = reply.replace(/<p>\s*<\/p>/g, '');
+        reply = reply.replace(/<p[^>]*>\s*<\/p>/g, '');
         reply = reply.trim();
 
         // Simpan balasan ke history
