@@ -1,4 +1,4 @@
-  .chart-title {
+.chart-title {
     margin-bottom: 1rem;
     font-weight: 600;
     font-size: 1.15rem;
@@ -553,4 +553,46 @@ th.action-cell, td.action-cell {
 
 .pagination-controls button:hover {
   background-color: #1e3a8a;
+}
+
+/* Manual Q&A Training Section */
+#manual-qa-section .manual-qa-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 24px 18px 18px 18px;
+}
+#manual-qa-form input[type="text"],
+#manual-qa-form textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  resize: vertical;
+}
+#manual-qa-form textarea {
+  min-height: 80px;
+  max-height: 200px;
+}
+#manual-qa-status {
+  margin-top: 10px;
+  font-size: 0.98rem;
+}
+#manual-qa-list {
+  max-height: 200px;
+  overflow: auto;
+  padding-left: 18px;
+  margin-top: 10px;
+}
+#manual-qa-list li {
+  margin-bottom: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.97rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }

@@ -172,49 +172,10 @@ function showSection(sectionId, link) {
 }
 
 // ✅ Chart pengguna
-const ctx = document.getElementById('userChart')?.getContext('2d');
-if (ctx) {
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [{
-        label: 'User Baru',
-        data: [12, 19, 10, 17, 25, 18, 22],
-        borderColor: '#2563eb',
-        fill: false,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: true },
-      }
-    }
-  });
-}
+
 
 // ✅ Chart chat volume
-const ctx2 = document.getElementById('chatVolumeChart')?.getContext('2d');
-if (ctx2) {
-  new Chart(ctx2, {
-    type: 'bar',
-    data: {
-      labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
-      datasets: [{
-        label: 'Jumlah Chat',
-        data: [50, 45, 60, 38, 70, 33, 40],
-        backgroundColor: '#1e40af'
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-      }
-    }
-  });
-}
+
 
 
 
@@ -274,8 +235,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const username = document.getElementById('new-username').value;
+      const usernameInput = document.getElementById('new-username');
+      const username = usernameInput.value;
       const password = document.getElementById('new-password').value;
+
+      // Cek username tidak boleh mengandung spasi
+      if (/\s/.test(username)) {
+        alert('Username tidak boleh mengandung spasi!');
+        usernameInput.focus();
+        return;
+      }
 
       const res = await fetch('/add-admin', {
         method: 'POST',

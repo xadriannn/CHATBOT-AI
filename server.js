@@ -9,6 +9,11 @@ import { dirname } from 'path';
 // ES Modules: Dapatkan __filename dan __dirname di paling atas!
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// ====== Manual Q&A Training API ======
+// (Move these routes after app is initialized)
+let manualQAPath;
+// ...existing code...
 import session from 'express-session';
 import multer from 'multer';
 import fs from 'fs';
@@ -17,9 +22,41 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 dotenv.config({ path: './api.env' });
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+manualQAPath = path.join(__dirname, 'database', 'manual_qa.json');
+
+// Add a manual Q&A pair (admin training)
+app.post('/manual-qa', (req, res) => {
+  const { question, answer } = req.body;
+  if (!question || !answer) {
+    return res.status(400).json({ error: 'Pertanyaan dan jawaban harus diisi.' });
+  }
+  let qaList = [];
+  try {
+    if (fs.existsSync(manualQAPath)) {
+      qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
+    }
+  } catch (e) { qaList = []; }
+  qaList.push({ question, answer });
+  fs.writeFileSync(manualQAPath, JSON.stringify(qaList, null, 2));
+  res.json({ success: true, message: 'Q&A berhasil ditambahkan.' });
+});
+
+// Get all manual Q&A pairs
+app.get('/manual-qa', (req, res) => {
+  try {
+    if (fs.existsSync(manualQAPath)) {
+      const qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
+      return res.json(qaList);
+    }
+    res.json([]);
+  } catch (e) {
+    res.status(500).json([]);
+  }
+});
 
 const SYSTEM_PROMPT = `
 Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
@@ -104,6 +141,7 @@ app.use(session({
 
 const conversationHistory = new Map();
 // Helper: Read all text files in uploads dir and search for relevant content
+
 import mammoth from 'mammoth';
 import xlsx from 'xlsx';
 
@@ -142,13 +180,19 @@ async function extractTextFromFile(filePath, ext) {
 }
 
 async function searchFilesForContext(query, uploadsDir) {
+  // Pastikan folder uploads ada, jika tidak return kosong
+  if (!fs.existsSync(uploadsDir)) {
+    return '';
+  }
   const files = fs.readdirSync(uploadsDir);
   let contextSnippets = [];
   for (const file of files) {
     const ext = path.extname(file).toLowerCase();
     if ([".txt", ".md", ".csv", ".pdf", ".docx", ".xlsx"].includes(ext)) {
       try {
-        const content = await extractTextFromFile(path.join(uploadsDir, file), ext);
+        const filePath = path.join(uploadsDir, file);
+        if (!fs.existsSync(filePath)) continue; // skip if file not found
+        const content = await extractTextFromFile(filePath, ext);
         if (content && content.toLowerCase().includes(query.toLowerCase())) {
           // Get a snippet around the query
           const idx = content.toLowerCase().indexOf(query.toLowerCase());
@@ -158,6 +202,17 @@ async function searchFilesForContext(query, uploadsDir) {
       } catch (e) { /* ignore file read errors */ }
     }
   }
+  // Tambahkan pencarian dari manual Q&A
+  try {
+    if (fs.existsSync(manualQAPath)) {
+      const qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
+      qaList.forEach(qa => {
+        if (qa.question && qa.answer && (query.toLowerCase().includes(qa.question.toLowerCase()) || qa.question.toLowerCase().includes(query.toLowerCase()))) {
+          contextSnippets.push(`Manual Q&A:\nQ: ${qa.question}\nA: ${qa.answer}`);
+        }
+      });
+    }
+  } catch (e) { /* ignore */ }
   return contextSnippets.join('\n\n');
 }
 

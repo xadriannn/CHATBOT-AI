@@ -75,11 +75,19 @@
     });
 
     form.addEventListener("submit", async function(e) {
+
       e.preventDefault();
 
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
       const confirm = document.getElementById("confirm").value;
+
+      // Validasi username: hanya huruf dan angka, tanpa spasi/simbol
+      if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        showAlert("Username hanya boleh huruf dan angka, tanpa spasi atau simbol.");
+        document.getElementById("username").focus();
+        return;
+      }
 
       const isValid = validatePassword(password);
 
@@ -105,6 +113,8 @@
           showAlert("Password berhasil diubah! Silakan login dengan password baru.", "success");
           form.reset();
           resetPasswordValidation();
+        } else if (response.status === 404 && (data.error === 'User tidak ditemukan' || data.error === 'Username tidak ditemukan')) {
+          showAlert("Username tidak ada atau salah.");
         } else {
           showAlert(data.error || data.message || "Username tidak ditemukan.");
         }

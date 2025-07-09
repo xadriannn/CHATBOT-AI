@@ -76,11 +76,19 @@
 
     // Ganti bagian form.addEventListener("submit")
 form.addEventListener("submit", async function(e) {
+
   e.preventDefault();
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const confirm = document.getElementById("confirm").value;
+
+  // Validasi username: hanya huruf dan angka, tanpa spasi/simbol
+  if (!/^[a-zA-Z0-9]+$/.test(username)) {
+    showAlert("Username hanya boleh huruf dan angka, tanpa spasi atau simbol.");
+    document.getElementById("username").focus();
+    return;
+  }
 
   // Validasi password
   if (password !== confirm) {
