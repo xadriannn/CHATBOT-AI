@@ -116,7 +116,7 @@ Untuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:
 💌 Email: kominfotikjt@jakarta.go.id
 🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
 🌐 Website resmi: https://timur.jakarta.go.id/
-▶️ YouTube:https://www.youtube.com/@KotaJakartaTimur
+▶️ YouTube: www.youtube.com/@KotaJakartaTimur
 
 Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
 Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
@@ -127,7 +127,18 @@ app.use(cors());
 app.use(express.json());
 
 // Serve public folder (for HTML, CSS, JS, etc)
-app.use(express.static('public'));
+// Serve public folder (for HTML, CSS, JS, etc),
+// EXCEPT dashboard.html dan index.html yang diproteksi via route khusus
+app.use((req, res, next) => {
+  // Tangani akses langsung ke dashboard.html dan index.html
+  if (req.path === '/dashboard.html') {
+    return res.redirect('/login');
+  }
+  if (req.path === '/index.html') {
+    return res.redirect('/user.html');
+  }
+  express.static('public', { index: false })(req, res, next);
+});
 
 // Serve uploads folder for file downloads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -721,10 +732,34 @@ async function checkAuth() {
 }
 
 
-
 // Proteksi route index.html
-app.get('/index.html', checkUserAuth, (req, res) => {
+
+// Middleware: Cek login user (untuk index.html)
+function requireUserLogin(req, res, next) {
+  if (req.session && req.session.user) {
+    next();
+  } else {
+    res.redirect('/user.html');
+  }
+}
+
+// Middleware: Cek login admin (untuk dashboard.html)
+function requireAdminLogin(req, res, next) {
+  if (req.session && req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
+
+// Proteksi akses langsung ke index.html (user)
+app.get('/index.html', requireUserLogin, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Proteksi akses langsung ke dashboard.html (admin)
+app.get('/dashboard.html', requireAdminLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
 // ROUTING ============================================================
