@@ -28,36 +28,6 @@ const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 manualQAPath = path.join(__dirname, 'database', 'manual_qa.json');
 
-// Add a manual Q&A pair (admin training)
-app.post('/manual-qa', (req, res) => {
-  const { question, answer } = req.body;
-  if (!question || !answer) {
-    return res.status(400).json({ error: 'Pertanyaan dan jawaban harus diisi.' });
-  }
-  let qaList = [];
-  try {
-    if (fs.existsSync(manualQAPath)) {
-      qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
-    }
-  } catch (e) { qaList = []; }
-  qaList.push({ question, answer });
-  fs.writeFileSync(manualQAPath, JSON.stringify(qaList, null, 2));
-  res.json({ success: true, message: 'Q&A berhasil ditambahkan.' });
-});
-
-// Get all manual Q&A pairs
-app.get('/manual-qa', (req, res) => {
-  try {
-    if (fs.existsSync(manualQAPath)) {
-      const qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
-      return res.json(qaList);
-    }
-    res.json([]);
-  } catch (e) {
-    res.status(500).json([]);
-  }
-});
-
 const SYSTEM_PROMPT = `
 Berikan berita terkini pada tahun 2025
 Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
@@ -125,21 +95,7 @@ Jangan gunakan markdown atau HTML.
 
 app.use(cors());
 app.use(express.json());
-
-// Serve public folder (for HTML, CSS, JS, etc)
-// Serve public folder (for HTML, CSS, JS, etc),
-// EXCEPT dashboard.html dan index.html yang diproteksi via route khusus
-app.use((req, res, next) => {
-  // Tangani akses langsung ke dashboard.html dan index.html
-  if (req.path === '/dashboard.html') {
-    return res.redirect('/login');
-  }
-  if (req.path === '/index.html') {
-    return res.redirect('/user.html');
-  }
-  express.static('public', { index: false })(req, res, next);
-});
-
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 // Serve uploads folder for file downloads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
