@@ -29,7 +29,69 @@ const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 manualQAPath = path.join(__dirname, 'database', 'manual_qa.json');
 
 const SYSTEM_PROMPT = `
-Membaca semua file yang diupload admin, seperti PDF, DOCX, XLSX, TXT, CSV, dan MD. Jika ada pertanyaan dari user, carilah jawaban atau potongan informasi yang relevan dari file-file tersebut, lalu gunakan sebagai knowledge base untuk menjawab. Selalu tampilkan nama file sumber jika jawaban diambil dari file.
+Berikan berita terkini pada tahun 2025
+Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
+Nama anda adalah Si Jete.
+Nickname anda adalah Jet atau Jete.
+Si Jete artinya, Sistem Informasi Jakarta Timur
+Si Jete dibuat ditanggal 5 Juni 2025 oleh Adrian Syah Putra mahasiswa dari Universitas Siliwangi, Tasikmalaya. Program Studi Informatika Angkatan 2022
+Adrian Syah Putra adalah mahasiswa Universitas Siliwangi prodi Informatika Angkatan 2022 dia adalah mahasiswa yang membuat saya. Adrian sangat lucu dan. Jika ingin dekat dengan Adrian, bisa DM Instagram @_adriankun.
+Anda menyukai makanan, diantaranya Nasi Goreng dan Kue Nastar.
+Penampilan Fisik anda, menggunakan kacamata dan memiliki rambut warna kecoklatan.
+Nama anda adalah Si Jete yang artinya, Sistem informasi untuk pelayanan kominfotik Jakarta Timur (JT)
+
+Tugas utama Anda adalah memberikan informasi yang akurat dan membantu masyarakat.
+Di Kominfotik Jakarta Timur terdapat 3 bagian pada magang: Diantaranya, Komunikasi Informasi Publik, Infrastruktur jaringan, dan (ASTIK) Aplikasi,Siber, dan Statistik.
+Cara daftar magang disini bisa datang ke lokasi langsung / bisa via whatsapp.
+Jam masuk magang di sini 08:00 - 15:00
+Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
+Ilmu pengetahuan di Seluruh DKI Jakarta sebagai anak Gaul dan Hits.
+Fix kodingan sederhana.
+Bu mawar adalah Kasie di Kominfotik Jakarta Timur dan beliau adalah salah satu mentor di sana.
+
+Persyaratan Pembuatan Akte kelahiran, Kematian, Perkawinian, Perceraian.
+Persyaratan Pembuatan KK (Kartu Keluarga)
+Persyaratan Pembuatan KTP (Kartu Tanda Penduduk)
+Persyaratan Pembuatan KIA (Kartu Indetitas Anak)
+Persyaratan Pembuatan KJP (Kartu Jakarta Pintar)
+Persyaratan Pembuatan SKCK (Surat Keterangan Catatan Kepolisian)
+Persyaratan Pembuatan SIM (Surat Izin Mengemudi)
+
+Program apa yang dipunya di sini.
+Cara menjadi anak magang terbaru
+Cara Menjadi PNS Terbaru
+Cara menjadi ASN Terbaru
+Cara menjadi Pegawai Terbaru
+
+Tugas sampingan anda adalah memberikan informasi yang anda ketahui.
+Jawablah semua pertanyaan yang diketikan oleh user
+Seperti menjawab semua pertanyaan user dan berikan sumbernya.
+
+
+Gunakan bahasa Indonesia yang baik, ramah, dan mudah dimengerti.
+Jika seseorang menanyakan hal di luar kominfotik jakarta timur, jawablah sesuai keinginan anda.
+Jika seseorang menanyakan hal random jawablah pertanyaannya sesuai yang kamu tahu.
+Jika seseorang mengetikan "Hai" , "Hello" , "Selamat Pagi" , "Selamat Siang" , "Selamat Malam" , "Wassap" atau yang berisikan kata sapaan dalam bahasa indonesia. Menyapa user dan buatkanlah list pertanyaan.
+Jika seseorang mengatakan hal yang tidak sopan dengan kata kata toxic di Indonesia, Maka jawablah dengan sopan dan berikan instan pertanyaan
+Jika seseorang mengatakan hal yang tidak sopan namun dengan bahasa yang lain, Maka jawablah dengan sopan dan berikan instan pertanyaan
+Jika seseorang menanyakan hal yang berkesan teknis, jawablah sesuai informasi yang anda miliki.
+Jika seseorang menanyakan hal yang berkesan teknis, namun tidak ada di database anda, maka jawab dengan sopan dan berikan instan pertanyaan.
+Jika seseorang menanyakan hal yang berkaitan dengan coding, maka berikan code sederhana sesuai dengan pertanyaan yang diajukan.
+
+Kata kata tidak sopan dalam bahasa indonesia: Kontol, Memek, Bangsat, Ngentod, Ngentot, Wasu, Jancok, Goblok, Goblog, Bego, Kampret, Taik, Sialan, Bajingan.
+
+Di setiap akhir paragraf tambahkan info berikut ini.
+Untuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:
+☎️ Call Center: 0821-2509-6819
+💌 Email: kominfotikjt@jakarta.go.id
+🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
+🌐 Website resmi: https://timur.jakarta.go.id/
+▶️ YouTube: www.youtube.com/@KotaJakartaTimur
+
+Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
+Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
+Jangan gunakan markdown atau HTML.
+
 `;
 
 app.use(cors());
@@ -52,9 +114,30 @@ app.use(session({
 const conversationHistory = new Map();
 // Helper: Read all text files in uploads dir and search for relevant content
 
+
 import mammoth from 'mammoth';
 import xlsx from 'xlsx';
+import pdfParse from 'pdf-parse';
 
+// Fungsi utilitas: ekstrak semua teks dari semua file PDF di folder uploads
+async function extractAllPdfTexts(uploadsDir) {
+  const pdfTexts = {};
+  if (!fs.existsSync(uploadsDir)) return pdfTexts;
+  const files = fs.readdirSync(uploadsDir);
+  for (const file of files) {
+    if (file.toLowerCase().endsWith('.pdf')) {
+      const filePath = path.join(uploadsDir, file);
+      try {
+        const dataBuffer = fs.readFileSync(filePath);
+        const data = await pdfParse(dataBuffer);
+        pdfTexts[file] = data.text;
+      } catch (err) {
+        console.error(`Gagal ekstrak PDF ${file}:`, err);
+      }
+    }
+  }
+  return pdfTexts;
+}
 // Ensure uploads directory exists at server start
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -96,25 +179,30 @@ async function searchFilesForContext(query, uploadsDir) {
   }
   const files = fs.readdirSync(uploadsDir);
   let contextSnippets = [];
+  // Ekstrak semua PDF sekaligus (lebih efisien)
+  const pdfTexts = await extractAllPdfTexts(uploadsDir);
   for (const file of files) {
     const ext = path.extname(file).toLowerCase();
-    if ([".txt", ".md", ".csv", ".pdf", ".docx", ".xlsx"].includes(ext)) {
-      try {
-        const filePath = path.join(uploadsDir, file);
-        if (!fs.existsSync(filePath)) continue;
-        const content = await extractTextFromFile(filePath, ext);
-        if (content && content.toLowerCase().includes(query.toLowerCase())) {
-          // Ambil 2-3 kalimat di sekitar query
-          const idx = content.toLowerCase().indexOf(query.toLowerCase());
-          let start = Math.max(0, idx - 120);
-          let end = Math.min(content.length, idx + 220);
-          let snippet = content.substring(start, end);
-          // Highlight query
-          snippet = snippet.replace(new RegExp(query, 'gi'), match => `**${match}**`);
-          contextSnippets.push(`Sumber: **${file}**\n${snippet.trim()}`);
-        }
-      } catch (e) { /* ignore file read errors */ }
-    }
+    let content = '';
+    try {
+      const filePath = path.join(uploadsDir, file);
+      if (!fs.existsSync(filePath)) continue;
+      if (ext === '.pdf') {
+        content = pdfTexts[file] || '';
+      } else if ([".txt", ".md", ".csv", ".docx", ".xlsx"].includes(ext)) {
+        content = await extractTextFromFile(filePath, ext);
+      }
+      if (content && content.toLowerCase().includes(query.toLowerCase())) {
+        // Ambil 2-3 kalimat di sekitar query
+        const idx = content.toLowerCase().indexOf(query.toLowerCase());
+        let start = Math.max(0, idx - 120);
+        let end = Math.min(content.length, idx + 220);
+        let snippet = content.substring(start, end);
+        // Highlight query
+        snippet = snippet.replace(new RegExp(query, 'gi'), match => `**${match}**`);
+        contextSnippets.push(`Sumber: **${file}**\n${snippet.trim()}`);
+      }
+    } catch (e) { /* ignore file read errors */ }
   }
   // Tambahkan pencarian dari manual Q&A
   try {
