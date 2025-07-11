@@ -5,253 +5,175 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-// ES Modules: Dapatkan __filename dan __dirname di paling atas!
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// ====== Manual Q&A Training API ======
-// (Move these routes after app is initialized)
-let manualQAPath;
-// ...existing code...
 import session from 'express-session';
 import multer from 'multer';
-import fs from 'fs';
-
-
+import * as fs from 'fs';
 import dotenv from 'dotenv';
+import { pipeline } from '@xenova/transformers';
+import pdfParse from 'pdf-parse';
+
+
 dotenv.config({ path: './api.env' });
-
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-manualQAPath = path.join(__dirname, 'database', 'manual_qa.json');
 
+
+
+// PROMPT NYA WOK
 const SYSTEM_PROMPT = `
-Carilah jawban pada folder uploads.
-Tuliskan jawaban dengan rapih.
-Gunakan bahasa yang kekinian, sederhana, dan mudah dimengerti.
+Anda adalah Si Jete, chatbot resmi Kominfotik Jakarta Timur. Jawaban Anda WAJIB dan HANYA didasarkan pada konteks dari file yang diberikan di bawah ini.
+Anggap konteks ini sebagai satu-satunya sumber kebenaran yang paling akurat.
 
-Berikan berita terkini pada tahun 2025
-Anda berperan sebagai Chatbot Resmi Kominfo Jakarta Timur.
-Nama anda adalah Si Jete.
-Nickname anda adalah Jet atau Jete.
-Si Jete artinya, Sistem Informasi Jakarta Timur
-Si Jete dibuat ditanggal 5 Juni 2025 oleh Adrian Syah Putra mahasiswa dari Universitas Siliwangi, Tasikmalaya. Program Studi Informatika Angkatan 2022
-Adrian Syah Putra adalah mahasiswa Universitas Siliwangi prodi Informatika Angkatan 2022 dia adalah mahasiswa yang membuat saya. Adrian sangat lucu dan. Jika ingin dekat dengan Adrian, bisa DM Instagram @_adriankun.
-Anda menyukai makanan, diantaranya Nasi Goreng dan Kue Nastar.
-Penampilan Fisik anda, menggunakan kacamata dan memiliki rambut warna kecoklatan.
-Nama anda adalah Si Jete yang artinya, Sistem informasi untuk pelayanan kominfotik Jakarta Timur (JT)
-
-Tugas utama Anda adalah memberikan informasi yang akurat dan membantu masyarakat.
-Di Kominfotik Jakarta Timur terdapat 3 bagian pada magang: Diantaranya, Komunikasi Informasi Publik, Infrastruktur jaringan, dan (ASTIK) Aplikasi,Siber, dan Statistik.
-Cara daftar magang disini bisa datang ke lokasi langsung / bisa via whatsapp.
-Jam masuk magang di sini 08:00 - 15:00
-Syarat dan Ketentuan magang di sini SMK atau atau Mahasiswa yang sesuai jurusan. Magang di sini sifatnya unpaid namun diberikan projek besar.
-Ilmu pengetahuan di Seluruh DKI Jakarta sebagai anak Gaul dan Hits.
-Fix kodingan sederhana.
-Bu mawar adalah Kasie di Kominfotik Jakarta Timur dan beliau adalah salah satu mentor di sana.
-
-Persyaratan Pembuatan Akte kelahiran, Kematian, Perkawinian, Perceraian.
-Persyaratan Pembuatan KK (Kartu Keluarga)
-Persyaratan Pembuatan KTP (Kartu Tanda Penduduk)
-Persyaratan Pembuatan KIA (Kartu Indetitas Anak)
-Persyaratan Pembuatan KJP (Kartu Jakarta Pintar)
-Persyaratan Pembuatan SKCK (Surat Keterangan Catatan Kepolisian)
-Persyaratan Pembuatan SIM (Surat Izin Mengemudi)
-
-Program apa yang dipunya di sini.
-Cara menjadi anak magang terbaru
-Cara Menjadi PNS Terbaru
-Cara menjadi ASN Terbaru
-Cara menjadi Pegawai Terbaru
-
-Tugas sampingan anda adalah memberikan informasi yang anda ketahui.
-Jawablah semua pertanyaan yang diketikan oleh user
-Seperti menjawab semua pertanyaan user dan berikan sumbernya.
-
-
-Gunakan bahasa Indonesia yang baik, ramah, dan mudah dimengerti.
-Jika seseorang menanyakan hal di luar kominfotik jakarta timur, jawablah sesuai keinginan anda.
-Jika seseorang menanyakan hal random jawablah pertanyaannya sesuai yang kamu tahu.
-Jika seseorang mengetikan "Hai" , "Hello" , "Selamat Pagi" , "Selamat Siang" , "Selamat Malam" , "Wassap" atau yang berisikan kata sapaan dalam bahasa indonesia. Menyapa user dan buatkanlah list pertanyaan.
-Jika seseorang mengatakan hal yang tidak sopan dengan kata kata toxic di Indonesia, Maka jawablah dengan sopan dan berikan instan pertanyaan
-Jika seseorang mengatakan hal yang tidak sopan namun dengan bahasa yang lain, Maka jawablah dengan sopan dan berikan instan pertanyaan
-Jika seseorang menanyakan hal yang berkesan teknis, jawablah sesuai informasi yang anda miliki.
-Jika seseorang menanyakan hal yang berkesan teknis, namun tidak ada di database anda, maka jawab dengan sopan dan berikan instan pertanyaan.
-Jika seseorang menanyakan hal yang berkaitan dengan coding, maka berikan code sederhana sesuai dengan pertanyaan yang diajukan.
-
-Kata kata tidak sopan dalam bahasa indonesia: Kontol, Memek, Bangsat, Ngentod, Ngentot, Wasu, Jancok, Goblok, Goblog, Bego, Kampret, Taik, Sialan, Bajingan.
-
-Di setiap akhir paragraf tambahkan info berikut ini.
-Untuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:
-☎️ Call Center: 0821-2509-6819
-💌 Email: kominfotikjt@jakarta.go.id
-🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3
-🌐 Website resmi: https://timur.jakarta.go.id/
-▶️ YouTube: www.youtube.com/@KotaJakartaTimur
-
-Buat Jawaban dalam Bahasa Indonesia dan mudah dimengerti.
-Gunakan format teks biasa (plain text) dan pisahkan paragraf dengan baris baru.
-Jangan gunakan markdown atau HTML.
+- Jika jawaban ada di dalam konteks, gunakan informasi itu dan sebutkan nama filenya sebagai sumber. Contoh: "Berdasarkan informasi dari file namafile.pdf,..."
+- Jika informasi yang diminta tidak ada di dalam konteks yang diberikan, jawab dengan jujur: "Maaf, saya tidak dapat menemukan informasi mengenai hal tersebut di dalam dokumen yang saya miliki. Ada lagi yang bisa saya bantu?"
+- Selalu gunakan bahasa yang kekinian, sederhana, dan ramah.
+- Selalu sertakan informasi kontak Kominfotik Jakarta Timur di akhir setiap jawaban.
 `;
 
+
+
+// SYSTEM PENCARIAN DATA DARI DOKUMEN PAKE XENOVA AJA
+class EmbeddingSingleton {
+    static task = 'feature-extraction';
+    static model = 'Xenova/all-MiniLM-L6-v2';
+    static instance = null;
+
+    static async getInstance(progress_callback = null) {
+        if (this.instance === null) {
+            this.instance = pipeline(this.task, this.model, { progress_callback });
+        }
+        return this.instance;
+    }
+}
+
+let documentChunks = [];
+
+function cosineSimilarity(vecA, vecB) {
+    let dotProduct = 0, magA = 0, magB = 0;
+    for (let i = 0; i < vecA.length; i++) {
+        dotProduct += vecA[i] * vecB[i];
+        magA += vecA[i] * vecA[i];
+        magB += vecB[i] * vecB[i];
+    }
+    magA = Math.sqrt(magA);
+    magB = Math.sqrt(magB);
+    if (magA === 0 || magB === 0) return 0;
+    return dotProduct / (magA * magB);
+}
+
+const uploadsDir = path.join(__dirname, 'uploads');
+async function indexPdfs() {
+    console.log('Memulai proses indexing dokumen...');
+    const embedder = await EmbeddingSingleton.getInstance();
+
+    if (!fs.existsSync(uploadsDir)) {
+        console.log("Direktori 'uploads' tidak ditemukan. Lewati proses indexing.");
+        return;
+    }
+
+    const files = fs.readdirSync(uploadsDir);
+    
+    for (const file of files) {
+        const filePath = path.join(uploadsDir, file);
+        const ext = path.extname(file).toLowerCase();
+        let text = '';
+
+        try {
+            console.log(`- Mengindeks ${file}...`);
+            if (ext === '.pdf') {
+                const dataBuffer = fs.readFileSync(filePath);
+                const data = await pdfParse(dataBuffer);
+                text = data.text;
+            } else if (ext === '.txt' || ext === '.md') {
+                text = fs.readFileSync(filePath, 'utf8');
+            }
+            
+            if (text) {
+                const chunks = text.split(/\n\s*\n/).filter(chunk => chunk.trim().length > 20); // Pecah per paragraf
+                for (const chunk of chunks) {
+                    const embedding = await embedder(chunk, { pooling: 'mean', normalize: true });
+                    documentChunks.push({
+                        source: file,
+                        content: chunk,
+                        embedding: Array.from(embedding.data)
+                    });
+                }
+            }
+        } catch(err) {
+            console.error(`Gagal memproses file ${file}:`, err);
+        }
+    }
+    console.log(`Proses indexing selesai. Total ${documentChunks.length} potongan dokumen siap digunakan.`);
+}
+
+async function findRelevantChunks(query, topK = 3) {
+    if (documentChunks.length === 0) return [];
+    
+    const embedder = await EmbeddingSingleton.getInstance();
+    const queryEmbedding = await embedder(query, { pooling: 'mean', normalize: true });
+    const queryVec = Array.from(queryEmbedding.data);
+
+    const scoredChunks = documentChunks.map(chunk => ({
+        ...chunk,
+        score: cosineSimilarity(queryVec, chunk.embedding)
+    }));
+
+    scoredChunks.sort((a, b) => b.score - a.score);
+    return scoredChunks.slice(0, topK).filter(c => c.score > 0.4);
+}
+
+
+
+
+// BAGIAN MIDDLEWARENYA WOK
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
-// Serve uploads folder for file downloads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-
-// Configure express-session
 app.use(session({
-    secret: 'your_secret_key', // Ganti dengan kunci rahasia yang kuat dan unik
+    secret: 'kunci_rahasia_super_aman_ganti_ini',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: false }
 }));
 
-// Simpan history percakapan
-
-const conversationHistory = new Map();
-// Helper: Read all text files in uploads dir and search for relevant content
 
 
-import mammoth from 'mammoth';
-import xlsx from 'xlsx';
-import pdfParse from 'pdf-parse';
+// DATABASE DATABASEAN
+const db = new sqlite3.Database('admin.db', (err) => {
+    if (err) console.error("SQLite error:", err.message);
+    else console.log("Terhubung ke database admin.db");
+});
 
-// Fungsi utilitas: ekstrak semua teks dari semua file PDF di folder uploads
-async function extractAllPdfTexts(uploadsDir) {
-  const pdfTexts = {};
-  if (!fs.existsSync(uploadsDir)) return pdfTexts;
-  const files = fs.readdirSync(uploadsDir);
-  for (const file of files) {
-    if (file.toLowerCase().endsWith('.pdf')) {
-      const filePath = path.join(uploadsDir, file);
-      try {
-        const dataBuffer = fs.readFileSync(filePath);
-        const data = await pdfParse(dataBuffer);
-        pdfTexts[file] = data.text;
-      } catch (err) {
-        console.error(`Gagal ekstrak PDF ${file}:`, err);
-      }
-    }
-  }
-  return pdfTexts;
-}
-// Ensure uploads directory exists at server start
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS admin (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)`);
+    db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, email TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`);
+});
 
-async function extractTextFromFile(filePath, ext) {
-  if (ext === '.txt' || ext === '.md' || ext === '.csv') {
-    return fs.readFileSync(filePath, 'utf8');
-  } else if (ext === '.pdf') {
-    const data = fs.readFileSync(filePath);
-    try {
-      const pdfData = await pdfParse(data);
-      return pdfData.text;
-    } catch { return ''; }
-  } else if (ext === '.docx') {
-    try {
-      const result = await mammoth.extractRawText({ path: filePath });
-      return result.value;
-    } catch { return ''; }
-  } else if (ext === '.xlsx') {
-    try {
-      const workbook = xlsx.readFile(filePath);
-      let text = '';
-      workbook.SheetNames.forEach(sheet => {
-        const sheetData = xlsx.utils.sheet_to_csv(workbook.Sheets[sheet]);
-        text += sheetData + '\n';
-      });
-      return text;
-    } catch { return ''; }
-  }
-  return '';
-}
 
-async function searchFilesForContext(query, uploadsDir) {
-  // Pastikan folder uploads ada, jika tidak return kosong
-  if (!fs.existsSync(uploadsDir)) {
-    return '';
-  }
-  const files = fs.readdirSync(uploadsDir);
-  let contextSnippets = [];
-  // Ekstrak semua PDF sekaligus (lebih efisien)
-  const pdfTexts = await extractAllPdfTexts(uploadsDir);
-  for (const file of files) {
-    const ext = path.extname(file).toLowerCase();
-    let content = '';
-    try {
-      const filePath = path.join(uploadsDir, file);
-      if (!fs.existsSync(filePath)) continue;
-      if (ext === '.pdf') {
-        content = pdfTexts[file] || '';
-      } else if ([".txt", ".md", ".csv", ".docx", ".xlsx"].includes(ext)) {
-        content = await extractTextFromFile(filePath, ext);
-      }
-      if (content && content.toLowerCase().includes(query.toLowerCase())) {
-        // Ambil 2-3 kalimat di sekitar query
-        const idx = content.toLowerCase().indexOf(query.toLowerCase());
-        let start = Math.max(0, idx - 120);
-        let end = Math.min(content.length, idx + 220);
-        let snippet = content.substring(start, end);
-        // Highlight query
-        snippet = snippet.replace(new RegExp(query, 'gi'), match => `**${match}**`);
-        contextSnippets.push(`Sumber: **${file}**\n${snippet.trim()}`);
-      }
-    } catch (e) { /* ignore file read errors */ }
-  }
-  // Tambahkan pencarian dari manual Q&A
-  try {
-    if (fs.existsSync(manualQAPath)) {
-      const qaList = JSON.parse(fs.readFileSync(manualQAPath, 'utf8'));
-      qaList.forEach(qa => {
-        if (qa.question && qa.answer && (query.toLowerCase().includes(qa.question.toLowerCase()) || qa.question.toLowerCase().includes(query.toLowerCase()))) {
-          contextSnippets.push(`Manual Q&A:\nQ: ${qa.question}\nA: ${qa.answer}`);
-        }
-      });
-    }
-  } catch (e) { /* ignore */ }
-  return contextSnippets.join('\n\n');
-}
 
+// CHAT TAPI PAKE RAG XENOVA (NYARI DATA RELEVAN GITU)
 app.post('/chat', async (req, res) => {
-    const { message, sessionId = 'default' } = req.body;
+    const { message } = req.body;
     if (!message || typeof message !== 'string') {
-        return res.status(400).json({ 
-            reply: "Mohon masukkan pesan yang valid" 
-        });
+        return res.status(400).json({ reply: "Mohon masukkan pesan yang valid" });
     }
 
     try {
-        // Dapatkan atau buat history percakapan
-        if (!conversationHistory.has(sessionId)) {
-            conversationHistory.set(sessionId, [
-                { role: 'system', content: SYSTEM_PROMPT }
-            ]);
-        }
-        const messages = conversationHistory.get(sessionId);
-        messages.push({ role: 'user', content: message });
-
-        // Cari konteks dari file uploads (File Managers)
-        const uploadsDir = path.join(__dirname, 'uploads');
-        let fileContext = '';
-        if (fs.existsSync(uploadsDir)) {
-          fileContext = await searchFilesForContext(message, uploadsDir);
+        const relevantChunks = await findRelevantChunks(message);
+        
+        let fileContext = "Konteks tidak ditemukan dalam dokumen.";
+        if (relevantChunks.length > 0) {
+            fileContext = relevantChunks.map(chunk => `Sumber: ${chunk.source}\nKonten: ${chunk.content}`).join('\n\n---\n\n');
         }
 
-        // Tambahkan konteks file ke prompt jika ada
-        let systemPrompt = SYSTEM_PROMPT;
-        if (fileContext) {
-          systemPrompt += `\n\nBerikut adalah informasi tambahan dari file yang diupload admin:\n${fileContext}`;
-        }
-
+        const finalSystemPrompt = `${SYSTEM_PROMPT}\n\n--- KONTEKS RELEVAN ---\n${fileContext}`;
+        
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -261,8 +183,8 @@ app.post('/chat', async (req, res) => {
             body: JSON.stringify({
                 model: 'deepseek/deepseek-chat-v3-0324:free',
                 messages: [
-                  { role: 'system', content: systemPrompt },
-                  ...messages.filter(m => m.role !== 'system')
+                    { role: 'system', content: finalSystemPrompt },
+                    { role: 'user', content: message }
                 ],
                 temperature: 0.7,
                 max_tokens: 500
@@ -270,202 +192,131 @@ app.post('/chat', async (req, res) => {
         });
 
         const data = await response.json();
-        let reply = data.choices?.[0]?.message?.content || 
-                      "Maaf, saya tidak bisa memberikan jawaban saat ini. Silakan coba lagi nanti.";
-        // 1. Bold for **text** or __text__
-        reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        reply = reply.replace(/__(.*?)__/g, '<b>$1</b>');
+        let reply = data.choices?.[0]?.message?.content || "Maaf, saya tidak bisa memberikan jawaban saat ini.";
 
-        // 2. Bullet points: lines starting with '-', '*', or '•' become bolded bullets
-        // Replace bullets with <li><b>...</b></li> and wrap in <ul>, add spacing after each bullet
-        let bulletRegex = /^(?:-|\*|•) (.+)$/gm;
-        if (bulletRegex.test(reply)) {
-          reply = reply.replace(bulletRegex, (m, p1) => `<li style="margin-bottom:12px;"><b>${p1}</b></li>`);
-          // Wrap consecutive <li> in <ul> and add left padding for indentation
-          reply = reply.replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, match => `<ul style="margin-bottom:18px; padding-left: 32px;">${match}</ul>`);
-        }
+        const contactInfo = `\n\nUntuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:\n☎️ Call Center: 0821-2509-6819\n💌 Email: kominfotikjt@jakarta.go.id\n🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3\n🌐 Website resmi: https://timur.jakarta.go.id/`;
+        reply += contactInfo;
 
-        // 3. Make links blue, underlined, and clickable
-        reply = reply.replace(/(https?:\/\/[\w\-._~:/?#\[\]@!$&'()*+,;=%]+|www\.[\w\-._~:/?#\[\]@!$&'()*+,;=%]+)/gi, function(url) {
-          let href = url;
-          if (!href.startsWith('http')) href = 'http://' + href;
-          return `<a href="${href}" target="_blank" style="color:#1976d2;text-decoration:underline;">${url}</a>`;
-        });
-
-        // 4. Bold lines containing "Key Point" or "Poin Penting"
-        reply = reply.split('\n').map(line => {
-          if (/key point|poin penting/i.test(line)) {
-            return '<b>' + line + '</b>';
-          }
-          return line;
-        }).join('\n');
-
-        // 5. Clean up: multiple newlines to max 2, trim spaces, add paragraph spacing, etc.
-        reply = reply.replace(/\n{3,}/g, '\n\n');
-        // Pisahkan paragraf dengan <p style="margin-bottom:18px;"> dan beri jarak antar paragraf
-        reply = reply.replace(/\n\n/g, '</p><p style="margin-bottom:18px;">');
+        reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/__(.*?)__/g, '<b>$1</b>');
         reply = reply.replace(/\n/g, '<br>');
-        reply = '<p style="margin-bottom:18px;">' + reply + '</p>';
-        // Remove empty paragraphs
-        reply = reply.replace(/<p[^>]*>\s*<\/p>/g, '');
-        reply = reply.trim();
 
-        // Simpan balasan ke history
-        messages.push({ role: 'assistant', content: reply });
         res.json({ reply });
     } catch (err) {
-        console.error('Error:', err);
-        res.status(500).json({ 
-            reply: "Maaf, terjadi gangguan teknis. Silakan hubungi Call Center kami di 0821-2509-6819." 
-        });
+        console.error('Error di /chat:', err);
+        res.status(500).json({ reply: "Maaf, terjadi gangguan teknis." });
     }
 });
 
-//Database admin
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const db = new sqlite3.Database('admin.db', (err) => {
-    if (err) console.error("SQLite error:", err.message);
-    else console.log("Terhubung ke admin.db");
-});
-
-// Buat folder uploads jika belum ada
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
+// ROUTING ROUTING
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
-
-// Konfigurasi penyimpanan multer
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    // Simpan file dengan nama original tanpa prefix timestamp
-    cb(null, file.originalname);
-  }
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => cb(null, file.originalname)
 });
-
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /pdf|doc|docx|xls|xlsx|txt|md|csv/;
-  const ext = path.extname(file.originalname).toLowerCase().replace('.', '');
-  if (allowedTypes.test(ext)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Tipe file tidak diizinkan'), false);
-  }
-};
-
-const upload = multer({ storage, fileFilter });
-
+const upload = multer({ storage });
 app.post('/upload-multiple', upload.array('files'), (req, res) => {
   if (!req.files || req.files.length === 0) {
-    return res.status(400).send('Tidak ada file yang diupload atau format tidak didukung.');
+    return res.status(400).send('Tidak ada file yang diupload.');
   }
-
-  const uploadedFiles = req.files.map(file => file.originalname).join(', ');
-  console.log('File berhasil diupload:', uploadedFiles);
-
-  res.status(200).send(`File berhasil diupload: ${uploadedFiles}`);
+  console.log('File baru diupload. Untuk menerapkan perubahan, silakan restart server.');
+  res.status(200).send(`File berhasil diupload: ${req.files.map(f => f.originalname).join(', ')}`);
 });
 
-
-
-
-// Proses login admin
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
-
   db.get("SELECT * FROM admin WHERE username = ? AND password = ?", [username, password], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send("Kesalahan server");
+    if (err || !row) {
+        return res.redirect('/login?failed=1');
     }
-
-    if (row) {
-      req.session.loggedIn = true;
-      req.session.username = row.username; // ✅ Simpan ke session
-      res.redirect('/dashboard');
-    } else {
-      res.redirect('/login?failed=1');
-    }
-  });
-  req.session.user = { username }; // username diambil dari req.body.username
-});
-
-
-app.get('/me', (req, res) => {
-  if (!req.session.loggedIn || !req.session.username) {
-    return res.status(401).json({ message: 'Belum login' });
-  }
-
-  db.get("SELECT * FROM admin WHERE username = ?", [req.session.username], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).json({ message: 'Gagal mengambil data admin' });
-    }
-
-    if (row) {
-      res.json({ username: row.username });
-    } else {
-      res.status(404).json({ message: 'Admin tidak ditemukan' });
-    }
+    req.session.loggedIn = true;
+    req.session.username = row.username;
+    res.redirect('/dashboard');
   });
 });
-
-
-// HANDLER LOGIN / LOGOUT ADMIN AAAH ==============================
-function isAuthenticated(req, res, next) {
-    if (req.session.loggedIn) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
-const autoLogout = (req, res, next) => {
-    if (req.session.loggedIn) {
-        req.session.destroy(err => {
-            if (err) {
-                console.error("Error destroying session on auto-logout:", err);
-            }
-            next();
-            console.log("Telah Terlogout");
-        });
-    } else {
-        next();
-    }
-};
 
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
-        if (err) {
-            console.error("Error destroying session:", err);
-            return res.status(500).send("Gagal logout");
-        }
+        if (err) return res.status(500).send("Gagal logout");
         res.redirect('/login');
     });
 });
 
-app.post('/init-db', (req, res) => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS admin (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL UNIQUE,
-      password TEXT NOT NULL
-    )
-  `, (err) => {
-    if (err) {
-      console.error('Gagal membuat tabel admin:', err.message);
-      return res.status(500).json({ message: 'Gagal membuat tabel admin.' });
-    }
-
-    res.json({ message: 'Tabel admin berhasil dibuat atau sudah ada.' });
-  });
+app.post('/register', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Username dan password harus diisi' });
+    db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], function (err) {
+        if (err) return res.status(400).json({ error: 'Username sudah digunakan' });
+        res.json({ success: true, message: 'Registrasi berhasil' });
+    });
 });
 
-// Tambah Admin
+app.post('/login-user', (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ success: false, error: 'Input tidak lengkap' });
+    db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, user) => {
+        if (err || !user) return res.status(401).json({ success: false, error: 'Username atau password salah' });
+        req.session.user = { id: user.id, username: user.username };
+        res.json({ success: true, redirect: 'index.html' });
+    });
+});
+
+app.get('/files', (req, res) => {
+    fs.readdir(uploadsDir, (err, files) => {
+        if (err) return res.status(500).json([]);
+        const fileList = files.map(file => ({ name: file, date: fs.statSync(path.join(uploadsDir, file)).mtime }));
+        res.json(fileList);
+    });
+});
+
+app.delete('/files/:filename', (req, res) => {
+    const filePath = path.join(uploadsDir, req.params.filename);
+    fs.unlink(filePath, err => {
+        if (err) return res.status(500).send('Gagal menghapus file');
+        console.log('File dihapus. Untuk menerapkan perubahan, silakan restart server.');
+        res.send('File berhasil dihapus');
+    });
+});
+
+app.get('/api/users', (req, res) => {
+    db.all('SELECT * FROM users ORDER BY id DESC', [], (err, rows) => {
+        if (err) return res.status(500).json([]);
+        res.json(rows);
+    });
+});
+
+function requireAdminLogin(req, res, next) {
+  if (req.session && req.session.loggedIn) next();
+  else res.redirect('/login');
+}
+function requireUserLogin(req, res, next) {
+  if (req.session && req.session.user) next();
+  else res.redirect('/user.html'); 
+}
+
+app.get('/dashboard', requireAdminLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
+app.get('/index.html', requireUserLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/', (req, res) => {
+    if (req.session && req.session.user) {
+        res.redirect('/index.html');
+    } else {
+        res.sendFile(path.join(__dirname, 'public', 'user.html'));
+    }
+});
+
+
 app.post('/add-admin', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
@@ -481,11 +332,14 @@ app.post('/add-admin', (req, res) => {
     });
 });
 
-// Hapus Admin
 app.post('/delete-admin', (req, res) => {
     const { username } = req.body;
     if (!username) {
         return res.status(400).json({ message: 'Username diperlukan.' });
+    }
+
+    if (req.session.username === username) {
+        return res.status(403).json({ message: 'Anda tidak dapat menghapus akun Anda sendiri.'});
     }
 
     db.run(`DELETE FROM admin WHERE username = ?`, [username], function (err) {
@@ -493,18 +347,15 @@ app.post('/delete-admin', (req, res) => {
             console.error("Gagal hapus admin:", err.message);
             return res.status(500).json({ message: 'Gagal menghapus admin.' });
         }
-
         if (this.changes === 0) {
             return res.status(404).json({ message: 'Admin tidak ditemukan.' });
         }
-
         res.json({ message: `Admin ${username} telah dihapus.` });
     });
 });
 
-// Ambil semua admin
 app.get('/admin-list', (req, res) => {
-    db.all(`SELECT username FROM admin`, (err, rows) => {
+    db.all(`SELECT id, username FROM admin`, (err, rows) => {
         if (err) {
             console.error("Gagal mengambil data admin:", err.message);
             return res.status(500).json({ message: 'Gagal mengambil data admin.' });
@@ -513,279 +364,14 @@ app.get('/admin-list', (req, res) => {
     });
 });
 
-// Tambah route inisialisasi tabel users (opsional, untuk setup awal)
-app.post('/init-users', (req, res) => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT NOT NULL,
-      password TEXT NOT NULL,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP
-    )
-  `, (err) => {
-    if (err) {
-      console.error('Gagal membuat tabel users:', err.message);
-      return res.status(500).json({ message: 'Gagal membuat tabel users.' });
-    }
 
-    res.json({ message: 'Tabel users berhasil dibuat atau sudah ada.' });
-  });
-});
 
-//Membuat database untuk users
-
-// Mengambil semua user untuk dashboard
-
-app.get('/api/users', (req, res) => {
-  db.all('SELECT * FROM users ORDER BY id DESC', [], (err, rows) => {
-    if (err) {
-      console.error("Gagal mengambil data user:", err.message);
-      return res.status(500).json([]);
-    }
-    res.json(rows);
-  });
-});
-
-// Hapus user (fitur admin)
-app.post('/delete-user', (req, res) => {
-  const { username } = req.body;
-  if (!username) {
-    return res.status(400).json({ error: 'Username diperlukan.' });
-  }
-  db.run('DELETE FROM users WHERE username = ?', [username], function (err) {
-    if (err) {
-      console.error('Gagal menghapus user:', err && err.message ? err.message : err);
-      return res.status(500).json({ error: 'Gagal menghapus user.' });
-    }
-    if (this.changes === 0) {
-      return res.status(404).json({ error: 'User tidak ditemukan.' });
-    }
-    res.json({ success: true, message: `User ${username} telah dihapus.` });
-  });
-});
-
-// Di server.js, tambahkan setelah koneksi database
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    email TEXT,
-    reset_token TEXT,
-    token_expiry INTEGER,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-  )`);
-});
-
-app.get('/files', (req, res) => {
-  fs.readdir(uploadDir, (err, files) => {
-    if (err) {
-      console.error("Gagal membaca direktori uploads:", err);
-      return res.status(500).json([]);
-    }
-
-    const fileList = files.map(file => {
-      const stats = fs.statSync(path.join(uploadDir, file));
-      return {
-        name: file,
-        date: stats.mtime
-      };
+// INDEXING DLU KALO PAKE XENOVA
+console.log('INDEXING DOKUMEN');
+indexPdfs().then(() => {
+    app.listen(PORT, () => {
+        console.log(`SERVER SUDAH BERJALAN DI :  http://localhost:${PORT}`);
     });
-
-    res.json(fileList);
-  });
-});
-
-app.delete('/files/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const filePath = path.join(uploadDir, filename);
-
-  fs.unlink(filePath, err => {
-    if (err) {
-      console.error(`Gagal menghapus file ${filename}:`, err);
-      return res.status(500).send('Gagal menghapus file');
-    }
-    res.send('File berhasil dihapus');
-  });
-});
-
-
-
-app.post('/register', async (req, res) => {
-  const { username, password, created_at } = req.body;
-  // Validasi input
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username dan password harus diisi' });
-  }
-
-  // Hash password (sederhana - sebaiknya gunakan bcrypt di production)
-  const hashedPassword = password; // Ganti dengan bcrypt.hashSync(password, 10)
-
-  // Cek apakah username sudah ada
-  db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: 'Gagal memeriksa database' });
-    }
-    if (row) {
-      return res.status(400).json({ error: 'Username sudah digunakan' });
-    }
-    // Insert user baru, simpan created_at jika ada
-    if (created_at) {
-      db.run('INSERT INTO users (username, password, created_at) VALUES (?, ?, ?)', [username, hashedPassword, created_at], function (err2) {
-        if (err2) {
-          return res.status(500).json({ error: 'Gagal melakukan registrasi' });
-        }
-        res.json({ success: true, message: 'Registrasi berhasil' });
-      });
-    } else {
-      db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function (err2) {
-        if (err2) {
-          return res.status(500).json({ error: 'Gagal melakukan registrasi' });
-        }
-        res.json({ success: true, message: 'Registrasi berhasil' });
-      });
-    }
-  });
-});
-
-app.post('/reset-password', async (req, res) => {
-  const { username, newPassword } = req.body;
-  
-  // Validasi input
-  if (!username || !newPassword) {
-    return res.status(400).json({ error: 'Username dan password baru harus diisi' });
-  }
-
-  // Hash password baru
-  const hashedPassword = newPassword; // Ganti dengan bcrypt.hashSync(newPassword, 10)
-
-  try {
-    const stmt = db.prepare('UPDATE users SET password = ? WHERE username = ?');
-    const result = await stmt.run(hashedPassword, username);
-    stmt.finalize();
-    
-    if (result.changes === 0) {
-      return res.status(404).json({ error: 'User tidak ditemukan' });
-    }
-    
-    res.json({ success: true, message: 'Password berhasil diubah' });
-  } catch (err) {
-    console.error('Error reset password:', err);
-    res.status(500).json({ error: 'Gagal mengubah password' });
-  }
-});
-app.post('/login-user', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ success: false, error: 'Username dan password harus diisi' });
-  }
-  db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
-    if (err) {
-      return res.status(500).json({ success: false, error: 'Gagal memeriksa database' });
-    }
-    if (!user) {
-      return res.status(401).json({ success: false, error: 'Username atau password salah' });
-    }
-    // Verifikasi password (sederhana - gunakan bcrypt.compareSync di production)
-    if (password !== user.password) {
-      return res.status(401).json({ success: false, error: 'Username atau password salah' });
-    }
-    // Buat session
-    req.session.user = {
-      id: user.id,
-      username: user.username
-    };
-    res.json({ success: true, redirect: 'index.html' });
-  });
-});
-
-// Only declare checkUserAuth once
-
-const checkUserAuth = (req, res, next) => {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect('/user.html');
-  }
-};
-// Cek apakah user sudah login
-async function checkAuth() {
-  try {
-    const response = await fetch('/api/current-user');
-    if (!response.ok) {
-      window.location.href = 'user.html';
-    }
-  } catch (err) {
-    console.error('Auth check failed:', err);
-    window.location.href = 'user.html';
-  }
-}
-
-
-// Proteksi route index.html
-
-// Middleware: Cek login user (untuk index.html)
-function requireUserLogin(req, res, next) {
-  if (req.session && req.session.user) {
-    next();
-  } else {
-    res.redirect('/user.html');
-  }
-}
-
-// Middleware: Cek login admin (untuk dashboard.html)
-function requireAdminLogin(req, res, next) {
-  if (req.session && req.session.loggedIn) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
-}
-
-// Proteksi akses langsung ke index.html (user)
-app.get('/index.html', requireUserLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Proteksi akses langsung ke dashboard.html (admin)
-app.get('/dashboard.html', requireAdminLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
-});
-
-// ROUTING ============================================================
-app.get('/', autoLogout, (req, res) => {
-    res.sendFile(path.join(__dirname, './public', '/index.html'));
-});
-
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, './public', '/dashboard.html'));
-});
-
-app.get('/dashboard', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-  res.sendFile(__dirname + '/public/dashboard.html'); // atau render template jika pakai EJS/Pug
-});
-
-app.get('/api/user', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  res.json({ username: req.session.user.username });
-});
-
-app.get('/login', autoLogout, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-app.get('/api/current-user', (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
-  res.json({ user: req.session.user });
-});
-
-app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
+}).catch(err => {
+    console.error("Gagal memulai server:", err);
 });
