@@ -1,0 +1,432 @@
+
+
+MATERI MAPEL TEKNOLOGI DASAR OTOMOTIF (TDO) 
+KOMPETENSI DASAR  
+MEMBUAT RANGKAIAN ELEKTRONIKA SEDERHANA 
+ 
+ 
+A. Pengantar 
+Peralatan   Elektronika   adalah   sebuah  peralatan   yang   terbentuk   dari   beberapa   Jenis 
+Komponen  Elektronika  dan  masing-masing  Komponen  Elektronika  tersebut  memiliki  fungsi-
+fungsinya  tersendiri  di  dalam  sebuah  Rangkaian  Elektronika.  Seiring  dengan  perkembangan 
+Teknologi,  komponen-komponen  Elektronika  makin  bervariasi  dan  jenisnya  pun  bertambah 
+banyak.  Tetapi  komponen-komponen  dasar  pembentuk  sebuah  peralatan  Elektronika  seperti 
+Resistor, Kapasitor, Transistor, Dioda, Induktor dan IC masih tetap digunakan hingga saat ini. 
+ 
+B. Materi 
+1) Solenoid 
+Solenoid  adalah  salah  satu  jenis  kumparan  terbuat  dari  kabel panjang  yang  dililitkan 
+secara   rapat   dan   dapat   diasumsikan   bahwa   panjangnya   jauh   lebih besar   daripada 
+diameternya.   Dalam   kasus   solenoid   ideal,   panjang   kumparan   adalah   tak   hingga   dan 
+dibangun  dengan  kabel  yang  saling  berhimpit  dalam  lilitannya  dan  medan  magnet  di 
+dalamnya adalah seragam dan parallel terhadap sumbu solenoid. 
+ 
+ 
+ 
+Kuat medan magnet untuk solenoid ideal adalah: 
+ 
+Dimana : 
+B  : kuat medan magnet 
+μ0  : Permeabilitas ruang kosong, 
+i  :  Kuat arus yang mengalir, 
+N  : Jumlah lilitan 
+ 
+
+ 
+2) Resistor 
+Resistor  merupakan  komponen  elektronik  yang  memiliki  dua  pin  dan  didesain  untuk 
+mengatur  tegangan  listrik  dan  arus  listrik,  dengan  resistansi  tertentu  (tahanan)  dapat 
+memproduksi   tegangan   listrik   di   antara   kedua   pin,   nilai tegangan   terhadap   resistansi 
+berbanding lurus dengan arus yang mengalir. berdasarkan hukum Ohm: 
+ 
+V = I . R atau I = V/R 
+ 
+Resistor dapat diintegrasikan kedalam sirkuit hibrida dan papan sirkuit cetak, bahkan sirkuit 
+terpadu.  Ukuran  dan  letak  kaki  bergantung  pada  desain  sirkuit,  kebutuhan  daya  resistor 
+harus cukup dan disesuaikan dengan kebutuhan arus rangkaian agar tidak terbakar. 
+a) Jenis-jenis resistor 
+Dilihat dari fungsinya, resistor dapat dibagi menjadi : 
+(1) Resistor Tetap 
+Resistor tetap merupakan resistor yang mempunyai nilai hambatan tetap. Biasanya 
+terbuat dari karbon, kawat atau panduan logam. Pada resistor tetap nilai Resistansi 
+biasanya  ditentukan  dengan  kode  warna  Resistor  yang  termasuk resistor  jenis  ini 
+adalah : 
+(a) Resistor Kawat 
+Resistor  kawat  adalah  jenis  resistor  generasi  pertama  yang lahir  pada  saat 
+rangkaian   elektronika   masih   menggunakan   tabung   hampa   (vacuum   tube). 
+Bentuknya bervariasi dan memiliki ukuran yang cukup besar. Resistor kawat ini 
+biasanya   banyak   dipergunakan   dalam   rangkaian   power   karena   memiliki 
+resistansi yang tinggi dan tahan terhadap panas yang tinggi. Jenis lainnya yang 
+masih  dipakai  sampai  sekarang  adalah  jenis  resistor  dengan  lilitan  kawat  yang 
+dililitkan  pada  bahan  keramik,  kemudian  dilapisi  dengan  bahan  semen.  Rating 
+daya yang tersedia untuk resistor jenis ini adalah dalam ukuran 1 watt, 2 watt, 5 
+watt,  dan  10  watt.  Ilustrasi  dari  resistor  kawat  dapat  dilihat  pada  gambar  di 
+bawah ini: 
+ 
+(b) Resistor batang karbon (arang) 
+Pada  awalnya,  resistor  ini  dibuat  dari  bahan  karbon  kasar  yang  diberi  lilitan 
+kawat  yang  kemudian  diberi  tanda  dengan  kode  warna  berbentuk  gelang  dan 
+pembacaannya  dapat  dilihat  pada  tabel  kode  warna.  Jenis  resistor  ini  juga 
+merupakan jenis resistor generasi awal setelah adanya resistor kawat. Sekarang 
+sudah jarang untuk dipakai pada rangkaian – rangkaian elektronika. Bentuk dari 
+resistor jenis ini dapat dilihat pada gambar di bawah ini. 
+ 
+ 
+
+(c) Resistor keramik atau porselin 
+Resistor ini terbuat dari keramik yang dilapisi dengan kaca tipis. Jenis resistor ini 
+telah  banyak  digunakan  dalam  rangkaian  elektronika  saat  ini  karena  bentuk 
+fisiknya  kecil  dan  memiliki  resistansi  yang  tinggi.  Resistor  ini  memiliki  rating 
+daya  sebesar  1/4  watt,  1/2  watt,  1  watt,  dan  2  watt.  Bentuk  dari  resistor  ini 
+dapat dilihat pada gambar di bawah ini. 
+ 
+ 
+(d) Resistor film karbon 
+Resistor  ini  dibuat  dari  bahan  karbon  dan  dilapisi  dengan bahan  film  yang 
+berfungsi   sebagai   pelindung   terhadap   pengaruh   luar.   Nilai   resistansinya 
+dicantumkan   dalam   bentuk   kode   warna.   Resistor   ini   juga   sudah   banyak 
+digunakan  dalam  berbagai  rangkaian  elektronika  karena  bentuk fisiknya  kecil 
+dan memiliki resistansi yang tinggi. Namun, untuk masalah ukuran fisik, resistor 
+ini masih kalah jika dibandingkan dengan resistor keramik. Resistor ini memiliki 
+rating daya sebesar 1/4 watt, ½    watt, 1 watt, dan 2 watt. Bentuk dari resistor ini 
+dapat dilihat pada gambar di bawah ini. 
+ 
+ 
+(e) Resistor film metal 
+Resistor  film  metal  dibuat  dengan  bentuk  hamper  menyerupai  resistor  film 
+karbon.   Resistor   tahan   terhadap   perubahan   temperatur.   Resistor   ini   juga 
+memiliki  tingkat  kepresisian  yang  tinggi  karena  nilai  toleransi  yang  tercantum 
+pada  resistor  ini  sangatlah  kecil,  biasanya  sekitar  1%  atau  5%.  Resistor  film 
+metal ini memiliki 5 buah gelang warna, bahkan ada yang 6 buah gelang warna. 
+Sedangkan,  resistor  film  karbon  hanya  memiliki  4  buah  gelang  warna.  Resistor 
+film  metal  ini  sangat  cocok  digunakan  dalam  rangkaian –  rangkaian  yang 
+memerlukan   tingkat   ketelitian   yang   tinggi,   seperti   alat   ukur.   Resistor   ini 
+memiliki rating daya sebesar 1/4 watt, 1/2 watt, 1 watt, dan 2 watt. Bentuk dari 
+resistor ini dapat dilihat pada gambar di bawah ini. 
+ 
+ 
+(2) Resistor Variabel 
+Resistor   variabel   (variable   resistor   atau   varistor)   adalah   resistor   yang   nilai 
+tahanannya  dapat  berubah  atau  dapat  diubah.  Ada  bermacam-macam  resistor 
+variabel antara lain : 
+
+(a) Potensiometer 
+Potensiometer adalah resistor tiga terminal yang nilai tahanannya dapat diubah 
+dengan  cara  menggeser  (untuk  potensio  jenis  geser)  atau  memutar  (untuk 
+potensio jenis putar) tuasnya. 
+ 
+ 
+(b) Trimpot 
+Trimpot  adalah  potensiometer  yang  cara  mengubah  nilai  tahanannya  dengan 
+cara mentrim dengan menggunakan obeng trim. 
+ 
+ 
+(c) PTC (Positive Temperature Control) 
+PTC termasuk jenis thermistor, yaitu resistor yang nilai tahanannya dipengaruhi 
+oleh  suhu.  Nilai  hambatan  PTC  saat  dingin  adalah  sangat  rendah,  tetapi  saat 
+suhu PTC naik maka nilai hambatannya juga ikut naik. 
+ 
+ 
+(d) NTC (Netive Temperature Control) 
+NTC   juga   termasuk   jenis   thermistor,   yaitu   resistor   yang   nilai   tahanannya 
+dipengaruhi oleh suhu, tetapi NTC kebalikan dari PTC, dimana nilai tahanan NTC 
+saat  dingin  sangat  tinggi,  tetapi  saat  suhu  NTC  semakin naik,  maka  nilai 
+tahanannya akan semakin mengecil bahkan nol. 
+ 
+ 
+ 
+
+(e) LDR (Light Depending Resistor) 
+LDR   adalah   merupakan   resistor   peka   cahaya   atau   biasa   disebut   dengan 
+fotoresistor,  dimana  nilai  resistansinya  akan  menurun  jika  ada  penambahan 
+intensitas cahaya yang mengenainya. 
+ 
+ 
+(f) VDR (Voltage Dependent Resistor) 
+VDR  adalah  singkatan  dari  Voltage  Dependent  Resistor,  yaitu sebuah  resistor 
+tidak tetap yang nilai resistansinya akan berubah tergantung dari tegangan yang 
+diterimanya. Sifat dari VDR adalah semakin besar tegangan yang diterima, maka 
+nilai  tahanannya  akan  semakin  mengecil,  sehingga  arus  yang  melaluinya  akan 
+semakin  besar.  Dengan  adanya  sifat  tersebut  maka  VDR  akan  sangat  cocok 
+digunakan sebagai stabilizer bagi 
+ 
+ 
+ 
+ 
+3) Kondensator 
+Kondensator   atau   sering   disebut   sebagai   kapasitor   adalah   suatu   alat   yang   dapat 
+menyimpan  energi  di  dalam  medan  listrik,  dengan  cara  mengumpulkan  ketidakseimbangan 
+internal  dari  muatan  listrik.  Kondensator  memiliki  satuan  yang  disebut  Farad  dari  nama 
+Michael  Faraday.  Kondensator  juga  dikenal  sebagai  "kapasitor",  namun  kata  "kondensator" 
+masih dipakai hingga saat ini. Pertama disebut oleh Alessandro Volta seorang ilmuwan Italia 
+pada tahun 1782 (dari bahasa Itali condensatore), berkenaan dengan kemampuan alat untuk 
+menyimpan  suatu  muatan  listrik  yang  tinggi  dibanding  komponen  lainnya.  Kebanyakan 
+bahasa dan negara yang tidak menggunakan bahasa Inggris masih mengacu pada perkataan 
+bahasa   Italia   condensateur,   "condensatore",   Indonesia   dan   Jerman.   Condensator   atau 
+
+Spanyol  Condensador.  Kondensator  diidentikkan  mempunyai dua  kaki  dan  dua  kutub  yaitu 
+positif dan negatif serta memiliki cairan elektrolit dan biasanya berbentuk tabung. 
+Macam-macam  dan  Bentuk  Kondensator  Setelah  anda  tahu  yang  dimaksud  dengan 
+komponen kondensator maupun kapasitor, baca Pengertian Kapasitor / Kondensator Dalam 
+Bidang   Elektronika   dan   Cara   Membaca   Nilai   Kapasitor   /   Kondensator.   Seperti   halnya 
+komponen  elektronika  yang  lain  kondensator  juga  memiliki  banyak  macamnya.  Berikut 
+macam kondensator berdasarkan kegunaannya: 
+(a) Kondensator Tetap 
+Kondensator  tetap  ialah  suatu  kondensator  yang  nilainya  konstan  dan  tidak  berubah-
+ubah.(nilai  kapasitasnya  tetap  tidak  dapat  diubah).  Kondensator  tetap  ada  tiga  macam 
+bentuk : 
+(1) Kondensator Keramik (Ceramic Capacitor) 
+Bentuknya  ada  yang  bulat  tipis,  ada  yang  persegi  empat  berwarna  merah,  hijau, 
+coklat  dan  lain-lain.Dalam  pemasangan  di  papan  rangkaian  (PCB),  boleh  dibolak-
+balik  karena  tidak  mempunyai  kaki  positif dan negatif. Mempunyai  kapasitas  mulai 
+dari  beberapa  piko  Farad  sampai  dengan  ratusan  Kilopiko  Farad (KpF).  Dengan 
+tegangan  kerja  maksimal  25  volt  sampai  100  volt,  tetapi  ada  juga  yang  sampai 
+ribuan volt. 
+ 
+ 
+Cara membaca nilai kapasitor Keramik : 
+Contoh misal pada badannya tertulis = 203, nilai kapasitasnya = 20.000 pF = 20 KpF 
+=Ϭ,ϬϮ μF. 
+Jika pada badannya tertulis = 502, nilai kapasitasnya = 5.000 pF = 5 KpF = Ϭ,ϬϬρ μF 
+ 
+(2) Kondensator Polyester 
+Pada dasarnya sama saja dengan kondensator keramik begitu juga cara menghitung 
+nilainya.  Bentuknya  persegi  empat  seperti  permen.  Biasanya  mempunyai  warna 
+merah, hijau, coklat dan sebagainya. 
+ 
+ 
+(3) Kondensator Kertas 
+Kondensator  kertas  ini  sering  disebut  juga  kondensator  padder.  Misal  pada  radio 
+dipasang seri dari spul osilator ke variable condensator. Nilai kapasitas yang dipakai 
+pada sirkuit oscilator antara lain: 
+
+ Kapasitas 200 pF  - 500 pF untuk daerah gelombang menengah (Medium Wave / 
+MW) = 190 meter - 500 meter. 
+ Kapasitas  1.000  pF  -  2.200  pF  untuk  daerah  gelombang  pendek  (Short  Wave  / 
+SW) SW 1 = 40 meter - 130 meter. 
+ Kapasitas  2.700  pF  -  6.800  pF  untuk  daerah  gelombang  SW  1,  2,  3  dan  4,  =  13 
+meter - 49 meter. 
+ 
+ 
+ 
+ 
+(4) Kondensator elektrolit (Electrolite Condenser = Elco) 
+Kondensator  elektrolit  atau  Electrolytic  Condenser  (Elco)  adalah  kondensator  yang 
+biasanya  berbentuk  tabung,  mempunyai  dua  kutub  kaki  berpolaritas  positif  dan 
+negatif,  ditandai  oleh  kaki  yang  panjang  positif  sedangkan  yang  pendek  negative 
+atau yang dekat tanda minus ( - ) adalah kaki negatif. Nilai kapasitasnya dari Ϭ,κ7 μF 
+(mikroFarad)  sampai  ribuan  mikroFarad  dengan  voltase  kerja dari  beberapa  volt 
+hingga ribuan volt. 
+ 
+ 
+Selain    kondensator    elektrolit    (Elco)    yang    mempunyai    polaritas,    ada    juga 
+kondensator  jenis elco  yang  berpolaritas  yaitu  kondensator  solid  tantalum.dan  ada 
+Elco yang Non Polaritas pada kakinya tidak ada kutub (+) dan (-) 
+
+ 
+ 
+ 
+Kerusakan umum pada kondensator elektrolit di antaranya adalah : 
+ Kering (kapasitasnya berubah) 
+ Konsleting 
+ Meledak,   yang   dikarenakan   salah   dalam   pemberian   tegangan   positif   dan 
+negatifnya, jika batas maksimum voltase dilampaui juga bisa meledak. 
+ 
+(5) Kondensator Tidak Tetap (Variabel dan Trimmer) 
+Kondensator variabel dan trimmer adalah jenis kondensator yang kapasitasnya bisa 
+diubah-ubah.   Kondensator   ini   dapat   berubah   kapasitasnya   karena   secara   fisik 
+mempunyai poros yang dapat diputar dengan menggunakan obeng. 
+ 
+ 
+Kondensator  variabel  (Varco)  terbuat dari  logam,  mempunyai  kapasitas maksimum 
+sekitar 100 pF (pikoFarad) sampai 500 pF (100pF = Ϭ.ϬϬϬϭμF).Kondensator variabel 
+dengan   spul   antena   dan   spul   osilator   berfungsi   sebagai pemilih   gelombang 
+frekuensi tertentu yang akan ditangkap 
+ 
+(6) Potensiometer 
+Potensiometer   adalah   resistor   tiga   terminal   dengan   sambungan   geser   yang 
+membentuk   pembagi   tegangan   dapat   disetel.   Jika   hanya   dua terminal   yang 
+digunakan  (salah  satu  terminal  tetap  dan  terminal  geser),  potensiometer  berperan 
+sebagai  resistor  variabel  atau  Rheostat.  Potensiometer  biasanya  digunakan  untuk 
+mengendalikan    peranti    elektronik    seperti    pengendali    suara    pada    penguat. 
+Potensiometer  yang  dioperasikan  oleh  suatu  mekanisme  dapat  digunakan  sebagai 
+transduser, misalnya sebagai sensor joystick. Potensiometer jarang digunakan untuk 
+mengendalikan  daya  tinggi  (lebih  dari  1  Watt)  secara  langsung.  Potensiometer 
+digunakan  untuk  menyetel  taraf  isyarat  analog  (misalnya  pengendali  suara  pada 
+peranti  audio),  dan  sebagai  pengendali  masukan  untuk  sirkuit  elektronik.  Sebagai 
+contoh, sebuah peredup lampu menggunakan potensiometer untuk menendalikan 
+
+pensakelaran  sebuah  TRIAC,  jadi  secara  tidak  langsung  mengendalikan  kecerahan 
+lampu. 
+ 
+Potensiometer    yang    digunakan    sebagai    pengendali    volume    kadangkadang 
+dilengkapi  dengan  sakelar  yang  terintegrasi,  sehingga  potensiometer  membuka 
+sakelar saat penyapu berada pada posisi terendah. 
+ 
+ 
+ 
+(7) Induktor 
+Sebuah    induktor    atau    reaktor    adalah    sebuah    komponen    elektronika    pasif 
+(kebanyakan berbentuk torus) yang dapat menyimpan  energy pada medan magnet 
+yang  ditimbulkan  oleh  arus  listrik  yang  melintasinya.  Kemampuan  induktor  untuk 
+menyimpan  energi  magnet  ditentukan  oleh  induktansinya, dalam  satuan  Henry. 
+Biasanya sebuah induktor adalah sebuah kawat penghantar yang dibentuk menjadi 
+kumparan,   lilitan   membantu   membuat   medan   magnet   yang   kuat di   dalam 
+kumparan   dikarenakan   hokum   induksi   Faraday.   Induktor   adalah salah   satu 
+komponen   elektronik   dasar   yang   digunakan   dalam   rangkaian   yang arus   dan 
+tegangannya  berubah-ubah  dikarenakan  kemampuan  induktor  untuk  memproses 
+arus bolak-balik. 
+Sebuah  induktor  ideal  memiliki  induktansi,  tetapi  tanpa  resistansi  atau  kapasitansi, 
+dan  tidak  memboroskan  daya.  Sebuah  induktor  pada  kenyataanya  merupakan 
+gabungan   dari   induktansi,   beberapa   resistansi   karena   resistivitas   kawat,   dan 
+beberapa   kapasitansi.   Pada   suatu   frekuensi,   induktor   dapat   menjadi   sirkuit 
+resonansi  karena  kapasitas  parasitnya.  Selain  memboroskan  daya pada  resistansi 
+kawat,  induktor  berinti  magnet  juga  memboroskan  daya  di  dalam  inti  karena  efek 
+histeresis,    dan    pada    arus    tinggi    mungkin    mengalami    nonlinearitas    karena 
+penjenuhan. 
+Sebuah    induktor    biasanya    dikonstruksi    sebagai    sebuah    lilitan    dari    bahan 
+penghantar, biasanya kawat tembaga, digulung pada inti magnet berupa udara atau 
+bahan  feromagnetik.  Bahan  inti  yang  mempunyai  permeabilitas  magnet  yang  lebih 
+tinggi  dari  udara  meningkatkan  medan  magnet  dan  menjaganya  tetap  dekat  pada 
+induktor,  sehingga  meningkatkan  induktansi  induktor.  Induktor  frekuensi  rendah 
+dibuat  dengan  menggunakan  baja  laminasi  untuk  menekan  arus  eddy.  Ferit  lunak 
+
+biasanya  digunakan  sebagai  inti  pada  induktor  frekuensi  tingi,  dikarenakan  ferit 
+tidak  menyebabkan  kerugian  daya  pada  frekuensi  tinggi  seperti  pada  inti  besi.  Ini 
+dikarenakan  ferit  mempunyai  lengkung  histeresis  yang  sempit  dan  resistivitasnya 
+yang tinggi mencegah arus eddy. Induktor dibuat dengan berbagai bentuk. Sebagian 
+besar  dikonstruksi  dengan  menggulung  kawat  tembaga  email  disekitar  bahan  inti 
+dengan  kaki-kali  kawat  terlukts  keluar.  Beberapa  jenis  menutup  penuh  gulungan 
+kawat  di  dalam  material  inti,  dinamakan  induktor  terselubungi.  Beberapa  induktor 
+mempunyai  inti  yang  dapat  diubah  letaknya,  yang  memungkinkan  pengubahan 
+induktansi.   Induktor   yang   digunakan   untuk   menahan   frekuensi   sangat   tinggi 
+biasanya   dibuat   dengan   melilitkan   tabung   atau   manik-manik   ferit   pada   kabel 
+transmisi.  
+ 
+ 
+Induktor kecil dapat dicetak langsung pada papan rangkaian cetak dengan membuat 
+jalur  tembaga  berbentuk  spiral.  Beberapa  induktor  dapat  dibentuk  pada  rangkaian 
+terintegrasi   menhan   menggunakan   inti   planar.   Tetapi     bentuknya   yang   kecil 
+membatasi induktansi. Dan girator dapat menjadi pilihan alternatif. 
+ 
+ 
+ 
+(8) Transformator 
+Pada  dasarnya,  transformator  hanyalah  komponen  yang  terdiri  dari  lilitan-lilitan 
+tembaga yang disusun sedemikian rupa yang fungsinya untuk memindahkan tenaga 
+listrik  dari  primer  ke  sekunder  melalui  induksi  elektromagnet.  Karena  rata-rata 
+rangkaian elektronika menggunakan tegangan catu yang rendah, maka penggunaan 
+trafo  mutlak  diperlukan  sebagai  pengganti  baterai  untuk  menurunkan  tegangan 
+jala-jala  PLN  220V  menjadi  tegangan  yang  lebih  rendah,  misalnya  6V,  9V,  12V  dan 
+lain-lain  sesuai  dengan  fungsi  dan  kebutuhannya.  Secara  umum,  jenis-jenis  trafo 
+yang  paling  sering  digunakan  pada  rangkaian  elektronika  terbagi  dua,  yaitu  trafo 
+step-up dan trafo step-down. 
+(a) Trafo step up 
+Trafo   Step-Up   adalah   jenis   transformator   yang   berfungsi untuk   menaikan 
+tegangan  bolak-balik  (AC).  Trafo  Step-Up  disebut  juga  dengan  trafo  penaik 
+tegangan. 
+ 
+
+ 
+ 
+(b) Trafo Step-Down 
+Trafo Step-Down adalah jenis transformator yang berfungsi untuk menurunkan 
+tegangan bolak-balik (AC). Kebalikan dari trafo step-up, trafo step-down disebut 
+juga  dengan  trafo  penurun  tegangan.  Pada  trafo  stepdown  ini,  jumlah  lilitan 
+primer lebih banyak daripada lilitan sekunder. Trafo ini banyak digunakan pada 
+rangkaianrangkaian  elektronika  terutama  yang  membutuhkan  tegangan  catu 
+rendah. 
+ 
+ 
+ 
+ 
+(9) Voltmeter 
+Voltmeter adalah alat/perkakas untuk mengukur besar tegangan listrik dalam suatu 
+rangkaian  listrik.  Voltmeter  disusun  secara  paralel  terhadap  letak  komponen  yang 
+diukur  dalam  rangkaian.  Alat  ini  terdiri  dari  tiga  buah  lempengan  tembaga  yang 
+terpasang  pada  sebuah  bakelite  yang  dirangkai  dalam  sebuah  tabung  kaca  atau 
+plastik. Lempengan luar berperan sebagai anode sedangkan yang di tengah sebagai 
+katode. Umumnya tabung tersebut berukuran 15 x 10 cm (tinggi x diameter). 
+ 
+ 
+(10) Dioda 
+Dioda   sebagai   salah   satu   komponen   aktif   sangat   popular   digunakan   dalam 
+rangkaian  elektronika,  karena  bentuknya  sederhana  dan  penggunaannya  sangat 
+
+luas.  Ada  beberapa  macam  rangkaian  dioda,  diantaranya  :  penyearah  setengah 
+gelombang (Half-Wave Rectifier), penyearah gelombang penuh (FullWave Rectifier), 
+rangkaian  pemotong  (Clipper),  rangkaian  penjepit  (Clamper)  maupun  pengganda 
+tegangan     (Voltage     Multiplier).     Di     bawah     ini     merupakan     gambar     yang 
+melambangkan dioda penyearah. 
+ 
+ 
+Sisi  Positif  (P)  disebut  Anoda  dan  sisi  Negatif  (N)  disebut  Katoda.  Lambang  dioda 
+seperti  anak  panah  yang  arahnya  dari  sisi  P  ke  sisi  N.  Karenanya  ini  mengingatkan 
+kita pada arus konvensional dimana arus mudah mengalir dari sisi P ke sisi N. 
+ 
+ 
+Macam-macam diode : 
+(a) Dioda Zener 
+Fungsi  dari  dioda  zener  adalah  sebagai  penstabil  tegangan. Selain  itu  dioda 
+zener juga dapat dipakai sebagai pembatas tegangan pada level tertentu untuk 
+keamanan rangkaian. Berikut ini rangkaian penerapan untuk regulator. 
+ 
+ 
+(b) Dioda varactor 
+Dioda  varactor  adalah  sebuah  kapasitor  yang  kapasitansinya  ditentukan  oleh 
+tegangan  yang  masuk.  Contoh  penerapannya  pada  pesawat  TV,  pesawat  radio 
+FM, pesawat telekomunikasi yang bekerja pada frekwensi tinggi. 
+ 
+ 
+(c) Dioda Pemancar Cahaya (LED) 
+LED  adalah  singkatan  dari  Light  Emitting  Dioda,  merupakan komponen  yang 
+dapat mengeluarkan emisi cahaya. LED merupakan produk temuan lain setelah 
+
+dioda.  Strukturnya  juga  sama  dengan  dioda,  tetapi  belakangan  ditemukan 
+bahwa   elektron   yang   menerjang   sambungan   P-N   juga   melepaskan   energi 
+berupa  energi  panas  dan  energi  cahaya.  LED  dibuat  agar  lebih  efisien  jika 
+mengeluarkan  cahaya.  Untuk mendapatkan emisi  cahaya pada  semikonduktor, 
+doping yang dipakai adalah gallium, arsenic dan phosphorus. Jenis doping yang 
+berbeda menghasilkan warna cahaya yang berbeda pula. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+(11) Induktor 
+Pengertian    Induktor    adalah    komponen    elektronika    berupa    kumparan    yang 
+terssusun  dari  lilitan  kawat.  Induktor  merupakan  salah  satu diantara  komponen 
+pasif  elektronika  yang  bisa  menghasilkan  medan  magnet  bila  dialiri  arus  listrik  dan 
+sebaliknya  jika  diberi  medan  magnet  bisa  menghasilkan  listrik.  Induktor  termasuk 
+juga  komponen  yang  dapat menyimpan  muatan listrik.  Bersama  kapasitor  induktor 
+dapat berfungsi sebagai rangkaian resonator yang dapat beresonansi pada frekuensi 
+tertentu.  Satuan  induktansinya  dalam  ilmu  elektronika  disebut  henry  (  h=henry, 
+mh=mili  henry,  uh=mikro  henry,  nh=nano  henry  )  dengan  notasi  penulisan  huruf  l. 
+Suatu  induktor  dikatakan  ideal  jika  mempunyai  induktansi,  namun  tanpa  resistansi 
+atau kapasitansi, dan tidak memboroskan energi. 
+Berdasarkan kegunaannya Induktor dapat bekerja pada: 
+ Frekuensi tinggi pada spul antena dan osilator 
+ Frekuensi menengah  pada  spul MF  rendah  pada  trafo  input,  trafo  output,  spul 
+speaker, trafo tenaga, spul relay dan spul penyaring 
+ 
+ 
+ 
+ 
+Tugas : 
+Kerjakan  soal  di  bawah  ini  pada  buku  catatan  kalian  dan  dikumpulkan  pada  saat  mulai  masuk 
+sekolah ! 
+ 
+1. Dari gambar resistor dibawah hitung berbagai parameter fisik yang ada di resistor tersebut ! 
+ 
+2. Lengkapi keterangan dari table berikut ini ! 
+
+ 
+ 
+3. Apa karakteristik utama dari resistor? 
+4. Apa yang kamu ketahui mengenai resistor film karbon? 
+5. Sebutkan kerusakan umum dari kondensator elektrolit? 
+6. Apa yang kamu ketahui mengenaililitan ferit sarang madu pada induktor? 
+7. Jelaskan mengenai VDR (Voltage Dependent Resistor)? 
+8. Jelaskan mengenai Potensiometer? 
