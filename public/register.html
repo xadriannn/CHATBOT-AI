@@ -66,118 +66,124 @@
   </div>
 
   <script>
-    const form = document.getElementById("registerForm");
-    const alertBox = document.getElementById("alertBox");
+  const form = document.getElementById("registerForm");
+  const alertBox = document.getElementById("alertBox");
 
-    // Real-time password validation
-    document.getElementById("password").addEventListener("input", function(e) {
-      validatePasswordStrength(e.target.value);
-    });
+  // Validasi kekuatan password secara real-time
+  document.getElementById("password").addEventListener("input", function(e) {
+    validatePasswordStrength(e.target.value);
+  });
 
-    // Ganti bagian form.addEventListener("submit")
-form.addEventListener("submit", async function(e) {
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-  e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm").value;
 
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  const confirm = document.getElementById("confirm").value;
-
-  // Validasi username: hanya huruf dan angka, tanpa spasi/simbol
-  if (!/^[a-zA-Z0-9]+$/.test(username)) {
-    showAlert("Username hanya boleh huruf dan angka, tanpa spasi atau simbol.");
-    document.getElementById("username").focus();
-    return;
-  }
-
-  // Validasi password
-  if (password !== confirm) {
-    showAlert("Konfirmasi password tidak cocok.");
-    return;
-  }
-
-  try {
-
-    // Kirim waktu pembuatan user dengan zona Asia/Bangkok (GMT+7)
-    const nowBangkok = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
-    const created_at = nowBangkok.toISOString();
-
-    const response = await fetch('/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, created_at })
-    });
-    
-    const data = await response.json();
-    
-    if (response.ok) {
-      showAlert("Registrasi berhasil!", "success");
-      setTimeout(() => {
-        window.location.href = 'user.html'; // atau login.html
-      }, 2000);
-    } else {
-      showAlert(data.error || "Gagal melakukan registrasi");
-    }
-  } catch (err) {
-    showAlert("Terjadi kesalahan jaringan");
-  }
-});
-
-    function validatePassword(password) {
-      const lengthCheck = password.length >= 8;
-      const upperCheck = /[A-Z]/.test(password);
-      const lowerCheck = /[a-z]/.test(password);
-      const numberCheck = /[0-9]/.test(password);
-      const symbolCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-      return lengthCheck && upperCheck && lowerCheck && numberCheck && symbolCheck;
+    // Validasi username: hanya huruf dan angka, tanpa spasi/simbol
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+      showAlert("Username hanya boleh huruf dan angka, tanpa spasi atau simbol.");
+      document.getElementById("username").focus();
+      return;
     }
 
-    function validatePasswordStrength(password) {
-      document.getElementById("length").classList.toggle("valid", password.length >= 8);
-      document.getElementById("uppercase").classList.toggle("valid", /[A-Z]/.test(password));
-      document.getElementById("lowercase").classList.toggle("valid", /[a-z]/.test(password));
-      document.getElementById("number").classList.toggle("valid", /[0-9]/.test(password));
-      document.getElementById("symbol").classList.toggle("valid", /[!@#$%^&*(),.?":{}|<>]/.test(password));
+    // Validasi password sesuai standar
+    if (!validatePassword(password)) {
+      showAlert("Password harus minimal 8 karakter, mengandung huruf besar, huruf kecil, angka, dan simbol.");
+      document.getElementById("password").focus();
+      return;
     }
 
-    function resetPasswordValidation() {
-      document.querySelectorAll(".password-requirements li").forEach(li => {
-        li.classList.remove("valid");
+    // Validasi konfirmasi password
+    if (password !== confirm) {
+      showAlert("Konfirmasi password tidak cocok.");
+      document.getElementById("confirm").focus();
+      return;
+    }
+
+    try {
+
+      // Kirim waktu pembuatan user dengan zona Asia/Bangkok (GMT+7)
+      const nowBangkok = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }));
+      const created_at = nowBangkok.toISOString();
+
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, created_at })
       });
-    }
-
-    function showAlert(message, type = "error") {
-      alertBox.style.display = "block";
-      alertBox.textContent = message;
-      alertBox.className = "alert-box " + type;
       
-      if (type === "success") {
+      const data = await response.json();
+      
+      if (response.ok) {
+        showAlert("Registrasi berhasil!", "success");
         setTimeout(() => {
-          alertBox.style.display = "none";
-        }, 3000);
-      }
-    }
-
-    function togglePassword(fieldId) {
-      const field = document.getElementById(fieldId);
-      const icon = document.querySelector(`[onclick="togglePassword('${fieldId}')"]`);
-      
-      if (field.type === "password") {
-        field.type = "text";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
+          window.location.href = 'user.html'; // atau login.html
+        }, 2000);
       } else {
-        field.type = "password";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
+        showAlert(data.error || "Gagal melakukan registrasi");
       }
+    } catch (err) {
+      showAlert("Terjadi kesalahan jaringan");
     }
+  });
 
-    // Animasi saat halaman dimuat
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelector(".register-container").classList.add("loaded");
+  function validatePassword(password) {
+    const lengthCheck = password.length >= 8;
+    const upperCheck = /[A-Z]/.test(password);
+    const lowerCheck = /[a-z]/.test(password);
+    const numberCheck = /[0-9]/.test(password);
+    const symbolCheck = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return lengthCheck && upperCheck && lowerCheck && numberCheck && symbolCheck;
+  }
+
+  function validatePasswordStrength(password) {
+    document.getElementById("length").classList.toggle("valid", password.length >= 8);
+    document.getElementById("uppercase").classList.toggle("valid", /[A-Z]/.test(password));
+    document.getElementById("lowercase").classList.toggle("valid", /[a-z]/.test(password));
+    document.getElementById("number").classList.toggle("valid", /[0-9]/.test(password));
+    document.getElementById("symbol").classList.toggle("valid", /[!@#$%^&*(),.?":{}|<>]/.test(password));
+  }
+
+  function resetPasswordValidation() {
+    document.querySelectorAll(".password-requirements li").forEach(li => {
+      li.classList.remove("valid");
     });
+  }
+
+  function showAlert(message, type = "error") {
+    alertBox.style.display = "block";
+    alertBox.textContent = message;
+    alertBox.className = "alert-box " + type;
+    
+    if (type === "success") {
+      setTimeout(() => {
+        alertBox.style.display = "none";
+      }, 3000);
+    }
+  }
+
+  function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const icon = document.querySelector(`[onclick="togglePassword('${fieldId}')"]`);
+    
+    if (field.type === "password") {
+      field.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      field.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
+    }
+  }
+
+  // Animasi saat halaman dimuat
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".register-container").classList.add("loaded");
+  });
   </script>
 </body>
 </html>

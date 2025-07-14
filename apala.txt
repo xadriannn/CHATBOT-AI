@@ -1,2 +1,4 @@
 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
 1025050418446-9m2l6m51tijp2b0ksd8di1qjtgf4hpmo.apps.googleusercontent.com
+
+OPENROUTER_API_KEY=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 (punya atorik)

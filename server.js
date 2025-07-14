@@ -29,7 +29,7 @@ Anggap konteks ini sebagai satu-satunya sumber kebenaran yang paling akurat.
 - Jika jawaban ada di dalam konteks, gunakan informasi itu dan tidak perlu menyebutkan nama filenya sebagai sumber.
 - Jika informasi yang diminta tidak ada di dalam konteks yang diberikan, jawab dengan jawaban yang sopan dan sesuai dengan konteks.
 - Selalu gunakan bahasa yang kekinian, sederhana, dan ramah.
-- Jika informasi tidak ada disumber anda, berikan informasi dari sumber lain.
+- Jika informasi tidak ada disumber folder uploads. anda memberikan informasi dari sumber lain.
 `;
 
 
@@ -193,7 +193,7 @@ app.post('/chat', async (req, res) => {
         const data = await response.json();
         let reply = data.choices?.[0]?.message?.content || "Maaf, saya tidak bisa memberikan jawaban saat ini.";
 
-        const contactInfo = `\n\nUntuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:\n☎️ Call Center: 0821-2509-6819\n💌 Email: kominfotikjt@jakarta.go.id\n🏢 Lokasi Kantor: JL. Dr. Sumarno Pulogebang Gedung Blok B1 LT.3\n🌐 Website resmi: https://timur.jakarta.go.id/`;
+        const contactInfo = `\n\nUntuk info lebih lanjut Mengenai Kominfotik Jakarta Timur:\n☎️ Call Center: 0821-2509-6819\n💌 Email: kominfotikjt@jakarta.go.id\n🏢 Lokasi Kantor: Blok B1 lantai 3 Kantor Wali Kota Jakarta Timur RT.11, RT.11/RW.8, Pulo Gebang, Cakung, Kota Jakarta Timur, Jakarta 13950\n🌐 Website resmi: https://kominfotikjt.jakarta.go.id/\n▶️ Youtube: www.youtube.com/@KotaJakartaTimur `;
         reply += contactInfo;
 
         reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/__(.*?)__/g, '<b>$1</b>');
