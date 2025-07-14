@@ -262,6 +262,54 @@ app.post('/login-user', (req, res) => {
     });
 });
 
+
+
+
+// LOGIN PAKE GOOGLE PERLU HANDLER LAGI JIRR
+app.post('/login-google', (req, res) => {
+    const { email, sub } = req.body; 
+
+    if (!email || !sub) {
+        return res.status(400).json({ success: false, error: 'Data Google tidak lengkap.' });
+    }
+
+    db.get('SELECT * FROM users WHERE username = ?', [email], (err, user) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false, error: 'Terjadi kesalahan pada server.' });
+        }
+
+        if (user) {
+            req.session.user = { id: user.id, username: user.username };
+            req.session.save(() => {
+                res.json({ success: true, redirect: 'index.html' });
+            });
+        } else {
+            const newUsername = email;
+            const dummyPassword = sub; 
+
+            db.run(
+                'INSERT INTO users (username, password) VALUES (?, ?)',
+                [newUsername, dummyPassword],
+                function (err) {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).json({ success: false, error: 'Gagal membuat pengguna baru.' });
+                    }
+
+                    req.session.user = { id: this.lastID, username: newUsername };
+                    req.session.save(() => {
+                        res.json({ success: true, redirect: 'index.html' });
+                    });
+                }
+            );
+        }
+    });
+});
+
+
+
+
 app.get('/files', (req, res) => {
     fs.readdir(uploadsDir, (err, files) => {
         if (err) return res.status(500).json([]);

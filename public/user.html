@@ -28,12 +28,12 @@
     <form id="loginForm" class="login-form">
       <div class="input-group">
         <i class="fas fa-user"></i>
-        <input type="text" id="username" name="username" placeholder="Username" required>
+        <input type="text" id="username" name="username" placeholder="Username" required autocomplete="username">
       </div>
 
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password">
         <i class="fas fa-eye toggle-password" onclick="togglePassword()"></i>
       </div>
 
@@ -78,12 +78,33 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script>
-    function handleCredentialResponse(response) {
+    async function handleCredentialResponse(response) {
       const jwt = response.credential;
       const payload = JSON.parse(atob(jwt.split('.')[1]));
       console.log("User Google:", payload);
-      sessionStorage.setItem("userGoogle", JSON.stringify(payload));
-      window.location.href = "index.html";
+
+      try {
+        const serverResponse = await fetch('/login-google', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          // WAJIB ADA untuk menangani sesi
+          credentials: 'include', 
+        });
+
+        const data = await serverResponse.json();
+
+        if (data.success) {
+          window.location.href = data.redirect;
+        } else {
+          showLoginNotification(data.error || 'Login dengan Google gagal.', 'error');
+        }
+      } catch (err) {
+        console.error('Gagal menghubungi server:', err);
+        showLoginNotification('Terjadi kesalahan jaringan.', 'error');
+      }
     }
 
     function togglePassword() {
@@ -106,7 +127,6 @@
       document.querySelector('.login-container').classList.add('loaded');
     });
   </script>
-
 
 
 
