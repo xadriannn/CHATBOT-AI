@@ -135,7 +135,7 @@ app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(session({
-    secret: 'kunci_rahasia_super_aman_ganti_ini',
+    secret: 'SxvxnTSPMO',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
@@ -300,7 +300,7 @@ app.get('/dashboard', requireAdminLogin, (req, res) => {
 });
 
 app.get('/index.html', requireUserLogin, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'private', 'index.html'));
 });
 
 app.get('/login', (req, res) => {
@@ -314,6 +314,8 @@ app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'user.html'));
     }
 });
+
+
 
 
 app.post('/add-admin', (req, res) => {
