@@ -424,3 +424,26 @@ indexPdfs().then(() => {
 }).catch(err => {
     console.error("Gagal memulai server:", err);
 });
+
+app.post('/reset-password', (req, res) => {
+    const { username, newPassword } = req.body;
+    if (!username || !newPassword) {
+        return res.status(400).json({ success: false, error: 'Username dan password baru wajib diisi.' });
+    }
+
+    // Validasi password minimal 8 karakter, ada huruf besar, kecil, angka, simbol
+    const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(newPassword);
+    if (!isValid) {
+        return res.status(400).json({ success: false, error: 'Password tidak memenuhi standar keamanan.' });
+    }
+
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+        if (err) return res.status(500).json({ success: false, error: 'Database error.' });
+        if (!user) return res.status(404).json({ success: false, error: 'User tidak ditemukan' });
+
+        db.run('UPDATE users SET password = ? WHERE username = ?', [newPassword, username], function (err) {
+            if (err) return res.status(500).json({ success: false, error: 'Gagal update password.' });
+            res.json({ success: true, message: 'Password berhasil diubah.' });
+        });
+    });
+});
