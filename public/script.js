@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (err) {
       console.error("Gagal ambil nama admin:", err);
-      window.location.href = "/login"; // redirect jika belum login
+      window.location.href = "/admin/login"; // redirect jika belum login
     }
   }
 
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
               // Beri notifikasi sukses sebelum pindah halaman
               PopupNotify.success("Anda berhasil logout.", "Sampai Jumpa!");
               setTimeout(() => {
-                window.location.href = "user.html"; // atau halaman login
+                window.location.href = "/login"; // atau halaman login
               }, 1500); // Tunggu 1.5 detik
             } else {
               PopupNotify.failed("Proses logout gagal, silakan coba lagi.");

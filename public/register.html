@@ -101,7 +101,7 @@
       </form>
 
       <div class="footer-links">
-        <p>Sudah punya akun? <a href="user.html">Login di sini</a></p>
+        <p>Sudah punya akun? <a href="/login">Login di sini</a></p>
       </div>
     </div>
 
@@ -167,7 +167,7 @@
               "Mengalihkan ke halaman login..."
             );
             setTimeout(() => {
-              window.location.href = "user.html";
+              window.location.href = "/login";
             }, 2000);
           } else {
             PopupNotify.failed(data.error || "Gagal melakukan registrasi");

@@ -280,14 +280,15 @@ app.post("/upload-multiple", upload.array("files"), (req, res) => {
     );
 });
 
-app.post("/login", (req, res) => {
+// Endpoint baru untuk Admin Login
+app.post("/admin/login", (req, res) => {
   const { username, password } = req.body;
   db.get(
     "SELECT * FROM admin WHERE username = ? AND password = ?",
     [username, password],
     (err, row) => {
       if (err) {
-        console.error("Database error on login:", err);
+        console.error("Database error on admin login:", err);
         return res
           .status(500)
           .json({ success: false, message: "Terjadi kesalahan pada server." });
@@ -348,8 +349,9 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login-user", (req, res) => {
-  const { loginIdentifier, password } = req.body; // Gunakan 'loginIdentifier' dari form (bisa username/email)
+// Endpoint baru untuk User Login
+app.post("/login", (req, res) => {
+  const { loginIdentifier, password } = req.body; 
 
   if (!loginIdentifier || !password) {
     return res
@@ -357,28 +359,21 @@ app.post("/login-user", (req, res) => {
       .json({ success: false, error: "Input tidak lengkap" });
   }
 
-  // Cari user berdasarkan username ATAU email
   const query = "SELECT * FROM users WHERE username = ? OR email = ?";
 
   db.get(query, [loginIdentifier, loginIdentifier], async (err, user) => {
-    if (err) {
-      return res.status(500).json({ success: false, error: "Database error" });
-    }
-    if (!user) {
+    if (err || !user) {
       return res
         .status(401)
         .json({ success: false, error: "Username/email atau password salah" });
     }
 
-    // Bandingkan password yang diinput dengan hash di database
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      // Password cocok
       req.session.user = { id: user.id, username: user.username };
       res.json({ success: true, redirect: "index.html" });
     } else {
-      // Password tidak cocok
       res
         .status(401)
         .json({ success: false, error: "Username/email atau password salah" });
@@ -483,11 +478,11 @@ app.get("/api/users", (req, res) => {
 
 function requireAdminLogin(req, res, next) {
   if (req.session && req.session.loggedIn) next();
-  else res.redirect("/login");
+  else res.redirect("/admin");
 }
 function requireUserLogin(req, res, next) {
   if (req.session && req.session.user) next();
-  else res.redirect("/user.html");
+  else res.redirect("/login");
 }
 
 app.get("/dashboard", requireAdminLogin, (req, res) => {
@@ -499,15 +494,23 @@ app.get("/index.html", requireUserLogin, (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+  res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
 });
 
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "register.html"));
+});
+
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin-login.html")); // DIUBAH
+}); 
+
 app.get("/", (req, res) => {
-  if (req.session && req.session.user) {
-    res.redirect("/index.html");
-  } else {
-    res.sendFile(path.join(__dirname, "public", "user.html"));
-  }
+  if (req.session && req.session.user) {
+    res.redirect("/index.html");
+  } else {
+    res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
+  }
 });
 
 app.post("/add-admin", (req, res) => {
