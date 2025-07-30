@@ -11,6 +11,8 @@ import * as fs from "fs";
 import dotenv from "dotenv";
 import { pipeline } from "@xenova/transformers";
 import pdfParse from "pdf-parse";
+import bcrypt from "bcrypt";
+const saltRounds = 10;
 
 dotenv.config({ path: "./api.env" });
 const __filename = fileURLToPath(import.meta.url);
@@ -60,25 +62,23 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 const uploadsDir = path.join(__dirname, "uploads");
-// GANTI FUNGSI indexPdfs ANDA
-// GANTI SELURUH FUNGSI indexPdfs ANDA DENGAN KODE FINAL INI
+// Fungsi indexPdfs untuk mengindeks dokumen PDF dan TXT
 async function indexPdfs() {
   console.log("Memulai proses indexing dokumen...");
   const embedder = await EmbeddingSingleton.getInstance();
 
   if (!fs.existsSync(uploadsDir)) {
-    console.log("Direktori 'uploads' tidak ditemukan. Lewati proses indexing.");
+    console.log("Direktori 'uploads' tidak ditemukan.");
     return;
   }
 
   const files = fs.readdirSync(uploadsDir);
-  documentChunks = []; // Kosongkan dulu untuk re-indexing
+  documentChunks = [];
 
   for (const file of files) {
     const filePath = path.join(uploadsDir, file);
     const ext = path.extname(file).toLowerCase();
     let text = "";
-
     try {
       console.log(`- Mengindeks ${file}...`);
       if (ext === ".pdf") {
@@ -90,37 +90,35 @@ async function indexPdfs() {
       }
 
       if (text) {
-        // --- STRATEGI CHUNKING FINAL YANG LEBIH TANGGUH ---
-        const chunkSize = 1200; // Target ukuran karakter per chunk
+        const chunkSize = 1500;
         const finalChunks = [];
-        let currentChunk = "";
+        let currentChunkContent = "";
 
-        // 1. Pecah teks per baris, bersihkan spasi ekstra
         const lines = text
           .split("\n")
           .map((line) => line.trim())
           .filter((line) => line.length > 0);
 
-        // 2. Gabungkan baris demi baris hingga chunk penuh
         for (const line of lines) {
-          if (currentChunk.length + line.length + 1 > chunkSize) {
-            finalChunks.push(currentChunk);
-            currentChunk = "";
+          if (
+            currentChunkContent.length > 0 &&
+            currentChunkContent.length + line.length + 1 > chunkSize
+          ) {
+            finalChunks.push(currentChunkContent);
+            currentChunkContent = "";
           }
-          currentChunk += (currentChunk ? " " : "") + line;
+          currentChunkContent += (currentChunkContent ? " " : "") + line;
         }
 
-        // 3. Jangan lupa sisa chunk terakhir
-        if (currentChunk) {
-          finalChunks.push(currentChunk);
+        if (currentChunkContent.length > 0) {
+          finalChunks.push(currentChunkContent);
         }
 
-        // 4. Buat embedding untuk setiap chunk yang sudah rapi
-        for (const chunk of finalChunks) {
-          const embedding = await embedder(chunk, { pooling: "mean" });
+        for (const chunkContent of finalChunks) {
+          const embedding = await embedder(chunkContent, { pooling: "mean" });
           documentChunks.push({
             source: file,
-            content: chunk,
+            content: chunkContent,
             embedding: Array.from(embedding.data),
           });
         }
@@ -134,42 +132,10 @@ async function indexPdfs() {
   );
 }
 
-// GANTI TOTAL FUNGSI findRelevantChunks DENGAN VERSI FINAL INI
-async function findRelevantChunks(query, topK = 5) {
+// Fungsi findRelevantChunks untuk mencari potongan dokumen yang relevan
+async function findRelevantChunks(query, topK = 8) {
   if (documentChunks.length === 0) return [];
-
-  const lowerCaseQuery = query.toLowerCase();
-
-  // --- MODE 1: PENCARIAN STRUKTURAL (NAVIGASI) ---
-  const headings = [
-    "Objek Retribusi",
-    "Subjek Retribusi",
-    "Wajib Retribusi",
-    "Prinsip & Sasaran Penetapan Tarif Retribusi",
-  ];
-
-  for (const heading of headings) {
-    const firstWordOfHeading = heading.toLowerCase().split(" ")[0];
-    if (lowerCaseQuery.includes(firstWordOfHeading)) {
-      const startIndex = documentChunks.findIndex(
-        (chunk) => chunk.content.includes(heading) // PERBAIKAN UTAMA: Menggunakan .includes()
-      );
-
-      if (startIndex !== -1) {
-        console.log(`[DEBUG] NAVIGASI SUKSES: Menemukan bagian "${heading}"`);
-        const structuredChunks = documentChunks.slice(
-          startIndex,
-          startIndex + 3
-        );
-        return structuredChunks.map((c) => ({ ...c, score: 1.0 }));
-      }
-    }
-  }
-
-  // --- MODE 2: PENCARIAN SEMANTIK (FALLBACK UNTUK TYPO & PERTANYAAN UMUM) ---
-  console.log(
-    "[DEBUG] Navigasi gagal (mungkin karena typo atau pertanyaan umum), kembali ke pencarian kemiripan makna."
-  );
+  console.log("[DEBUG] Menjalankan pencarian kemiripan makna murni...");
 
   const embedder = await EmbeddingSingleton.getInstance();
   const queryEmbedding = await embedder(query, { pooling: "mean" });
@@ -182,7 +148,7 @@ async function findRelevantChunks(query, topK = 5) {
 
   scoredChunks.sort((a, b) => b.score - a.score);
 
-  return scoredChunks.slice(0, topK);
+  return scoredChunks.slice(0, topK).filter((c) => c.score > 0.25);
 }
 
 // BAGIAN MIDDLEWARENYA WOK
@@ -209,15 +175,23 @@ const db = new sqlite3.Database("admin.db", (err) => {
 
 db.serialize(() => {
   db.run(
-    `CREATE TABLE IF NOT EXISTS admin (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL)`
+    `CREATE TABLE IF NOT EXISTS admin (
+    id INTEGER PRIMARY KEY, 
+    username TEXT UNIQUE NOT NULL, 
+    password TEXT NOT NULL)`
   );
   db.run(
-    `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, email TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`
+    `CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY, 
+    username TEXT UNIQUE NOT NULL, 
+    password TEXT NOT NULL, 
+    email TEXT UNIQUE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`
   );
 });
 
 // CHAT TAPI PAKE RAG XENOVA (NYARI DATA RELEVAN GITU)
-// GANTI TOTAL ENDPOINT /chat DENGAN VERSI SEDERHANA INI
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
   if (!message || typeof message !== "string") {
@@ -312,12 +286,24 @@ app.post("/login", (req, res) => {
     "SELECT * FROM admin WHERE username = ? AND password = ?",
     [username, password],
     (err, row) => {
-      if (err || !row) {
-        return res.redirect("/login?failed=1");
+      if (err) {
+        console.error("Database error on login:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Terjadi kesalahan pada server." });
       }
+
+      if (!row) {
+        return res
+          .status(401)
+          .json({ success: false, message: "Username atau password salah." });
+      }
+
       req.session.loggedIn = true;
       req.session.username = row.username;
-      res.redirect("/dashboard");
+      res
+        .status(200)
+        .json({ success: true, message: "Login berhasil! Mengarahkan..." });
     }
   );
 });
@@ -329,44 +315,80 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password)
-    return res.status(400).json({ error: "Username dan password harus diisi" });
-  db.run(
-    "INSERT INTO users (username, password) VALUES (?, ?)",
-    [username, password],
-    function (err) {
-      if (err)
-        return res.status(400).json({ error: "Username sudah digunakan" });
-      res.json({ success: true, message: "Registrasi berhasil" });
-    }
-  );
+app.post("/register", async (req, res) => {
+  // jadikan async
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res
+      .status(400)
+      .json({ error: "Username, email, dan password harus diisi" });
+  }
+
+  try {
+    // Hash password sebelum disimpan
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    db.run(
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+      [username, email, hashedPassword],
+      function (err) {
+        if (err) {
+          // Error karena username atau email sudah ada
+          return res
+            .status(400)
+            .json({ error: "Username atau email sudah digunakan" });
+        }
+        res.json({ success: true, message: "Registrasi berhasil" });
+      }
+    );
+  } catch (err) {
+    console.error("Error hashing password:", err);
+    res.status(500).json({ error: "Terjadi kesalahan pada server" });
+  }
 });
 
 app.post("/login-user", (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password)
+  const { loginIdentifier, password } = req.body; // Gunakan 'loginIdentifier' dari form (bisa username/email)
+
+  if (!loginIdentifier || !password) {
     return res
       .status(400)
       .json({ success: false, error: "Input tidak lengkap" });
-  db.get(
-    "SELECT * FROM users WHERE username = ? AND password = ?",
-    [username, password],
-    (err, user) => {
-      if (err || !user)
-        return res
-          .status(401)
-          .json({ success: false, error: "Username atau password salah" });
+  }
+
+  // Cari user berdasarkan username ATAU email
+  const query = "SELECT * FROM users WHERE username = ? OR email = ?";
+
+  db.get(query, [loginIdentifier, loginIdentifier], async (err, user) => {
+    if (err) {
+      return res.status(500).json({ success: false, error: "Database error" });
+    }
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Username/email atau password salah" });
+    }
+
+    // Bandingkan password yang diinput dengan hash di database
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      // Password cocok
       req.session.user = { id: user.id, username: user.username };
       res.json({ success: true, redirect: "index.html" });
+    } else {
+      // Password tidak cocok
+      res
+        .status(401)
+        .json({ success: false, error: "Username/email atau password salah" });
     }
-  );
+  });
 });
 
 // LOGIN PAKE GOOGLE PERLU HANDLER LAGI JIRR
 app.post("/login-google", (req, res) => {
-  const { email, sub } = req.body;
+  const { email, sub, name } = req.body; // Ambil juga 'name' untuk username yg lebih baik
 
   if (!email || !sub) {
     return res
@@ -374,7 +396,8 @@ app.post("/login-google", (req, res) => {
       .json({ success: false, error: "Data Google tidak lengkap." });
   }
 
-  db.get("SELECT * FROM users WHERE username = ?", [email], (err, user) => {
+  // Cari pengguna berdasarkan kolom 'email', bukan 'username'
+  db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
     if (err) {
       console.error(err);
       return res
@@ -383,31 +406,48 @@ app.post("/login-google", (req, res) => {
     }
 
     if (user) {
+      // Jika user ditemukan berdasarkan email, langsung login
       req.session.user = { id: user.id, username: user.username };
       req.session.save(() => {
         res.json({ success: true, redirect: "index.html" });
       });
     } else {
-      const newUsername = email;
-      const dummyPassword = sub;
+      // Jika user belum ada, buat akun baru
+      try {
+        // DIUBAH: Buat username yg lebih baik dan pastikan unik
+        let newUsername =
+          name.split(" ")[0].toLowerCase() + Math.floor(Math.random() * 1000);
 
-      db.run(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        [newUsername, dummyPassword],
-        function (err) {
-          if (err) {
-            console.error(err);
-            return res
-              .status(500)
-              .json({ success: false, error: "Gagal membuat pengguna baru." });
+        // DIUBAH: Hash password dummy (dari 'sub' Google) agar konsisten aman
+        const dummyHashedPassword = await bcrypt.hash(sub, saltRounds);
+
+        // DIUBAH: Insert ke kolom username, email, dan password
+        db.run(
+          "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+          [newUsername, email, dummyHashedPassword],
+          function (err) {
+            if (err) {
+              console.error(err);
+              return res
+                .status(500)
+                .json({
+                  success: false,
+                  error: "Gagal membuat pengguna baru.",
+                });
+            }
+
+            req.session.user = { id: this.lastID, username: newUsername };
+            req.session.save(() => {
+              res.json({ success: true, redirect: "index.html" });
+            });
           }
-
-          req.session.user = { id: this.lastID, username: newUsername };
-          req.session.save(() => {
-            res.json({ success: true, redirect: "index.html" });
-          });
-        }
-      );
+        );
+      } catch (hashError) {
+        console.error("Error hashing dummy password:", hashError);
+        res
+          .status(500)
+          .json({ success: false, error: "Gagal mengamankan akun baru." });
+      }
     }
   });
 });
@@ -539,45 +579,50 @@ indexPdfs()
     console.error("Gagal memulai server:", err);
   });
 
-app.post("/reset-password", (req, res) => {
-  const { username, newPassword } = req.body;
-  if (!username || !newPassword) {
+app.post("/reset-password", async (req, res) => {
+  // jadikan async
+  const { email, newPassword } = req.body; // Gunakan email untuk identifikasi
+  if (!email || !newPassword) {
     return res.status(400).json({
       success: false,
-      error: "Username dan password baru wajib diisi.",
+      error: "Email dan password baru wajib diisi.",
     });
   }
 
-  // Validasi password minimal 8 karakter, ada huruf besar, kecil, angka, simbol
-  const isValid =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/.test(
-      newPassword
-    );
-  if (!isValid) {
-    return res.status(400).json({
-      success: false,
-      error: "Password tidak memenuhi standar keamanan.",
-    });
-  }
+  // Anda bisa tambahkan validasi password yang lebih kompleks di sini
 
-  db.get("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
-    if (err)
-      return res.status(500).json({ success: false, error: "Database error." });
-    if (!user)
-      return res
-        .status(404)
-        .json({ success: false, error: "User tidak ditemukan" });
+  try {
+    const user = await new Promise((resolve, reject) => {
+      db.get("SELECT * FROM users WHERE email = ?", [email], (err, row) => {
+        if (err) reject(err);
+        resolve(row);
+      });
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: "User dengan email tersebut tidak ditemukan",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
     db.run(
-      "UPDATE users SET password = ? WHERE username = ?",
-      [newPassword, username],
+      "UPDATE users SET password = ? WHERE email = ?",
+      [hashedPassword, email],
       function (err) {
-        if (err)
+        if (err) {
           return res
             .status(500)
             .json({ success: false, error: "Gagal update password." });
+        }
         res.json({ success: true, message: "Password berhasil diubah." });
       }
     );
-  });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, error: "Terjadi kesalahan pada server." });
+  }
 });

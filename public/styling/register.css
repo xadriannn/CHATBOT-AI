@@ -23,8 +23,10 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
+  padding: 50px 20px;
 }
 
 .background-animation {

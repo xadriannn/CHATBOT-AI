@@ -1,78 +1,122 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chatbot Resmi Kominfo Jakarta Timur">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Chatbot Resmi Kominfo Jakarta Timur" />
     <title>Si Jete | Chatbot Kominfotik Jakarta TImur</title>
-    <link rel="stylesheet" href="styling/style.css">
-    <link rel="icon" href="assets/logo.png" type="image/x-icon">
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styling/style.css" />
+    <link rel="icon" href="assets/logo.png" type="image/x-icon" />
+  </head>
 
-<body>
-    <div class="chatbot-container" role="application" aria-label="Aplikasi Chatbot">
-        <header class="chatbot-header">
-            <img src="assets/Karakter1.png" alt="Logo Kominfo Jakarta Timur" class="logo" width="40" height="40">
-            <div class="header-text">
-                <h1>Si Jete</h1>
-                <p class="status">Online</p>
-            </div>
-            <button id="logout-button" class="logout-button" aria-label="Logout">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <body>
+    <div
+      class="chatbot-container"
+      role="application"
+      aria-label="Aplikasi Chatbot"
+    >
+      <header class="chatbot-header">
+        <img
+          src="assets/Karakter1.png"
+          alt="Logo Kominfo Jakarta Timur"
+          class="logo"
+          width="40"
+          height="40"
+        />
+        <div class="header-text">
+          <h1>Si Jete</h1>
+          <p class="status">Online</p>
+        </div>
+        <button id="logout-button" class="logout-button" aria-label="Logout">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
-    </button>
-        </header>
+          </svg>
+        </button>
+      </header>
 
-        <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
-            <!-- Pesan akan dimuat secara dinamis -->
-        </div>
+      <div
+        class="chat-messages"
+        id="chat-messages"
+        role="log"
+        aria-live="polite"
+      >
+        <!-- Pesan akan dimuat secara dinamis -->
+      </div>
 
-        <!-- Upload / Removing file -->
-        <div class="chat-input">
-            <div class="chat-input-wrapper">
-                <!-- Input Pesan -->
-                <input 
-                    type="text" 
-                    id="user-input" 
-                    placeholder="Tanyain seputar JakTim di sini..." 
-                    aria-label="Input pesan"
-                    autocomplete="off"
-                >
-    
-                <!-- Tombol Kirim -->
-                <button id="send-button" aria-label="Kirim pesan">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                    </svg>
-                </button>
-            </div>
+      <!-- Upload / Removing file -->
+      <div class="chat-input">
+        <div class="chat-input-wrapper">
+          <!-- Input Pesan -->
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Tanyain seputar JakTim di sini..."
+            aria-label="Input pesan"
+            autocomplete="off"
+          />
+
+          <!-- Tombol Kirim -->
+          <button id="send-button" aria-label="Kirim pesan">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
         </div>
+      </div>
     </div>
 
+    <script src="assets/js/popup-notify.js"></script>
     <script src="script.js"></script>
-    <script>
-  // Tambahkan di bagian event listeners
-document.getElementById('logout-button')?.addEventListener('click', async () => {
-    try {
-        const response = await fetch('/logout', {
-            method: 'GET',
-            credentials: 'include' // Penting untuk mengirim session cookie
-        });
-        
-        if (response.ok) {
-            window.location.href = 'user.html';
-        } else {
-            console.error('Logout failed');
-        }
-    } catch (error) {
-        console.error('Error during logout:', error);
-    }
-});
-</script>
+    <!-- <script>
+      // Tambahkan di bagian event listeners
+      document
+        .getElementById("logout-button")
+        ?.addEventListener("click", async () => {
+          try {
+            const response = await fetch("/logout", {
+              method: "GET",
+              credentials: "include", // Penting untuk mengirim session cookie
+            });
 
-</body>
+            if (response.ok) {
+              window.location.href = "user.html";
+            } else {
+              console.error("Logout failed");
+            }
+          } catch (error) {
+            console.error("Error during logout:", error);
+          }
+        });
+    </script> -->
+  </body>
 </html>

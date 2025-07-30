@@ -1,110 +1,159 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const chatMessages = document.getElementById('chat-messages');
-  const userInput = document.getElementById('user-input');
-  const sendButton = document.getElementById('send-button');
-  const fileInput = document.getElementById('file-input');
-  const fileNameDisplay = document.getElementById('file-name');
-  const removeFileBtn = document.getElementById('remove-file');
-  const alertBox = document.getElementById('alertBox');
+document.addEventListener("DOMContentLoaded", function () {
+  const chatMessages = document.getElementById("chat-messages");
+  const userInput = document.getElementById("user-input");
+  const sendButton = document.getElementById("send-button");
+  const fileInput = document.getElementById("file-input");
+  const fileNameDisplay = document.getElementById("file-name");
+  const removeFileBtn = document.getElementById("remove-file");
+  const alertBox = document.getElementById("alertBox");
   const urlParams = new URLSearchParams(window.location.search);
-  const failed = urlParams.get('failed');
-  const form = document.getElementById('loginForm');
-  const addBtn = document.getElementById('add-admin-button');
-  const modal = document.getElementById('add-admin-modal');
-  const cancelModal = document.getElementById('cancel-modal');
-  const addForm = document.getElementById('add-admin-form');
-  const adminTableBody = document.getElementById('admin-table-body');
-  const storedName = localStorage.getItem('adminName');
-  const nameSpan = document.getElementById('admin-username');
-
+  const failed = urlParams.get("failed");
+  const form = document.getElementById("loginForm");
+  const addBtn = document.getElementById("add-admin-button");
+  const modal = document.getElementById("add-admin-modal");
+  const cancelModal = document.getElementById("cancel-modal");
+  const addForm = document.getElementById("add-admin-form");
+  const adminTableBody = document.getElementById("admin-table-body");
+  const storedName = localStorage.getItem("adminName");
+  const nameSpan = document.getElementById("admin-username");
+  const logoutButton = document.getElementById("logout-button");
 
   async function fetchAdminName() {
-  try {
-    const res = await fetch('/me');
-    if (!res.ok) throw new Error("Unauthorized");
+    try {
+      const res = await fetch("/me");
+      if (!res.ok) throw new Error("Unauthorized");
 
-    const data = await res.json();
-    const nameSpan = document.getElementById('admin-username');
+      const data = await res.json();
+      const nameSpan = document.getElementById("admin-username");
 
-    if (nameSpan && data.username) {
-      nameSpan.textContent = data.username.charAt(0).toUpperCase() + data.username.slice(1);
+      if (nameSpan && data.username) {
+        nameSpan.textContent =
+          data.username.charAt(0).toUpperCase() + data.username.slice(1);
+      }
+    } catch (err) {
+      console.error("Gagal ambil nama admin:", err);
+      window.location.href = "/login"; // redirect jika belum login
     }
-  } catch (err) {
-    console.error("Gagal ambil nama admin:", err);
-    window.location.href = '/login'; // redirect jika belum login
   }
-}
 
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      PopupNotify.confirm(
+        "Apakah Anda yakin ingin keluar dari sesi ini?",
+        "Konfirmasi Logout"
+      ).then(async (result) => {
+        // Kode ini hanya akan berjalan setelah user memilih
+        if (result) {
+          // Jika user menekan "OK", jalankan proses logout
+          try {
+            const response = await fetch("/logout", {
+              method: "GET",
+              credentials: "include",
+            });
 
-document.addEventListener('DOMContentLoaded', function () {
-  fetchAdminName(); // ✅ Panggil fungsi saat DOM siap
-});
+            if (response.ok) {
+              // Beri notifikasi sukses sebelum pindah halaman
+              PopupNotify.success("Anda berhasil logout.", "Sampai Jumpa!");
+              setTimeout(() => {
+                window.location.href = "user.html"; // atau halaman login
+              }, 1500); // Tunggu 1.5 detik
+            } else {
+              PopupNotify.failed("Proses logout gagal, silakan coba lagi.");
+            }
+          } catch (error) {
+            console.error("Error during logout:", error);
+            PopupNotify.failed(
+              "Terjadi kesalahan koneksi saat mencoba logout."
+            );
+          }
+        }
+        // Jika result adalah false (user menekan "Batal"), tidak ada aksi yang dilakukan.
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fetchAdminName(); // ✅ Panggil fungsi saat DOM siap
+  });
 
   // ✅ Tampilkan alert jika login gagal
-  if (failed === '1' && alertBox) {
-    alertBox.style.display = 'block';
+  if (failed === "1" && alertBox) {
+    alertBox.style.display = "block";
     setTimeout(() => {
-      alertBox.classList.add('fade-out');
+      alertBox.classList.add("fade-out");
     }, 3000);
     setTimeout(() => {
-      alertBox.style.display = 'none';
+      alertBox.style.display = "none";
     }, 4000);
   }
 
   if (fileInput) {
-    fileInput.addEventListener('change', function () {
+    fileInput.addEventListener("change", function () {
       const file = fileInput.files[0];
       if (file) {
         fileNameDisplay.textContent = `📃 ${file.name}`;
-        removeFileBtn.classList.remove('hidden');
+        removeFileBtn.classList.remove("hidden");
       }
     });
   }
 
   if (removeFileBtn) {
-    removeFileBtn.addEventListener('click', function () {
-      fileInput.value = '';
-      fileNameDisplay.textContent = '';
-      removeFileBtn.classList.add('hidden');
+    removeFileBtn.addEventListener("click", function () {
+      fileInput.value = "";
+      fileNameDisplay.textContent = "";
+      removeFileBtn.classList.add("hidden");
     });
   }
 
   // ✅ Pesan pembuka dari bot
   if (chatMessages) {
     setTimeout(() => {
-      addBotMessage("Halo Saya Si Jete! Chatbot Resmi Kominfotik Jakarta Timur. Ada yang bisa saya bantu hari ini?");
+      addBotMessage(
+        "Halo Saya Si Jete! Chatbot Resmi Kominfotik Jakarta Timur. Ada yang bisa saya bantu hari ini?"
+      );
     }, 500);
   }
 
   function parseMarkdown(text) {
     return text
-      .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
-      .replace(/_(.*?)_/g, '<em>$1</em>');
+      .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
+      .replace(/_(.*?)_/g, "<em>$1</em>");
   }
 
   function addBotMessage(text) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', 'bot-message');
-    messageDiv.innerHTML = parseMarkdown(text);
-    messageDiv.setAttribute('role', 'text');
+    if (!chatMessages) return;
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "bot-message");
+    // Mem-parsing markdown sederhana untuk format teks
+    messageDiv.innerHTML = text
+      .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
+      .replace(/_(.*?)_/g, "<em>$1</em>");
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
   function addUserMessage(text) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', 'user-message');
+    if (!chatMessages) return;
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "user-message");
     messageDiv.textContent = text;
-    messageDiv.setAttribute('role', 'text');
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
   function showLoading() {
-    const loadingDiv = document.createElement('div');
-    loadingDiv.classList.add('message', 'bot-message');
-    loadingDiv.innerHTML = '<div class="loading" aria-hidden="true"></div>';
-    loadingDiv.setAttribute('aria-label', 'Bot sedang mengetik');
+    if (!chatMessages) return null;
+    const loadingDiv = document.createElement("div");
+    loadingDiv.classList.add("message", "bot-message");
+
+    // ✅ FIX: Buat HTML yang cocok dengan CSS .loading-dots
+    loadingDiv.innerHTML = `
+    <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>`;
+
     chatMessages.appendChild(loadingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
     return loadingDiv;
@@ -115,18 +164,18 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!message) return;
 
     addUserMessage(message);
-    userInput.value = '';
+    userInput.value = "";
     userInput.focus();
 
     const loadingIndicator = showLoading();
 
     try {
-      const response = await fetch('/chat', {
-        method: 'POST',
+      const response = await fetch("/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({ message }),
       });
 
       if (!response.ok) {
@@ -138,18 +187,20 @@ document.addEventListener('DOMContentLoaded', function () {
       addBotMessage(data.reply);
     } catch (error) {
       chatMessages.removeChild(loadingIndicator);
-      addBotMessage("Maaf, terjadi gangguan koneksi. Silakan coba lagi beberapa saat.");
-      console.error('Error:', error);
+      addBotMessage(
+        "Maaf, terjadi gangguan koneksi. Silakan coba lagi beberapa saat."
+      );
+      console.error("Error:", error);
     }
   }
 
   if (sendButton) {
-    sendButton.addEventListener('click', sendMessage);
+    sendButton.addEventListener("click", sendMessage);
   }
 
   if (userInput) {
-    userInput.addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
+    userInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
         sendMessage();
       }
     });
@@ -157,64 +208,70 @@ document.addEventListener('DOMContentLoaded', function () {
     userInput.focus();
   }
 
-// ✅ Logout bersihkan localStorage
-function logout() {
-  localStorage.removeItem('adminName');
-  window.location.href = 'login.html';
-}
-
-// ✅ Navigasi antar section
-function showSection(sectionId, link) {
-  document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden-section'));
-  document.getElementById(sectionId).classList.remove('hidden-section');
-  document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-  link.classList.add('active');
-}
-
-// ✅ Chart pengguna
-
-
-// ✅ Chart chat volume
-
-
-
-
-// ✅ Tampilkan greeting admin di dashboard
-document.addEventListener('DOMContentLoaded', () => {
-  const storedName = localStorage.getItem('adminName');
-  const nameSpan = document.getElementById('admin-username');
-  if (storedName && nameSpan) {
-    const capitalized = storedName.charAt(0).toUpperCase() + storedName.slice(1);
-    nameSpan.textContent = capitalized;
+  // ✅ Logout bersihkan localStorage
+  function logout() {
+    localStorage.removeItem("adminName");
+    window.location.href = "login.html";
   }
-});
+
+  // ✅ Navigasi antar section
+  function showSection(sectionId, link) {
+    document
+      .querySelectorAll("main > section")
+      .forEach((s) => s.classList.add("hidden-section"));
+    document.getElementById(sectionId).classList.remove("hidden-section");
+    document
+      .querySelectorAll(".nav-link")
+      .forEach((el) => el.classList.remove("active"));
+    link.classList.add("active");
+  }
+
+  // ✅ Chart pengguna
+
+  // ✅ Chart chat volume
+
+  // ✅ Tampilkan greeting admin di dashboard
+  document.addEventListener("DOMContentLoaded", () => {
+    const storedName = localStorage.getItem("adminName");
+    const nameSpan = document.getElementById("admin-username");
+    if (storedName && nameSpan) {
+      const capitalized =
+        storedName.charAt(0).toUpperCase() + storedName.slice(1);
+      nameSpan.textContent = capitalized;
+    }
+  });
 
   if (storedName && nameSpan) {
-    nameSpan.textContent = storedName.charAt(0).toUpperCase() + storedName.slice(1);
+    nameSpan.textContent =
+      storedName.charAt(0).toUpperCase() + storedName.slice(1);
   }
 
   // Fungsi logout
   window.logout = function () {
-    localStorage.removeItem('adminName');
-    window.location.href = 'login.html';
+    localStorage.removeItem("adminName");
+    window.location.href = "login.html";
   };
 
   // Navigasi antar section
   window.showSection = function (sectionId, link) {
-    document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden-section'));
-    document.getElementById(sectionId).classList.remove('hidden-section');
-    document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-    link.classList.add('active');
+    document
+      .querySelectorAll("main > section")
+      .forEach((s) => s.classList.add("hidden-section"));
+    document.getElementById(sectionId).classList.remove("hidden-section");
+    document
+      .querySelectorAll(".nav-link")
+      .forEach((el) => el.classList.remove("active"));
+    link.classList.add("active");
   };
 
   // Ambil data admin dari server
   async function loadAdmins() {
-    const res = await fetch('/admin-list');
+    const res = await fetch("/admin-list");
     const admins = await res.json();
-    adminTableBody.innerHTML = '';
+    adminTableBody.innerHTML = "";
 
-    admins.forEach(admin => {
-      const tr = document.createElement('tr');
+    admins.forEach((admin) => {
+      const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${admin.username}</td>
         <td>Aktif</td>
@@ -226,28 +283,28 @@ document.addEventListener('DOMContentLoaded', () => {
       adminTableBody.appendChild(tr);
     });
 
-    document.getElementById('totalAdmins').textContent = admins.length;
-  } 
+    document.getElementById("totalAdmins").textContent = admins.length;
+  }
   // Tambahkan admin
   if (addBtn && modal && cancelModal && addForm) {
-    addBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-    cancelModal.addEventListener('click', () => modal.classList.add('hidden'));
+    addBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+    cancelModal.addEventListener("click", () => modal.classList.add("hidden"));
 
-    addForm.addEventListener('submit', async (e) => {
+    addForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const username = document.getElementById('new-username').value;
-      const password = document.getElementById('new-password').value;
+      const username = document.getElementById("new-username").value;
+      const password = document.getElementById("new-password").value;
 
-      const res = await fetch('/add-admin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+      const res = await fetch("/add-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
       alert(data.message);
       if (res.ok) {
-        modal.classList.add('hidden');
+        modal.classList.add("hidden");
         addForm.reset();
         loadAdmins();
       }
@@ -260,20 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.deleteAdmin = function (username) {
     if (!confirm(`Yakin ingin menghapus admin "${username}"?`)) return;
 
-    fetch('/delete-admin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username })
+    fetch("/delete-admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         alert(data.message);
         loadAdmins();
       })
-      .catch(err => {
-        alert('Gagal menghapus admin.');
+      .catch((err) => {
+        alert("Gagal menghapus admin.");
         console.error(err);
       });
   };
 });
-

@@ -1,0 +1,767 @@
+
+
+Frequently Asked Questions (Faq) Pajak Alat Berat 
+APAKAH SPOPD PAB HARUS DICETAK? 
+ SPOPD dihasilkan dari sistem setelah WP menginput permohonan di pajak online, SPOPD 
+tidak perlu dicetak dan akan diarsipkan secara digital di Coretax. 
+BAGAIMANA ALUR PROSES PAJAK ALAT BERAT? 
+1. Wajib Pajak mengajukan permohonan melalui Pajak Online 
+2. Petugas UPPPKB / SAMSAT memverifikasi permohonan WP dan mengukuhkan Objek 
+Pajak dengan SPOPD 
+3. Petugas UPPPKB / SAMSAT menetapkan SKPD dari permohonan SPOPD wajib pajak 
+dengan Tanda Tangan Elektronik dan melakukan penagihan apabila SKPD belum 
+dibayarkan 
+4. Di tahun berikutnya, petugas menetapkan SKPD secara otomatis dengan TTE terhadap 
+objek PAB yang sudah habis masa pajaknya dan melakukan penagihan 
+ 
+BAGAIMANA APABILA ALAT BERAT SAYA PINDAH KE PROVINSI LAIN? 
+ Integrasi data dengan Dinas Tenaga Kerja Provinsi DKI Jakarta dilakukan untuk memverifikasi 
+operasional alat berat di Jakarta dan apabila anda tidak mengajukan SK K3 lagi dan bermaksud 
+memindahkan alat berat ke Provinsi lain, silakan menginput pelayanan non aktif objek pajak alat 
+berat secara online. 
+BAGAIMANA PEMBAYARAN PAJAKNYA APABILA OBJEK PAB TIDAK SEPENUHNYA 
+BERADA DI JAKARTA? MISAL OBJEK PAB BERADA DI JAKARTA SELAMA 3 BULAN, 
+SEDANGKAN 9 BULAN LAINNYA BERADA DI KALIMANTAN? 
+ Pajak Alat Berat dibayarkan dimuka untuk 12 bulan kedepan. Untuk contoh kasus diatas, maka 
+Bapenda Provinsi di Kalimantan tidak dapat memungut Pajak Alat Berat. Bapenda Provinsi di 
+Kalimantan harus menunggu terhitung sejak tanggal pendaftaran Alat Berat di Provinsi DKI 
+Jakarta selesai yaitu 12 bulan, setelah itu dapat dilakukan pemungutan Pajak Alat Berat di 
+Kalimantan. 
+BAGAIMANAKAH CARA DAFTAR PAJAK ALAT BERAT? 
+ Pelayanan pendaftaran Pajak Alat Berat dilakukan secara daring (online) melalui laman: 
+pajakonline.jakarta.go.id.  
+BERAPA LAMA PROSES PENYELESAIAN PERMOHONAN PENDAFTARAN PAJAK ALAT 
+BERAT? 
+ Pelayanan pemungutan PAB menggunakan full online sehingga terhadap waktu penyelesaian 
+permohonan menjadi lebih cepat. Diperkirakan waktu penyelesaian permohonan pendaftaran 
+tidak lebih dari 1 hari kerja, kecuali terhadap hal-hal tertentu yang mungkin memakan waktu 
+lebih lama. 
+
+SIAPAKAH UNIT DI BAPENDA YANG MEMPROSES PERMOHONAN PENDAFTARAN 
+PAJAK ALAT BERAT? 
+Unit Pelayanan Pemungutan Pajak Kendaraan Bermotor (UPPPKB) / SAMSAT yang tersebar di 
+5 (lima) wilayah kota administrasi DKI Jakarta. 
+DATA APA SAJA YANG DIINPUT DALAM PROSES PENDAFTARAN OBJEK PAJAK ALAT 
+BERAT DI PAJAK ONLINE? 
+1. Nomor Seri Alat Berat 
+2. Tipe 
+3. Merek 
+4. Jenis 
+5. Kekuatan Mesin 
+6. Warna Alat Berat 
+7. Negara Pembuat 
+8. Bahan Bakar 
+9. Status Alat Berat 
+ 
+BAGAIMANA CARA MEMBAYAR PAJAK ALAT BERAT? 
+Pembayaran dilakukan melalui kanal pembayaran yang telah ditetapkan oleh Badan 
+Pendapatan Daerah melalui layanan QRIS, Virtual Account (VA), dan kode bayar Pajak yang 
+terintegrasi dengan berbagai layanan perbankan dan modern channel. 
+KAPAN DAPAT MEMBAYAR PAJAK ALAT BERAT? 
+Pembayaran PAB dilakukan setelah permohonan diverifikasi Petugas Pajak, wajib pajak akan 
+menerima kode bayar dan QRIS pada Surat Ketetapan Pajak Daerah (SKPD) Pajak Alat Berat 
+pada laman pajakonline.jakarta.go.id dan surat elektronik (email) berupa kode bayar dan QRIS 
+pada Surat Ketetapan Pajak Daerah (SKPD) Pajak Alat Berat. 
+SEPERTI APAKAH CONTOH ALAT BERAT? 
+Berikut merupakan contoh-contoh alat berat: 
+● Crab Crane 
+● Truck Crane 
+● Hoist Crane 
+● Gantry Crane 
+● Fork Lift 
+● Excavator 
+● Backhoe 
+ 
+ 
+
+UNTUK TAHUN BERIKUTNYA APAKAH SAYA HARUS MENDAFTAR LAGI? 
+Tidak perlu, penetapan Pajak Alat Berat dilakukan secara otomatis setiap tahun dan Surat 
+Ketetapan Pajak Daerah (SKPD) akan dikirimkan secara otomatis sepanjang Alat Berat 
+Tersebut masih terdaftar di Jakarta. 
+APA SAJA PERSYARATAN UNTUK DAFTAR PAJAK ALAT BERAT? 
+Persyaratan pendaftaran Perorangan: 
+● Hasil pindai Kartu Tanda Penduduk (KTP) – tidak mandatori 
+● Hasil pindai Surat keterangan dari pihak berwenang yang menyatakan bahwa alat berat 
+tersebut masih layak digunakan – tidak mandatori 
+● Hasil pindai faktur pembelian (dalam hal Nilai Jual Objek Pajak belum didaftarkan dan 
+dibutuhkan petugas) 
+● Foto Alat Berat 
+ 
+Persyaratan pendaftaran Pemilik Badan: 
+● Hasil pindai Nomor Induk Berusaha (NIB) / Nomor Pokok Wajib Pajak (NPWP) – tidak 
+mandatori 
+● Hasil pindai Surat keterangan dari pihak berwenang yang menyatakan bahwa alat berat 
+tersebut masih layak digunakan – tidak mandatori 
+● Hasil pindai faktur pembelian (dalam hal Nilai Jual Objek Pajak belum didaftarkan dan 
+dibutuhkan petugas) 
+● Foto Alat Berat 
+ 
+APAKAH PENDAFTARAN PAJAK ALAT BERAT BISA DILAKUKAN SECARA MANUAL DI 
+UNIT PELAYANAN BAPENDA? 
+Tidak bisa, proses pelayanan dan pendaftaran Pajak Alat Berat seluruhnya dilakukan secara 
+online. Namun apabila ada kendala dalam penggunakan portal pajak online, Wajib Pajak dapat 
+dibantu petugas di UPPPKB dalam melakukan permohonan secara online. 
+BAGAIMANA JIKA MEREK TIPE DAN TAHUN PEMBUATAN ALAT BERAT SAYA TIDAK 
+ADA DI SISTEM? 
+Melalui layanan online di laman pajakonline.jakarta.go.id, silakan klik daftar NJAB (Nilai Jual 
+Alat Berat) dengan meng-upload Faktur/Bukti Pembelian dan akan diverifikasi oleh petugas, 
+setelah itu merek tipe dan tahun pembuatan alat berat anda dapat dipilih. 
+ 
+
+Frequently Asked Questions (Faq) Pembayaran Pbb & Pajak 
+Daerah Lainnya Untuk Perusahaan 
+A. Pembayaran PBB via KLIKBCA BISNIS 
+1. Masuk ke KlikBCA Bisnis lalu Pilih Pembayaran Tagihan 
+ 
+2. Daftar Pembayaran - Institusi Transaksi, Daftar Pembayaran 
+a. Pilih jenis PAJAK & PNBP dan pilih institusi PBB lalu klik LANJUT 
+ 
+ 
+
+b. Isi NOMOR OBJEK PAJAK Dan KETERANGAN lalu klik LANJUT 
+ 
+c. Lalu Klik KIRIM 
+ 
+ 
+ 
+
+ 
+3. Daftar Pembayaran - Pembuatan Tambahan Pembayaran 
+a. Pilih Pilih Jenis Pembayaran, Sumber Dana, Tahun Pajak dan Waktu 
+Pembayaran lalu klik LANJUT 
+ 
+b. Informasi Pembayaran 
+ 
+ 
+
+ 
+4. Daftar Pembayaran - Otorisasi Transaksi 
+a. Transaksi approver, status otorisasi lalu CEKLIS dan klik SETUJU 
+ 
+b. Otorisasi Transaksi lalu KIRIM 
+ 
+ 
+
+c. Status Transaksi, dapat disimpan dan dicetak 
+ 
+B. Pembayaran Pajak Daerah Lainnya Via KLIKBCA BISNIS  
+1. Masuk ke KlikBCA Bisnis lalu Pilih Pembayaran Tagihan 
+ 
+ 
+
+ 
+2. Daftar Pembayaran - Tambah 
+a. Pilih Pajak Daerah Lainnya - DKI Jakarta lalu klik LANJUT 
+ 
+3. Daftar Pembayaran - Pembuatan Tambahan Pembayaran 
+a. Pilih Jenis Pembayaran, Sumber Dana, Tahun Pajak dan Waktu 
+Pembayaran lalu klik LANJUT 
+ 
+ 
+
+ 
+b. Informasi Pembayaran, lalu klik KIRIM 
+ 
+c. Informasi Pembayaran, dapat di SIMPAN dan di CETAK. 
+ 
+ 
+
+ 
+4. Daftar Pembayaran - Otorisasi Transaksi 
+a. Transaksi approver, status otorisasi lalu CEKLIS dan klik SETUJU 
+ 
+b. Otorisasi Transaksi lalu KIRIM 
+ 
+ 
+
+ 
+c. Pembayaran Tagihan Otorisasi Transaksi, dapat disimpan dan dicetak. 
+ 
+5. Daftar Pembayaran - Status Transaksi 
+Status Transaksi dapat disimpan dan dicetak. 
+ 
+ 
+
+Frequently Asked Questions (Faq) Tanya Jawab Pergub 23 Tahun 
+2022 
+Peraturan Gubernur Nomor 23 tahun 2022 tentang Kebijakan Penetapan dan Pembayaran 
+Pajak Bumi Dan Bangunan Perdesaan dan Perkotaan (PBB P2) sebagai Upaya Pemulihan 
+Ekonomi Tahun 2022. 
+Apa perbedaan Pergub Nomor 23 Tahun 2022 dengan kebijakan tahun-tahun terdahulu? 
+● Peningkatan ambang batas (treshold) NJOP rumah tinggal yang dibebaskan dari 
+sebelumnya Rp1M menjadi Rp2M 
+● Kebijakan Pembayaran diberikan lebih dini untuk merangsang peningkatan kepatuhan 
+Wajib Pajak 
+● Keringanan Pokok pajak diberikan tanpa mensyaratkan adanya tunggakan. 
+● Wajib Pajak (PBB Rp100jt ke atas) dapat mengangsur (semua tahun pajak) tanpa 
+mempertimbangkan adanya tunggakan pajak terdahulu 
+ 
+Bagaimana cara pemprov DKI Jakarta menentukan warga yang berhak menerima 
+kebijakan tersebut? 
+Sasaran kebijakan tersebut sangat jelas dan spesifik, dan kebijakan diberikan berdasarkan data 
+administrasi yang ada pada Pemprov DKI, dimana dalam kebijakan tersebut kami membedakan 
+objek rumah tinggal dan non-rumah tinggal 
+Bagaimana dengan Rusunawa dan Rusunami yang ada pada peraturan sebelumnya 
+mendapatkan pembebasan PBB-P2? 
+Rusunawa milik pemerintah tetap dibebaskan dari dikenakan PBB-P2 
+Bagaimana Pergub 42 tahun 2019 dan 19 tahun 2021 setelah ada aturan ini apakah tetap 
+berlaku? 
+Betul, Pergub 42/2019 jo. 19/2021 tentang Pembebasan PBB-P2 untuk Pensiunan PNS, 
+Dosen, Tenaga Pendidikan dll tetap berlaku. 
+Bagaimana sisi pengawasan untuk menentukan warga penerima kebijakan agar tidak 
+terjadi penyelewengan atau main belakang? 
+Pengawasan dilakukan dgn banyak upaya, salah satunya adalah dengan melakukan 
+pendataan, Hal tersebut dilakukan dalam rangka meningkatkan kualitas data perpajakan untuk 
+tujuan penetapan pajak yang berkeadilan 
+ 
+
+Bagaimana warga yang sudah bayar PBB tahun 2022 sebelum aturan ini dikeluarkan? 
+apakah akan ada pengembalian atau bagaimana? 
+Pergub 23/2022 tidak berlaku surut, hal ini dalam rangka memberikan kepastian hukum yang 
+lebih baik. 
+Berapa banyak rumah di DKI Jakarta yang berhak menerima kebijakan tersebut? 
+Sebanyak 1,4Jt rumah di DKI Jakarta yang menerima kebijakan Gubernur 
+Bagaimana dampak peraturan ini bagi perekonomian warga Jakarta? 
+Kebijakan ini adalah sebagian dari upaya pemulihan ekonomi pasca pandemi. Kebijakan 
+insentif diberikan untuk mengurangi beban pajak masyarakat namun sekaligus pedorong 
+pertumbuhan. Karena bagaimanapun juga, kota ini membutuhkan kontribusi dan semangat 
+gotong-royong dari warganya untuk tetap bisa memberikan layanan publik, membangun 
+infrastruktur, menyelenggarakan pendidikan dan layanan kesehatan. Kami percaya peraturan ini 
+akan memberi dampak positif untuk membuat jakarta menjadi lebih baik. 
+Dengan kebijakan tersebut, apakah ada potensi kerugian pendapatan daerah? 
+Sesuai ketentuan perundang-undangan, Kepala Daerah berwenang menetapkan kebijakan 
+fiskal daerah dalam bentuk pembebasan, pengurangan, dan keringanan. Adapun di tahun 2022 
+ini, Gubernur memberikan kebijakan pembebasan kepada 1,4juta objek berupa rumah tinggal 
+yg dimiliki oleh Orang Pribadi dengan nilai insentif Rp1,47T. 
+Seperti apa kesiapan Bapenda terkait teknis dan pelayanan untuk implementasi aturan ini 
+ Bapenda siap menjalankan Kebijakan Pergub 23/2022 baik secara teknis maupun dari aspek 
+pelayanan. Dari sisi teknis, perkuatan pada sisi Teknologi Informasi terus dilakukan agar 
+menjadi lebih handal, cepat, dan akurat. 
+Selain PBB Pribadi, PBB RS serta Sekolah Swasta. Siapa lagi yang bisa menerima 
+manfaat keringanan pembayaran? 
+Semua Wajib Pajak (tanpa kecuali) menjadi penerima manfaat kebijakan keringanan 
+pembayaran, dimana ada keringanan yang diberikan atas pembayaran pajak pada bulan-bulan 
+tertentu, makin cepat dibayar maka keringanan yang diberikan juga makin besar. 
+Kapan Pergub Nomor 23 Tahun 2022 ini mulai berlaku? 
+Peraturan tersebut berlaku 2 hari kerja setelah tanggal diundangkan (8 Juni 2022) yang berarti 
+mulai berlaku tanggal 10 Juni 2022 
+ 
+Kapan warga Jakarta dapat mengunduh SPPT dan Bagaimana? 
+
+SPPT 2022 sudah dapat diunduh secara bertahap sejak tanggal 10 Juni 2022. Meski demikian, 
+belum semua SPPT dapat diunduh oleh masyarakat karena proses yang dibutuhkan untuk 
+tandatangan elektronik 
+ 
+ 
+
+Frequently Asked Questions (Faq) Dokumen Persyaratan 
+Pelayanan Pajak Daerah
+ 
+Dokumen Persyaratan Pelayanan Pajak Daerah merupakan standarisasi persyaratan 
+administrasi yang memuat pemberitahuan persyaratan administrasi dalam pengurusan pajak 
+Surat Keputusan Kepala DInas Pelayanan Pajak Provinsi DKI Jakarta Nomor 2927 Tahun 2015 
+Tentang Standardisasi Persyaratan Administrasi Dalam Rangka Pelayanan Pemungutan Pajak 
+Daerah, diantaranya pesyaratan administrasi terhadap pajak: 
+- Pajak Hotel 
+- Pajak Hiburan 
+- Pajak Restoran 
+- Pajak Reklame 
+- Pajak Parkir 
+- Pajak Air Bawah Tanah 
+- Bea Perolehan Hak Atas Tanah dan Bangunan 
+- Pajak Bumi dan Bangunan 
+ 
+
+Frequently Asked Questions (Faq) E-Sppt Pbb-P2 Tahun 2021 
+Berikut Ini Materi Terkait e‑SPPT PBB‑P2 Tahun 2021 
+Alamat kantor atau nomor telepon yang dapat saya hubungi untuk berkonsultasi lebih 
+lanjut? 
+Badan Pendapatan Daerah Provinsi DKI Jakarta, Gedung Dinas Teknis Abdul Muis No.66 
+Jakarta Pusat. Contact center di nomor 1500‑177. 
+Apabila terjadi kesalahan dalam input NIK ketika daftar e‑SPPT, apakah e‑SPPT dapat 
+diunduh? 
+Untuk NIK yang tidak terdaftar database Dukcapil Provinsi DKI Jakarta maka tidak bisa 
+mengunduh e‑SPPT PBB‑P2. 
+Apakah ada berkas yang harus dilampirkan atau diunggah pada link dalam proses 
+mendapatkan e‑SPPT PBB‑P2 ? 
+Tidak ada, wajib pajak hanya menginput data pemohon dan data objek pajak, yaitu sebagai 
+berikut: 
+1. NIK 
+2. NPWP 
+3. Nama (Sesuai KTP) 
+4. Tempat Tanggal Lahir 
+5. Nomor Objek Pajak (NOP) 
+6. Nama (Sesuai SPPT) 
+7. Email 
+8. Nomor Handphone 
+Apakah e‑SPPT PBB bisa diunduh oleh orang lain selain Nama Pemilik di SPPT PBB‑P2? 
+Bisa, selama data yang diinput di : https://pajakonline.jakarta.go.id/esppt sesuai dengan data 
+SPPT PBB‑P2 yang terdaftar. 
+Apakah e‑SPPT PBB‑P2 berisi informasi lengkap seperti SPPT PBB‑P2 hard copy? 
+Ya, e‑SPPT PBB‑P2 akan memuat detail informasi seperti: Objek Pajak, Wajib Pajak, luas bumi, 
+luas bangunan, NJOP bumi per meter, NJOP bangunan per meter, tarif pajak, serta jumlah PBB 
+terutang. 
+Apa dasar hukum e‑SPPT PBB‑P2? 
+e‑SPPT PBB‑P2 diluncurkan untuk mengurangi cetakan kertas (paperless) dan turut serta 
+menjaga lingkungan (go green). Wajib Pajak juga akan dimudahkan karena dapat mengakses, 
+mengunduh, dan mencetak sendiri SPPT PBB‑P2. 
+ 
+ 
+
+Bagaimana cara saya membayar Pajak Daerah saya? 
+Untuk kepentingan pendaftaran dan pengunduhan e‑SPPT PBB‑P2 NIK yang digunakan adalah 
+NIK pemilik terbaru. Untuk proses balik nama SPPT PBB‑P2 dapat menghubungi kantor 
+UPPPD setempat. 
+Siapa saja yang akan mendapatkan e‑SPPT PBB‑P2? 
+Dengan adanya e‑SPPT yang merupakan dokumen elektronik, Wajib Pajak dapat mencetak 
+e‑SPPT PBB‑nya sendiri setelah memiliki akses ke dalam layanan Pajak Online 
+pajakonline.jakarta.go.id  
+Bagaimana cara saya dapat mendapatkan e‑SPPT PBB‑P2? 
+Dokumen e‑SPPT PBB‑P2 dikirimkan melalui email yang telah didaftarkan di laman 
+https://pajakonline.jakarta.go.id/esppt  
+Apakah e‑SPPT PBB‑P2 itu? 
+e‑SPPT PBB‑P2 adalah bentuk transformasi digital dari SPPT PBB‑P2 yang biasanya berupa 
+cetakan kertas menjadi dokumen elektronik. 
+Apakah orang yang memiliki KTP diluar DKI Jakarta dapat mendaftarkan dan mengunduh 
+e‑SPPT PBB‑P2? 
+Bisa dengan memasukkan NPWP sebagai pengganti NIK. 
+Apakah pelayanan dan menu salinan SPPT PBB‑P2 di tahun 2021 masih tetap ada? 
+Dengan adanya e‑SPPT yang merupakan dokumen elektronik, Wajib Pajak dapat mencetak 
+e‑SPPT PBB‑nya sendiri setelah memiliki akses ke dalam layanan Pajak Online 
+pajakonline.jakarta.go.id  
+Apakah tujuan Peluncuran fitur e‑SPPT PBB‑P2? 
+ Tujuan kebijakan e‑SPPT PBB‑P2 yaitu: 
+1. mendorong optimalisasi penerimaan Pajak Daerah PBB‑P2 
+2. memberikan kemudahan Wajib Pajak dalam mengakses, mengunduh, dan mencetak 
+sendiri SPPT PBB‑P2 
+3. mengurangi cetakan kertas (paperless) dan turut serta menjaga lingkungan (go green) 
+4. menjalankan protokol kesehatan di masa pandemik sehingga bisa meminimalisir tatap 
+muka antara masyarakat dengan petugas pajak 
+Mengapa diluncurkan fitur e‑SPPT PBB‑P2? 
+e‑SPPT PBB‑P2 diluncurkan untuk mengurangi cetakan kertas (paperless) dan turut serta 
+menjaga lingkungan (go green). Wajib Pajak juga akan dimudahkan karena dapat mengakses, 
+mengunduh, dan mencetak sendiri SPPT PBB‑P2. 
+Bagaimanakah perlakuan e‑SPPT PBB‑P2 untuk objek yang bersengketa? 
+UPPPD setelah melakukan verifikasi objek tersebut bersengketa, mengirim data ke Pusdatin 
+untuk di‑exclude. 
+
+Bagaimanakah perlakuan e‑SPPT PBB‑P2 untuk berkas permohonan 2020 yang 
+kemungkinan belum selesai pada saat dilakukan SMS Blasting? 
+UPPPD melakukan verifikasi dan validasi sebelum mengunggah data NOP, NIK, No HP, email 
+via Apex. Data objek yang berkas permohonannya belum selesai tidak diunggah. 
+Bagaimana tahapan alur e‑SPPT PBB‑P2 tahun 2021? 
+1. Pengumpulan Data oleh UPPPD melalui koordinasi dengan Kelurahan, RT/RW 
+○ Nomor Objek Pajak (NOP) 
+○ Nomor Induk Kependudukan (NIK) 
+○ Nomor Handphone 
+○ Alamat email 
+2. Verifikasi Data yang dikumpulkan oleh UPPPD 
+3. Penerbitan dan penyampaian SPPT PBB‑P2 secara elektronik 
+4. Notifikasi SMS kepada wajib pajak yang terverifikasi berisi informasi 
+ 
+○ SPPT PBB‑P2 2021 sudah terbit 
+○ NOP, Tahun Pajak, Ketetapan 
+○ Nomor Handphone 
+○ Link untuk mendaftar dan mengunduh e‑SPPT PBB‑P2 2021 
+ 
+5. Wajib Pajak mengunduh e‑SPPT PBB‑P2 di : https://pajakonline.jakarta.go.id/esppt  
+ 
+Bagaimana perlakuan e‑SPPT PBB‑P2 untuk berkas permohonan yang selesai prosesnya 
+di tahun 2021? 
+UPPPD melakukan verifikasi dan validasi sebelum mengunggah data NOP, NIK, No HP, email 
+via Apex. Data objek yang berkas permohonannya belum selesai tidak diunggah. Jika berkas 
+sudah selesai, UPPPD menginformasikan kepada pemohon untuk dapat 
+mendaftar/men‑download e‑SPPT. 
+Bagaimana jika nomor handphone wajib pajak sudah tidak aktif / berubah? 
+Pemberian informasi kepada Wajib Pajak terkait link unduhan e‑SPPT PBB‑P2 dikirimkan 
+melalui sms, jika nomor handphone Wajib Pajak sudah tidak aktif / berubah ataupun dan tidak 
+bisa mengakses e‑SPPT, Wajib Pajak bisa menghubungi kantor UPPPD setempat. 
+Bagaimana e‑SPPT PBB‑P2 untuk tanah kosong yang RT/RWnya tidak mendapat data 
+NOP, NIK, No.Hp dan / atau Emailnya? 
+Wajib Pajak PBB‑P2 Orang Pribadi dan Badan yang memiliki Objek Pajak PBB‑P2 di wilayah 
+DKI Jakarta yang telah mendaftar di : https://pajakonline.jakarta.go.id/esppt  
+ 
+
+Bagaimana dengan objek PBB‑P2 yang datanya belum update, misal objek sudah dijual 
+berulang kali namun belum melakukan Balik Nama SPPT PBB‑P2? 
+ Pembayaran PBB‑P2 dapat dilakukan dengan cara: 
+1. Layanan teller: Bank DKI, BJB, BRI, BNI, Bank Mandiri, BTN, Bank Bukopin, Bank MNC, 
+BRI Syariah, Bank OCBC NISP, PT. POS Indonesia, Indomaret, Alfamart dan Dan+Dan 
+2. Layanan ATM: Bank DKI, BJB, BRI, BNI, Bank Mandiri, BTN, Bank MNC, BCA, Bank 
+CIMB Niaga, Bank Maybank, Bank Danamon dan Bank Mega 
+3. Layanan Internet Banking: BJB, BRI, BNI, Bank Mandiri, BCA, Bank CIMB Niaga, 
+Tokopedia, Traveloka, LinkAja, Bukalapak, dan GoPay 
+4. Layanan Mobile Banking: Bank DKI, BNI dan Bank Mandiri 
+5. Layanan PPOB (Payment Point Online Bank): BNI 
+6. Layanan EDC: BJB 
+7. Layanan RTGS Bank DKI: 
+○ Pastikan jumlah yang ditransfer sudah termasuk biaya admin Bank DKI 
+○ Konfirmasi bukti transfer ke email: dso.pajak@bankdki.co.id 
+○ Validasi Bukti transfer ke Teller Bank DKI terdekat 
+ 
+
+Frequently Asked Questions (Faq) Pajak Kendaraan Bermotor 
+Dki Jakarta 
+Berikut ini materi terkait Pajak Kendaraan Bermotor (PKB) DKI Jakarta: 
+1. Dimanakah Saya bisa mendapatkan pelayanan samsat untuk pembayaran PKB? 
+Lokasi Kantor Unit Pelayanan Pemungutan Pajak Kendaraan Bermotor dan Bea Balik 
+Nama Kendaraan Bermotor (UPPPKB-BBNKB) bisa dilihat pada web 
+https://bapenda.jakarta.go.id/lokasi-pelayanan-samsat-dan-humas-dpp/  
+ Atau untuk informasi layanan kesamsatan lainnya bisa melalui *398*1# 
+ 
+2. Berapakah jumlah Pajak Kendaraan Bermotor yang harus saya bayar? 
+Untuk estimasi nilai PKB yang harus dibayar bisa dicek secara mandiri melalui 
+https://samsat-pkb2.jakarta.go.id/  
+Namun nilai pasti yang harus dibayarkan baru bisa terlihat setelah petugas dari 
+UPPPKB-BBNKB mencetakan notice/nilai ketetapan yang harus dibayar secara 
+keseluruhan. 
+ 
+3. Bagaimanakah cara pembayaran Pajak Kendaraan Bermotor secara online dan 
+tidak perlu ke Kantor Samsat? 
+Saat ini pembayaran pajak kendaraan bermotor tahunan dapat dilakukan melalui 
+aplikasi dari Kepolisian RI yang berkerjasama dengan Bank DKI yaitu aplikasi 
+SI-ONDEL. 
+ Informasi tentang cara penggunaan aplikasi ini bisa dipelajari lebih lanjut di laman: 
+ https://bapenda.jakarta.go.id/2020/10/01/si-ondel-samsat-online-delivery/  
+ 
+4. Bagaimanakah cara perhitungan pajak progresif pajak kendaraan bermotor? 
+Berdasarkan Peraturan Daerah Nomor 8 Tahun 2010 tentang Pajak Kendaraan 
+Bermotor, cara perhitungannya adalah sebagai berikut: 
+Nilai Jual Kendaraan Bermotor × Koefisien Bobot Relatif Kerusakan Jalan × Tarif Pajak 
+Untuk Tarif Pajak kepemilikan orang pribadi diatur dalam Peraturan Daerah Nomor 2 
+Tahun 2015, yaitu: 
+○ Kendaraan Pertama: 2% 
+○ Kendaraan Kedua: 2,5% 
+○ Kendaraan Ketiga: 3% 
+○ dan seterusnya sampai maksimal tarif 10% 
+ 
+
+ 
+5. Bagaimana cara saya lapor blokir kendaraan yang sudah dijual? 
+Untuk lapor blokir kendaraan yang sudah dijual dilakukan di kantor Samsat sesuai 
+domisili STNK atau bisa melalui layanan blokir online melalui 
+https://pajakonline.jakarta.go.id  
+Dengan melampirkan form lapor blokir yang dapat diunduh di: 
+https://bapenda.jakarta.go.id/uploads/downloads/2019/03/Form-Uk-F4-Surat-Pernyataan
+-Blokir-2019.pdf  
+ 
+6. Bagaimana cara saya balik nama kendaraan? 
+Untuk melakukan balik nama kendaraan harus dilakukan di kantor Samsat sesuai 
+domisili STNK terakhir dengan membawa semua dokumen kepemilikan kendaraan. 
+ 
+7. Bagaimana jika alamat saya sudah tidak di Jakarta lagi? 
+ Silakan melakukan mutasi kendaraan keluar wilayah Jakarta, dengan melapor ke kantor 
+Samsat sesuai domisili STNK terakhir dengan membawa semua dokumen kepemilikan 
+kendaraan. 
+ 
+8. Dokumen apa sajakah yang harus saya siapkan untuk balik nama kendaraan? 
+ Untuk pribadi: 
+○ BPKB asli dan fotokopi 
+○ STNK asli dan fotokopi 
+○ KTP asli atas nama pemilik baru dan fotokopi 
+○ Kwitansi bukti pembelian kendaraan bermotor asli dan fotokopi 
+Untuk perusahaan: 
+○ BPKB asli 
+○ Bukti surat jual beli, kwitansi, STNK 
+○ Surat pelepasan hak dari perusahaan yang memiliki kendaraan 
+○ Fotokopi KTP pemilik yang baru 
+○ Fotokopi tanda daftar perusahaan 
+○ KTP pemilik perusahaan 
+ 
+9. Kendaraan saya atas nama badan usaha, apakah bisa melakukan pembayaran 
+pajak kendaraan bermotor secara online? 
+Untuk saat ini pembayaran pajak kendaraan bermotor atas nama badan usaha belum 
+dapat dilakukan secara online, bapak/ibu masih harus ke kantor Samsat sesuai domisili 
+STNK. 
+ 
+10. Kendaraan saya menunggak pajak lebih dari 1 tahun, apakah bisa saya bayar 
+secara online? 
+Untuk kendaraan yang menunggak pajak kendaraan bermotor lebih dari satu tahun, 
+pembayaran harus dilakukan di kantor Samsat sesuai domisili STNK. 
+ 
+
+11. Saya tidak punya tunggakan pajak tapi tahun ini surat kendaraan saya sudah 
+masuk tahun ke-5, apakah bisa saya urus melalui online? 
+Untuk kepengurusan kendaraan bermotor 5 tahunan harus dilakukan di kantor Samsat 
+sesuai domisili STNK karena melibatkan proses yang tidak bisa dilakukan secara online. 
+ 
+
+Frequently Asked Questions (Faq) Insentif Fiskal Tahun 2021 
+Berikut ini materi terkait kebijakan Insentif Fiskal Daerah Tahun 2021 sesuai dengan Peraturan 
+Gubernur Nomor 60 Tahun 2021. 
+01. APAKAH YANG DIMAKSUD DENGAN INSENTIF FISKAL TAHUN 2021? 
+Insentif Fiskal Tahun 2021 merupakan pemberian insentif atau keringanan bagi Wajib Pajak 
+Daerah di DKI Jakarta berupa penghapusan sanksi administrasi dan pengurangan pokok 
+terutang pajak. 
+02. MENGAPA DILUNCURKAN INSENTIF FISKAL TAHUN 2021? 
+Tujuan pemberian Insentif fiskal daerah tahun 2021 yaitu Sebagai bentuk upaya pemulihan 
+ekonomi bagi masyarakat yang terdampak Covid-19 khususnya di DKI Jakarta. 
+03. APA DASAR INSENTIF FISKAL TAHUN 2021? 
+ Peraturan Gubernur Nomor 60 Tahun 2021 tentang Insentif Fiskal Tahun 2021. 
+04. KAPANKAH MULAI BERLAKUNYA KEBIJAKAN INSENTIF FISKAL TAHUN 2021 INI? 
+Sesuai dengan ketentuan dalam Pergub Nomor 60 Tahun 2021 tentang Insentif Fiskal Tahun 
+2021, kebijakan ini mulai berlaku pada tanggal 16 Agustus 2021. 
+05. PAJAK APA SAJAKAH YANG AKAN MENDAPATKAN INSENTIF FISKAL TAHUN 2021? 
+ Jenis pajak yang mendapatkan insentif fiskal tahun 2021 yaitu: 
+1. Pajak Bumi dan Bangunan Perdesaan dan Perkotaan PBB‑P2 
+2. Pajak Kendaraan Bermotor (PKB) 
+3. Bea Balik Nama Kendaraan Bermotor BBN‑KB 
+4. Bea Perolehan Hak Atas Tanah dan Bangunan BPHTB 
+5. Pajak Reklame 
+6. Pajak Hotel 
+7. Pajak Hiburan 
+8. Pajak Restoran 
+9. Pajak Parkir 
+06. BAGAIMANA CARA SAYA DAPAT MENDAPATKAN INSENTIF FISKAL TAHUN 2021? 
+Pemberian keringanan pokok Pajak dan penghapusan sanksi administrasi ini, diberikan secara 
+otomatis dengan cara melakukan penyesuaian pada Sistem Informasi Manajemen Pajak 
+Daerah, kecuali untuk jenis pajak BPHTB. 
+07. BAGAIMANA SYARAT DAN KETENTUAN UNTUK MENDAPATKAN INSENTIF FISKAL 
+DAERAH PBB‑P2? 
+1. Pokok piutang tahun pajak 2013 s.d. 2020 diberikan keringanan sebesar 10% tiap 
+tahunnya bagi wajib pajak yang membayar pokok piutang pada periode Agustus s.d. 
+September 2021. 
+
+ 
+2. Tahun pajak 2021 diberikan keringanan dengan ketentuan: 
+○ Keringanan sebesar 20% bagi wajib pajak yang membayar PBB‑P2 di bulan 
+Agustus 2021. 
+○ Keringanan sebesar 15% bagi wajib pajak yang membayar PBB‑P2 di bulan 
+September 2021. 
+3. Keringanan PBB‑P2 tahun pajak 2021 dapat diberikan apabila objek PBB‑P2 tidak 
+memiliki tunggakan pajak. 
+ 
+08. BAGAIMANA SYARAT DAN KETENTUAN UNTUK MENDAPATKAN INSENTIF FISKAL 
+DAERAH PKB? 
+1. Keringanan sebesar 5% untuk pokok PKB tahun pajak sebelum tahun 2021 bagi wajib 
+pajak yang membayar pokok PKB pada periode bulan Agustus 2021 s.d. September 
+2021. 
+2. Tahun 2021 diberikan keringanan dengan ketentuan: 
+a. Keringanan sebesar 10% bagi wajib pajak yang membayar pokok PKB di bulan 
+Agustus 2021. 
+b. Keringanan sebesar 5% bagi wajib pajak yang membayar pokok PKB di bulan 
+September 2021. 
+3. Keringanan pokok PKB tahun pajak 2021 diberikan bagi wajib pajak yang tidak memiliki 
+tunggakan pajak tahun-tahun sebelumnya. 
+4. Pembayaran dapat dilakukan meskipun PKB terutang belum memenuhi ketentuan 40 
+(empat puluh) hari sebelum berakhirnya masa Pajak. 
+ 
+09. BAGAIMANA SYARAT DAN KETENTUAN UNTUK MENDAPATKAN INSENTIF FISKAL 
+DAERAH BBN‑KB? 
+BBN‑KB diberikan keringanan sebesar 50% untuk pokok pajak penyerahan kepemilikan 
+kendaraan bermotor kedua dan seterusnya bagi wajib pajak yang membayar BBN-KB pada 
+periode bulan Agustus 2021 s.d. Desember 2021. 
+10. BAGAIMANA SYARAT DAN KETENTUAN UNTUK MENDAPATKAN INSENTIF FISKAL 
+DAERAH BPHTB? 
+Keringanan BPHTB diberikan kepada Wajib Pajak orang pribadi untuk perolehan pertama kali 
+atas objek berupa Rumah atau Rumah Susun dengan Nilai Perolehan Objek Pajak (NPOP) 
+>Rp2.000.000.000,00 (lebih dari dua miliar rupiah) sampai dengan <Rp.3.000.000.000,00 
+(kurang dari atau sama dengan tiga miliar rupiah), dengan ketentuan : 
+1. keringanan sebesar 50% bagi wajib pajak yang membayar BPHTB di bulan Agustus 
+2021. 
+2. keringanan sebesar 25% bagi wajib pajak yang membayar BPHTB pada periode bulan 
+September 2021 s.d. Oktober 2021. 
+
+3. keringanan sebesar 10% bagi wajib pajak yang membayar BPHTB pada periode bulan 
+November 2021 s.d Desember 2021. 
+11. BAGAIMANA SYARAT DAN KETENTUAN UNTUK MENDAPATKAN INSENTIF FISKAL 
+DAERAH PAJAK REKLAME? 
+Terhadap penyelenggaraan reklame untuk tahun Pajak 2021 dan tahun Pajak sebelum tahun 
+2021 diberikan keringanan pokok pajak, dengan ketentuan : 
+1. keringanan sebesar 10% bagi wajib pajak yang membayar pokok pajak di bulan Agustus 
+2021. 
+2. keringanan sebesar 5% bagi wajib pajak yang membayar pokok pajak di bulan 
+September 2021. 
+12. BAGAIMANAKAH KEBIJAKAN INSENTIF FISKAL DAERAH DALAM PENGHAPUSAN 
+SANKSI ADMINISTRASI? 
+1. Penghapusan sanksi administratif berupa bunga yang timbul akibat keterlambatan 
+pembayaran pokok Pajak, diberikan kepada: 
+a. Wajib Pajak yang melakukan pembayaran pokok piutang PBB-P2 untuk tahun 
+pajak 2013 s.d. tahun pajak 2020. 
+b. Wajib Pajak yang melakukan pembayaran pokok PKB untuk tahun pajak 
+sebelum tahun 2021 dan tahun pajak 2021 
+c. Wajib Pajak yang melakukan pembayaran pokok pajak BBN-KB untuk 
+penyerahan kepemilikan kendaraan bermotor kedua dan seterusnya. 
+2. Penghapusan sanksi administratif berupa bunga yang timbul akibat keterlambatan 
+pembayaran pokok dan/atau keterlambatan pendaftaran penyelenggaraan Pajak 
+Reklame diberikan kepada Wajib Pajak yang melakukan pembayaran pokok Pajak tahun 
+pajak 2021 dan tahun pajak sebelum tahun pajak 2021. 
+3. Penghapusan sanksi administratif berupa bunga yang timbul akibat keterlambatan 
+pembayaran setoran masa dan/atau Surat Ketetapan Pajak untuk jenis Pajak Hotel, 
+Pajak Hiburan, Pajak Restoran, dan Pajak Parkir diberikan kepada wajib pajak yang 
+melakukan pembayaran pajak pada periode bulan Agustus 2021 s.d. September 2021. 
+13. APABILA SAYA TELAH MENDAPATKAN INSENTIF FISKAL DAERAH BERUPA 
+KERINGANAN, APAKAH SAYA MASIH BISA MENGAJUKAN PERMOHONAN LAGI 
+SEPERTI PEMBETULAN, PENGURANGAN, KEBERATAN PAJAK DAERAH? 
+Terhadap ketetapan pajak yang telah mendapatkan insentif fiskal daerah berupa keringanan, 
+tidak dapat mengajukan permohonan pembetulan, pengurangan dan/atau keberatan pajak 
+daerah. 
+14. BAGAIMANA CARA SAYA MENGAJUKAN PERMOHONAN UNTUK KERINGANAN 
+POKOK PAJAK BPHTB? 
+Pengajuan permohonan keringanan diajukan oleh wajib pajak ke kantor Unit Pelayanan 
+Pemungutan Pajak Daerah (UPPPD) kecamatan tempat objek pajak berada. 
+ 
+
+15. APA SAJA PERSYARATAN UNTUK MENGAJUKAN PERMOHONAN KERINGANAN 
+POKOK PAJAK BPHTB? 
+Wajib Pajak harus melengkapi dokumen persyaratan umum dan khusus. Dokumen persyaratan 
+umum : 
+1. Surat permohonan harus memuat: 
+a. Nomor Induk Kependudukan (NIK) 
+b. nama Wajib Pajak 
+c. alamat Wajib Pajak; 
+d. alamat objek Pajak; dan 
+e. uraian permohonan. 
+2. fotokopi KTP wajib pajak atau Kartu Keluarga; 
+3. surat kuasa pengurusan permohonan keringanan BPHTB apabila dikuasakan disertai 
+fotokopi KTP penerima kuasa yang telah dilegalisir; 
+4. surat pernyataan Wajib Pajak orang pribadi belum pernah memperoleh hak atas tanah 
+dan/atau bangunan karena jual beli atau belum pernah diberikan hak atas tanah 
+dan/atau bangunan karena pemberian hak baru atau belum pernah menerima hak atas 
+tanah dan/atau bangunan karena hibah atau hibah wasiat atau waris; dan 
+5. perhitungan BPHTB terutang yang terdapat dalam SSPD BPHTB. 
+16. APA SAJA PERSYARATAN KHUSUS UNTUK MENGAJUKAN PERMOHONAN 
+KERINGANAN POKOK PAJAK BPHTB PERISTIWA JUAL BELI PERTAMA KALI DAN 
+HIBAH PERTAMA KALI? 
+1. draft akta autentik dari Notaris atau Pejabat Pembuat Akta Tanah berupa pemindahan 
+hak atas tanah karena jual beli dengan melampirkan fotokopi bukti transfer atau bukti 
+pembayaran jual beli dengan menunjukkan aslinya; 
+2. draft akta autentik dari Notaris atau Pejabat Pembuat Akta Tanah berupa pemindahan 
+hak atas tanah karena hibah; 
+3. fotokopi sertifikat hak atas tanah; dan 
+4. fotokopi SPPT PBB-P2 yang dimohonkan keringanan BPHTB dan bukti lunas SPPT 
+PBB-P2 atau tidak memiliki tunggakan. 
+18. APA SAJA PERSYARATAN KHUSUS UNTUK MENGAJUKAN PERMOHONAN 
+KERINGANAN POKOK PAJAK BPHTB PERISTIWA WARIS PERTAMA KALI? 
+1. fotokopi keterangan surat/ akta waris dari pejabat yang berwenang yang telah dilegalisir; 
+2. fotokopi sertifikat hak atas tanah; dan 
+3. fotokopi yang SPPT PBB-P2 dimohonkan keringanan BPHTB dan bukti lunas SPPT 
+PBB-P2 atau tidak memiliki tunggakan. 
+ 
+ 
+
+19. APA SAJA PERSYARATAN KHUSUS UNTUK MENGAJUKAN PERMOHONAN 
+KERINGANAN POKOK PAJAK BPHTB PERISTIWA PEMBERIAN HAK BARU PERTAMA 
+KALI? 
+1. fotokopi surat keputusan pemberian hak baru atas tanah dari Pejabat Kantor Wilayah 
+Pertanahan Provinsi DKI Jakarta/Kantor Pertanahan Kota Administrasi; dan 
+2. fotokopi SPPT PBB-P2 yang dimohonkan keringanan BPHTB dan bukti lunas SPPT 
+PBB-P2 atau tidak memiliki tunggakan. 
+20. SELANJUTNYA, JIKA SAYA SUDAH MENGIRIMKAN PERMOHONAN BERKAS, 
+BAGAIMANA SAYA MENGETAHUI JIKA PERMOHONAN SAYA DITERIMA? 
+Jika Wajib Pajak sudah mengirimkan permohonan keringanan pokok BPHTB, selanjutnya akan 
+dilakukan proses pengecekan dokumen dan lapangan. Ketika permohonan tersebut memenuhi 
+persyaratan maka pihak UPPPD akan melakukan validasi pengesahan pada Surat Setoran 
+Pajak Daerah BPHTB. 
+21. APAKAH SAYA BISA MENDAPATKAN KERINGANAN POKOK PBB‑P2 SESUAI 
+PERGUB 60 TAHUN 2021, JIKA SEBELUMNYA SAYA SUDAH MENDAPATKAN SK 
+PENGURANGAN DARI UPPPD? 
+Tidak bisa, jika Wajib Pajak sudah mendapatkan SK Pengurangan PBB-P2 dari kantor UPPPD, 
+maka Wajib Pajak tidak mendapatkan Kebijakan Insentif Fiskal Tahun 2021. 
+22. APAKAH BISA MENDAPATKAN KERINGANAN PBB‑P2 SESUAI PERGUB 60 TAHUN 
+2021, JIKA SEBELUMNYA SAYA SUDAH MENDAPAT SK PEMBAYARAN SECARA 
+ANGSUR DARI UPPPD? 
+Wajib Pajak yang telah memperoleh keputusan pembayaran secara angsur dan belum 
+diterbitkan surat paksa sebelum berlakunya Peraturan Gubernur ini, dapat memperoleh fasilitas 
+keringanan berdasarkan Peraturan Gubernur ini, dengan syarat harus mengajukan permohonan 
+pembatalan terhadap keputusan pembayaran secara angsur. 
+23. JIKA SAYA SUDAH TERLANJUR MEMBAYAR POKOK PBB-P2 TAHUN 2021, APAKAH 
+NANTINYA SAYA BISA MENDAPATKAN KOMPENSASI? 
+Bisa, Wajib Pajak dapat mengajukan permohonan kompensasi untuk objek pajak yang sama. 
+24. APA ITU KOMPENSASI PBB TAHUN 2022? 
+Kompensasi PBB 2022 adalah insentif fiskal pajak bumi bangunan kepada wajib pajak yang 
+sudah membayar pajak PBB-P2 tahun 2021 sebelum berlaku kebijakan insentif fiskal dengan 
+mengalokasikan pembayaran PBB-P2 tahun 2021 sebesar 20% kepada PBB-P2 tahun 2022. 
+25. BAGAIMANA CARA SAYA DAPAT MENDAPATKAN FASILITAS KOMPENSASI PBB? 
+Permohonan kompensasi diberikan melalui mekanisme pengajuan permohonan self service 
+pada portal: pajakonline.jakarta.go.id  
+26. APAKAH FASILITAS KOMPENSASI PBB INI BISA DIAJUKAN KE KANTOR UNIT 
+PELAYANAN PEMUNGUTAN PAJAK DAERAH (UP3D) SETEMPAT? 
+
+Bisa, datapajakonline.jakarta.go.id dengan permohonan akun seluruhnya Wajib melalui Pajak 
+online, sendiri. sehingga nanti akan dipandu oleh petugas untuk input dalam portal 
+27. APAKAH PEMBAYARAN PENUH KARENA ADA TUNGGAKAN TAHUN SEBELUMNYA 
+KARENA TIDAK TAHU DAN DILUNASI SETELAH PEMBAYARAN 2021 DAPAT 
+DIKOMPENSASI? 
+Tidak, sesuai dengan persyaratan hanya untuk pembayaran SPPT 2021 sebelum Pergub 
+implementasi 60/2021 di 16 Agustus 2021. 
+29. APA SAJA PERSYARATAN YANG DAPAT MENGAJUKAN PERMOHONAN 
+KOMPENSASI PBB? 
+Persyaratan: 
+1. SPPT 2021, Tidak memiliki tunggakan tahun sebelumnya 
+2. Dibayarkan sebelum masa Pergub 60/2021 tanggal 16 Agustus 2021 
+3. Sudah SPPT mengunduh E-SPPT 
+4. Belum mendapatkan SK Pengurangan 
+5. Belum mendapatkan SK Angsuran 
+30. BAGAIMANA TATA CARA PENGAJUAN PERMOHONAN KOMPENSASI PBB? 
+Tata cara permohonan pelunasan bertahap : 
+1. Akses portal: https://pajakonline.jakarta.go.id  
+2. Login sebagai Wajib Pajak menggunakan akun pajak online yang terdaftar 
+3. Pilih 'Pelayanan' 
+4. Pilih 'Tambah Permohonan Pelayanan 
+5. Isi 'Data Diri Pemohon' 
+6. Isi 'Data Objek PBB-P2' 
+7. Pilih 'Simpan' 
+8. Unggah 'Foto Identitas' 
+9. Unggah 'Surat Kuasa' atau Dokumen lain yang sejenis 
+10. Petugas akan melakukan verifikasi 
+31. APAKAH ADA BATAS WAKTU PENGAJUAN KOMPENSASI? 
+Batas waktu pengajuan permohonan pelunasan bertahap di website: pajakonline.jakarta.go.id  
+adalah 15 Oktober 2021. 
+32. APAKAH BISA PENGAJUAN KOMPENSASI DILAKUKAN SETELAH 15 OKTOBER 
+2021? 
+ Tidak bisa 
+33. APAKAH ADA PEMERIKSAAN YANG DILAKUKAN OLEH PETUGAS DALAM PROSES 
+PENGAJUAN KOMPENSASI? 
+Ada. Proses verifikasi data permohonan yang sudah diinput oleh Pemohon dilakukan oleh 
+petugas UPPPD, pastikan data yang diinput sudah benar, dan monitor status permohonan 
+apakah sudah diterima atau belum. 
+
+34. APAKAH ADA PEMERIKSAAN YANG DILAKUKAN OLEH PETUGAS DALAM PROSES 
+PENGAJUAN KOMPENSASI? 
+Ada. Proses verifikasi data permohonan yang sudah diinput oleh Pemohon dilakukan oleh 
+petugas UPPPD, pastikan data yang diinput sudah benar, dan monitor status permohonan 
+apakah sudah diterima atau belum. 
+35. BAGAIMANA CARA SAYA MEMBAYAR PAJAK DAERAH SAYA? 
+ Pembayaran PBB‑P2 dapat dilakukan dengan cara: 
+1. Layanan teller : Bank DKI, Bank BJB, Bank BRI, Bank BNI, Bank Mandiri, Bank BTN, 
+Bank KB Bukopin, Bank MNC, Bank OCBC NISP, PT. POS Indonesia, Indomaret, 
+Alfamart dan Dan+Dan. 
+2. Layanan ATM : Bank DKI, Bank BJB, Bank BRI, Bank BNI, Bank Mandiri, Bank BTN, 
+Bank MNC, Bank BCA, Bank CIMB Niaga, Bank Maybank, Bank Danamon dan Bank 
+Mega. 
+3. Layanan Internet Banking : Bank BJB, Bank BRI, Bank BNI, Bank Mandiri, Bank BCA, 
+Bank CIMB Niaga, Tokopedia, Traveloka, LinkAja, Bukalapak, GoTagihan, dan Blibli.com 
+4. Layanan Mobile Banking : Bank DKI, Bank BNI dan Bank Mandiri. 
+5. Layanan PPOB (Payment Point Online Bank) : Bank BNI 
+6. Layanan EDC : Bank BJB 
+7. Layanan RTGS Bank DKI :  
+1. Pastikan jumlah yang ditransfer sudah termasuk biaya admin Bank DKI. 
+2. Konfirmasi bukti transfer ke email : dso.pajak@bankdki.co.id 
+3. Validasi Bukti transfer ke Teller Bank DKI terdekat. 
+36. ALAMAT KANTOR ATAU NOMOR TELEPON YANG DAPAT SAYA HUBUNGI UNTUK 
+BERKONSULTASI LEBIH LANJUT 
+Badan Pendapatan Daerah Provinsi DKI Jakarta, Gedung Dinas Teknis Abdul Muis No. 66 
+Jakarta Pusat. Contact center di nomor 1500‑177. 
+ 
+
+Frequently Asked Questions (Faq) Panduan Penanganan Kode Error Layanan Online 
+Dalam menggunakan layanan daring (online), Wajib Pajak seringkali menjumpai kode error 
+ataupun muncul pesan-pesan yang mengakibatkan proses layanan tidak berjalan sebagaimana 
+mestinya. 
+Berikut adalah keterangan penyebab terjadinya kode error atau munculnya pesan-pesan 
+peringatan dan langkah-langkah penyelesaian apabila Wajib Pajak menemui kode error atau 
+pesan peringatan pada saat menggunakan layanan daring. 
+Kode error dan pesan peringatan dibagi berdasarkan layanan daring yang ada: 
+1. Single Login / DJP Online 
+2. E-filing 
+3. E-billing 
+4. E-form 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

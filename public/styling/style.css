@@ -14,9 +14,15 @@
   box-sizing: border-box;
 }
 
+/* Taruh ini di bagian atas file style.css Anda */
+
+body, 
+input, 
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
-  font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
   background: linear-gradient(to left, #d6f9fd, #ffffff);
   color: var(--text-color);
   line-height: 1.6;
@@ -260,5 +266,51 @@ body {
     outline: none;
     font-size: 1rem;
     transition: border 0.3s;
+  }
+}
+
+/* Taruh kode ini di file styling/style.css Anda */
+
+/* Kontainer untuk animasi titik-titik */
+.loading-dots {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* Gaya untuk setiap titik */
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  margin: 0 3px;
+  background-color: #aaa; /* Warna titik */
+  border-radius: 50%;
+  
+  /* Terapkan animasi */
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+/* Atur jeda animasi untuk setiap titik agar berkedip bergantian */
+.loading-dots span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+/* Keyframes untuk animasi berkedip */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
   }
 }
