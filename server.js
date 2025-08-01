@@ -372,7 +372,7 @@ app.post("/login", (req, res) => {
 
     if (match) {
       req.session.user = { id: user.id, username: user.username };
-      res.json({ success: true, redirect: "index.html" });
+      res.json({ success: true, redirect: "/chat" });
     } else {
       res
         .status(401)
@@ -404,7 +404,7 @@ app.post("/login-google", (req, res) => {
       // Jika user ditemukan berdasarkan email, langsung login
       req.session.user = { id: user.id, username: user.username };
       req.session.save(() => {
-        res.json({ success: true, redirect: "index.html" });
+        res.json({ success: true, redirect: "/chat" });
       });
     } else {
       // Jika user belum ada, buat akun baru
@@ -433,7 +433,7 @@ app.post("/login-google", (req, res) => {
 
             req.session.user = { id: this.lastID, username: newUsername };
             req.session.save(() => {
-              res.json({ success: true, redirect: "index.html" });
+              res.json({ success: true, redirect: "/chat" });
             });
           }
         );
@@ -489,7 +489,7 @@ app.get("/dashboard", requireAdminLogin, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-app.get("/index.html", requireUserLogin, (req, res) => {
+app.get("/chat", requireUserLogin, (req, res) => {
   res.sendFile(path.join(__dirname, "private", "index.html"));
 });
 
@@ -501,13 +501,17 @@ app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "register.html"));
 });
 
+app.get("/change-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "change-password.html"));
+});
+
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin-login.html")); // DIUBAH
 }); 
 
 app.get("/", (req, res) => {
   if (req.session && req.session.user) {
-    res.redirect("/index.html");
+    res.redirect("/chat");
   } else {
     res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
   }
