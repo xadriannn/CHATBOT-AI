@@ -30,7 +30,7 @@
         <p class="tagline">Chatbot Resmi Kominfotik Jakarta Timur</p>
       </div>
 
-      <form id="registerForm" class="register-form">
+      <form id="registerForm" class="register-form" novalidate>
         <div class="input-group">
           <i class="fas fa-user"></i>
           <input
@@ -108,6 +108,11 @@
     <script>
       const form = document.getElementById("registerForm");
 
+      function isValidEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      }
+
       // Pastikan elemen password ada sebelum menambahkan event listener
       const passwordInput = document.getElementById("password");
       if (passwordInput) {
@@ -124,20 +129,45 @@
         const password = document.getElementById("password").value;
         const confirm = document.getElementById("confirm").value;
 
-        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        // =======================================================
+        // VALIDASI BARU DENGAN URUTAN YANG BENAR
+        // =======================================================
+
+        // 1. Cek Username
+        if (!username) {
+          // Cek apakah kosong dulu
+          PopupNotify.info("Username harus diisi.");
+          document.getElementById("username").focus();
+          return;
+        }
+        if (!/^[a-zA-Z0-9_.-]+$/.test(username)) {
+          // Baru cek formatnya
           PopupNotify.info(
-            "Username hanya boleh huruf dan angka, tanpa spasi atau simbol."
+            "Username hanya boleh berisi huruf, angka, underscore (_), strip (-), dan titik (.)."
           );
           document.getElementById("username").focus();
           return;
         }
 
+        // 2. Cek Email
         if (!email) {
-          PopupNotify.info("Email wajib diisi.");
+          PopupNotify.info("Email wajib diisi!");
           document.getElementById("email").focus();
           return;
         }
 
+        if (!isValidEmail(email)) {
+          PopupNotify.info("Format email yang Anda masukkan tidak valid.");
+          document.getElementById("email").focus();
+          return;
+        }
+
+        // 3. Cek Password
+        if (!password) {
+          PopupNotify.info("Password harus diisi.");
+          document.getElementById("password").focus();
+          return;
+        }
         if (!validatePassword(password)) {
           PopupNotify.info(
             "Password harus memenuhi semua persyaratan keamanan."
@@ -146,12 +176,19 @@
           return;
         }
 
+        // 4. Cek Konfirmasi Password
+        if (!confirm) {
+          PopupNotify.info("Konfirmasi password harus diisi.");
+          document.getElementById("confirm").focus();
+          return;
+        }
         if (password !== confirm) {
           PopupNotify.info("Konfirmasi password tidak cocok.");
           document.getElementById("confirm").focus();
           return;
         }
 
+        // Jika semua validasi lolos, baru kirim data
         try {
           const response = await fetch("/register", {
             method: "POST",

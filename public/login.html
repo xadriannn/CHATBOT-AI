@@ -33,7 +33,7 @@
         <p class="tagline">Chatbot Resmi Kominfotik Jakarta Timur</p>
       </div>
 
-      <form id="loginForm" class="login-form">
+      <form id="loginForm" class="login-form" novalidate>
         <div class="input-group">
           <i class="fas fa-user"></i>
           <input
@@ -98,7 +98,11 @@
     <script src="assets/js/popup-notify.js"></script>
 
     <script>
-      // Fungsi ini bisa diakses global oleh onclick di HTML
+      function isValidEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      }
+
       function togglePassword() {
         const passwordField = document.getElementById("password");
         const icon = document.querySelector(".toggle-password");
@@ -146,31 +150,39 @@
         }
       }
 
-      // Logika utama dijalankan setelah halaman siap
       document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".login-container").classList.add("loaded");
 
-        // Ganti event listener untuk #loginForm di user.html dengan ini
         document
           .getElementById("loginForm")
           .addEventListener("submit", async function (e) {
             e.preventDefault();
-            // DIUBAH: Ambil nilai dari input baru
             const loginIdentifier = document
               .getElementById("loginIdentifier")
               .value.trim();
             const password = document.getElementById("password").value;
 
-            if (!loginIdentifier || !password) {
-              PopupNotify.failed("Username/Email dan password harus diisi");
+            if (!loginIdentifier) {
+              PopupNotify.info("Username atau Email harus diisi!");
               return;
+            }
+
+            if (
+              loginIdentifier.includes("@") &&
+              !isValidEmail(loginIdentifier)
+            ) {
+              PopupNotify.info("Format email yang Anda masukkan tidak valid!");
+              return;
+            }
+            if (!password) {
+              PopupNotify.info("Password harus diisi!");
+              return; // Hentikan proses jika kosong
             }
 
             try {
               const response = await fetch("/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                // DIUBAH: Kirim sebagai loginIdentifier
                 body: JSON.stringify({ loginIdentifier, password }),
               });
               const data = await response.json();
@@ -178,7 +190,8 @@
               if (response.ok && data.success) {
                 PopupNotify.success("Login berhasil!", "Selamat Datang!");
                 setTimeout(() => {
-                  window.location.href = data.redirect || "index.html";
+                  // DIUBAH: Arahkan ke /chat sesuai endpoint baru
+                  window.location.href = data.redirect || "/chat";
                 }, 1500);
               } else {
                 PopupNotify.failed(

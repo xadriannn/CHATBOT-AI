@@ -140,14 +140,18 @@ body {
 
 /* Input Area */
 .chat-input {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
   padding: 15px;
   border-top: 1px solid #eee;
   background-color: var(--white);
-  align-items: center;
   flex-shrink: 0;
+}
+
+/* TAMBAHKAN BLOK KODE BARU INI */
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
 #user-input {
@@ -248,12 +252,6 @@ body {
 
   /* Tambahkan class baru ini */
   .chat-input-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-
-    /* INI KUNCINYA: Batasi lebar maksimum dari area input */
     max-width: 900px;
   }
 
