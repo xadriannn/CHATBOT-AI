@@ -317,66 +317,141 @@ app.get("/logout", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  // jadikan async
   const { username, email, password } = req.body;
 
+  // Validasi input kosong
   if (!username || !email || !password) {
-    return res
-      .status(400)
-      .json({ error: "Username, email, dan password harus diisi" });
+    return res.status(400).json({
+      success: false,
+      error: "Username, email, dan password harus diisi.",
+    });
+  }
+
+  // Validasi format username
+  if (!/^[a-zA-Z0-9_.-]+$/.test(username)) {
+    return res.status(400).json({
+      success: false,
+      error: "Username mengandung karakter tidak valid.",
+    });
+  }
+
+  // Validasi format email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      success: false,
+      error: "Format email tidak valid.",
+    });
+  }
+
+  // Validasi kekuatan password (minimal 8 karakter, ada huruf besar, kecil, angka, simbol)
+  const passwordValid =
+    password.length >= 8 &&
+    /[A-Z]/.test(password) &&
+    /[a-z]/.test(password) &&
+    /[0-9]/.test(password) &&
+    /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  if (!passwordValid) {
+    return res.status(400).json({
+      success: false,
+      error: "Password tidak memenuhi syarat keamanan.",
+    });
   }
 
   try {
-    // Hash password sebelum disimpan
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    db.run(
-      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-      [username, email, hashedPassword],
-      function (err) {
+    // Cek apakah username atau email sudah digunakan
+    db.get(
+      `SELECT * FROM users WHERE username = ? OR email = ?`,
+      [username, email],
+      async (err, user) => {
         if (err) {
-          // Error karena username atau email sudah ada
-          return res
-            .status(400)
-            .json({ error: "Username atau email sudah digunakan" });
+          console.error("DB error saat cek user:", err);
+          return res.status(500).json({
+            success: false,
+            error: "Terjadi kesalahan saat memproses data.",
+          });
         }
-        res.json({ success: true, message: "Registrasi berhasil" });
+
+        if (user) {
+          return res.status(400).json({
+            success: false,
+            error: "Username atau email sudah digunakan.",
+          });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Simpan ke database
+        db.run(
+          `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
+          [username, email, hashedPassword],
+          function (err) {
+            if (err) {
+              console.error("DB error saat insert user:", err);
+              return res.status(500).json({
+                success: false,
+                error: "Gagal menyimpan data pengguna.",
+              });
+            }
+
+            return res.json({
+              success: true,
+              message: "Registrasi berhasil!",
+            });
+          }
+        );
       }
     );
   } catch (err) {
     console.error("Error hashing password:", err);
-    res.status(500).json({ error: "Terjadi kesalahan pada server" });
+    return res.status(500).json({
+      success: false,
+      error: "Terjadi kesalahan pada server.",
+    });
   }
 });
 
 // Endpoint baru untuk User Login
 app.post("/login", (req, res) => {
-  const { loginIdentifier, password } = req.body; 
+  const { loginIdentifier, password } = req.body;
 
+  // Validasi awal
   if (!loginIdentifier || !password) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Input tidak lengkap" });
+    return res.status(400).json({ success: false, error: "Input tidak lengkap" });
   }
 
-  const query = "SELECT * FROM users WHERE username = ? OR email = ?";
+  const query = `SELECT * FROM users WHERE username = ? OR email = ?`;
 
   db.get(query, [loginIdentifier, loginIdentifier], async (err, user) => {
-    if (err || !user) {
-      return res
-        .status(401)
-        .json({ success: false, error: "Username/email atau password salah" });
+    if (err) {
+      console.error("DB error:", err);
+      return res.status(500).json({ success: false, error: "Terjadi kesalahan server." });
     }
 
-    const match = await bcrypt.compare(password, user.password);
+    if (!user) {
+      return res.status(401).json({ success: false, error: "Username/email atau password salah." });
+    }
 
-    if (match) {
-      req.session.user = { id: user.id, username: user.username };
+    try {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(401).json({ success: false, error: "Username/email atau password salah." });
+      }
+
+      // Set session login
+      req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email
+      };
+
       res.json({ success: true, redirect: "/chat" });
-    } else {
-      res
-        .status(401)
-        .json({ success: false, error: "Username/email atau password salah" });
+
+    } catch (err) {
+      console.error("Error saat validasi password:", err);
+      res.status(500).json({ success: false, error: "Terjadi kesalahan saat verifikasi." });
     }
   });
 });
