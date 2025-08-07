@@ -11,8 +11,9 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styling/style.css" />
-    <link rel="icon" href="assets/logo.png" type="image/x-icon" />
+
+    <link rel="stylesheet" href="/styling/style.css" />
+    <link rel="icon" href="/assets/logo.png" type="image/x-icon" />
   </head>
 
   <body>
@@ -23,7 +24,7 @@
     >
       <header class="chatbot-header">
         <img
-          src="assets/Karakter1.png"
+          src="/assets/Karakter1.png"
           alt="Logo Kominfo Jakarta Timur"
           class="logo"
           width="40"
@@ -33,23 +34,77 @@
           <h1>Si Jete</h1>
           <p class="status">Online</p>
         </div>
-        <button id="logout-button" class="logout-button" aria-label="Logout">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+        <div class="profile-menu-container">
+          <span id="greeting-text-desktop" class="greeting-desktop"></span>
+
+          <button
+            id="profile-button"
+            class="profile-button"
+            aria-label="Buka menu profil"
+            aria-haspopup="true"
+            aria-expanded="false"
           >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+
+          <div id="profile-dropdown" class="profile-dropdown">
+            <div
+              id="greeting-text-mobile"
+              class="dropdown-greeting greeting-mobile"
+            ></div>
+
+            <a href="#" id="edit-profile-button" class="dropdown-item">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+                ></path>
+              </svg>
+              <span>Edit Profile</span>
+            </a>
+
+            <a href="/logout" id="logout-button" class="dropdown-item">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
       </header>
 
       <div
@@ -57,14 +112,10 @@
         id="chat-messages"
         role="log"
         aria-live="polite"
-      >
-        <!-- Pesan akan dimuat secara dinamis -->
-      </div>
+      ></div>
 
-      <!-- Upload / Removing file -->
       <div class="chat-input">
         <div class="chat-input-wrapper">
-          <!-- Input Pesan -->
           <input
             type="text"
             id="user-input"
@@ -72,14 +123,12 @@
             aria-label="Input pesan"
             autocomplete="off"
           />
-
-          <!-- Tombol Kirim -->
           <button id="send-button" aria-label="Kirim pesan">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -95,7 +144,101 @@
       </div>
     </div>
 
-    <script src="assets/js/popup-notify.js"></script>
-    <script src="script.js"></script>
+    <script src="/assets/js/popup-notify.js"></script>
+    <script src="/script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        // --- Ambil Elemen ---
+        const desktopGreeting = document.getElementById(
+          "greeting-text-desktop"
+        );
+        const mobileGreeting = document.getElementById("greeting-text-mobile");
+        const profileButton = document.getElementById("profile-button");
+        const profileDropdown = document.getElementById("profile-dropdown");
+        const editProfileButton = document.getElementById(
+          "edit-profile-button"
+        );
+        const logoutButton = document.getElementById("logout-button");
+
+        // --- Logika untuk mengambil & menampilkan nama pengguna (Tidak berubah) ---
+        try {
+          const response = await fetch("/api/get-user-data");
+          const data = await response.json();
+          if (data.success && data.user && data.user.username) {
+            const username = data.user.username;
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting;
+            if (hour >= 4 && hour <= 10) {
+              greeting = "Selamat Pagi";
+            } else if (hour >= 11 && hour <= 14) {
+              greeting = "Selamat Siang";
+            } else if (hour >= 15 && hour <= 17) {
+              greeting = "Selamat Sore";
+            } else {
+              greeting = "Selamat Malam";
+            }
+            const greetingMessage = `${greeting}, ${username}`;
+            desktopGreeting.textContent = greetingMessage;
+            mobileGreeting.textContent = greetingMessage;
+          } else {
+            console.error(
+              "Gagal mengambil data user dari server.",
+              data.error || ""
+            );
+          }
+        } catch (error) {
+          console.error("Terjadi error saat fetching data user:", error);
+        }
+
+        // --- Logika untuk menu dropdown (Tidak berubah) ---
+        profileButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          profileDropdown.classList.toggle("show");
+        });
+        window.addEventListener("click", function (event) {
+          if (
+            !profileButton.contains(event.target) &&
+            !profileDropdown.contains(event.target)
+          ) {
+            profileDropdown.classList.remove("show");
+          }
+        });
+
+        // --- Logika tombol lain ---
+        editProfileButton.addEventListener("click", function (event) {
+          event.preventDefault();
+          console.log("Tombol Edit Profile diklik!");
+        });
+
+        // =================================================================
+        // === INTEGRASI DENGAN POP-UP KUSTOM ANDA (VERSI CALLBACK) ===
+        // =================================================================
+        if (logoutButton) {
+          logoutButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Mencegah redirect langsung
+
+            // GANTI 'showConfirmationPopup' dengan NAMA FUNGSI ANDA YANG SEBENARNYA
+            // Asumsi fungsi Anda menerima objek konfigurasi
+            showConfirmationPopup({
+              title: "Konfirmasi Logout",
+              message: "Anda yakin ingin keluar dari sesi ini?",
+              confirmText: "Ya, Keluar",
+              cancelText: "Batal",
+              onConfirm: function () {
+                // Fungsi ini akan dijalankan HANYA jika user menekan "Confirm"
+                console.log("Logout dikonfirmasi. Mengarahkan ke /logout...");
+                window.location.href = logoutButton.href; // Lakukan redirect
+              },
+              // Mungkin ada juga onCancel jika pop-up Anda mendukungnya
+              // onCancel: function() {
+              //   console.log("Logout dibatalkan.");
+              // }
+            });
+          });
+        }
+      });
+    </script>
   </body>
 </html>

@@ -156,6 +156,8 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public"), { index: false }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "private"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(
@@ -419,7 +421,9 @@ app.post("/login", (req, res) => {
 
   // Validasi awal
   if (!loginIdentifier || !password) {
-    return res.status(400).json({ success: false, error: "Input tidak lengkap" });
+    return res
+      .status(400)
+      .json({ success: false, error: "Input tidak lengkap" });
   }
 
   const query = `SELECT * FROM users WHERE username = ? OR email = ?`;
@@ -427,31 +431,41 @@ app.post("/login", (req, res) => {
   db.get(query, [loginIdentifier, loginIdentifier], async (err, user) => {
     if (err) {
       console.error("DB error:", err);
-      return res.status(500).json({ success: false, error: "Terjadi kesalahan server." });
+      return res
+        .status(500)
+        .json({ success: false, error: "Terjadi kesalahan server." });
     }
 
     if (!user) {
-      return res.status(401).json({ success: false, error: "Username/email atau password salah." });
+      return res
+        .status(401)
+        .json({ success: false, error: "Username/email atau password salah." });
     }
 
     try {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(401).json({ success: false, error: "Username/email atau password salah." });
+        return res
+          .status(401)
+          .json({
+            success: false,
+            error: "Username/email atau password salah.",
+          });
       }
 
       // Set session login
       req.session.user = {
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
       };
 
       res.json({ success: true, redirect: "/chat" });
-
     } catch (err) {
       console.error("Error saat validasi password:", err);
-      res.status(500).json({ success: false, error: "Terjadi kesalahan saat verifikasi." });
+      res
+        .status(500)
+        .json({ success: false, error: "Terjadi kesalahan saat verifikasi." });
     }
   });
 });
@@ -498,12 +512,10 @@ app.post("/login-google", (req, res) => {
           function (err) {
             if (err) {
               console.error(err);
-              return res
-                .status(500)
-                .json({
-                  success: false,
-                  error: "Gagal membuat pengguna baru.",
-                });
+              return res.status(500).json({
+                success: false,
+                error: "Gagal membuat pengguna baru.",
+              });
             }
 
             req.session.user = { id: this.lastID, username: newUsername };
@@ -568,6 +580,13 @@ app.get("/chat", requireUserLogin, (req, res) => {
   res.sendFile(path.join(__dirname, "private", "index.html"));
 });
 
+app.get("/api/get-user-data", requireUserLogin, (req, res) => {
+  res.json({
+    success: true,
+    user: req.session.user,
+  });
+});
+
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
 });
@@ -582,14 +601,14 @@ app.get("/change-password", (req, res) => {
 
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "admin-login.html")); // DIUBAH
-}); 
+});
 
 app.get("/", (req, res) => {
-  if (req.session && req.session.user) {
-    res.redirect("/chat");
-  } else {
-    res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
-  }
+  if (req.session && req.session.user) {
+    res.redirect("/chat");
+  } else {
+    res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
+  }
 });
 
 app.post("/add-admin", (req, res) => {
