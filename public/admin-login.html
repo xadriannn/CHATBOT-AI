@@ -35,15 +35,16 @@
         <span>Username atau password salah</span>
       </div> -->
 
-        <form id="loginForm" action="/login" method="POST" class="login-form">
+        <form
+          id="loginForm"
+          action="/login"
+          method="POST"
+          class="login-form"
+          novalidate
+        >
           <div class="input-group">
             <i class="fas fa-user"></i>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              required
-            />
+            <input type="text" name="username" placeholder="Username" />
           </div>
 
           <div class="input-group">
@@ -53,7 +54,6 @@
               name="password"
               id="password"
               placeholder="Password"
-              required
             />
             <i
               class="fas fa-eye toggle-password"
@@ -97,13 +97,26 @@
 
         if (loginForm) {
           loginForm.addEventListener("submit", async (event) => {
-            // Mencegah form mengirim dengan cara biasa (mencegah reload)
             event.preventDefault();
 
             const formData = new FormData(loginForm);
             const data = Object.fromEntries(formData.entries());
+            // Validasi input
+            if (!data.username || !data.username.trim()) {
+              PopupNotify.info(
+                "Username tidak boleh kosong.",
+                "Input Diperlukan"
+              );
+              return;
+            }
+            if (!data.password || !data.password.trim()) {
+              PopupNotify.info(
+                "Password tidak boleh kosong.",
+                "Input Diperlukan"
+              );
+              return;
+            }
 
-            // Simpan username untuk ditampilkan jika login berhasil nanti
             localStorage.setItem("adminName", data.username);
 
             try {

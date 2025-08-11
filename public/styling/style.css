@@ -391,28 +391,64 @@ body {
 
 /* Item di dalam dropdown (Edit Profile, Logout) */
 .dropdown-item {
-  /* PERBAIKAN: Menggunakan flexbox untuk mensejajarkan ikon dan teks */
+  /* Kunci Utama: Menggunakan Flexbox untuk perataan */
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: center; /* Membuat ikon dan teks sejajar vertikal */
+  gap: 12px; /* Jarak antara ikon dan teks */
 
+  width: 100%;
   padding: 12px 16px;
   color: var(--text-color);
   text-decoration: none;
   font-size: 0.9rem;
   transition: background-color 0.2s ease;
+
+  /* Reset untuk <button> agar terlihat seperti <a> */
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .dropdown-item:hover {
   background-color: var(--light-gray);
 }
 
-/* Gaya untuk ikon di dalam dropdown */
+/* Mengatur semua SVG (ikon) di dalam dropdown agar seragam */
 .dropdown-item svg {
   width: 18px;
   height: 18px;
-  stroke: #555; /* Warna ikon */
-  flex-shrink: 0;
+  stroke: #555; /* Warna default ikon */
+  flex-shrink: 0; /* Mencegah ikon menyusut */
+  stroke-width: 2; /* Pastikan ketebalan garis konsisten */
+}
+
+/* Mengatur panah submenu secara spesifik */
+/* Versi CSS Final untuk Panah */
+.submenu-arrow {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  stroke: #888;
+  transition: transform 0.3s ease;
+}
+
+/* Submenu yang awalnya tersembunyi */
+.submenu {
+  display: none;
+  padding-left: 20px;
+  background-color: #f8f9fa;
+}
+
+/* Gaya saat submenu terbuka */
+.submenu.open {
+  display: block;
+}
+
+/* Animasi panah saat submenu terbuka */
+.submenu-toggle.open .submenu-arrow {
+  transform: rotate(90deg);
 }
 
 /* === LOGIKA RESPONSIVE UNTUK SAPAAN === */

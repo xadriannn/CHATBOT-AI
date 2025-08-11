@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Dashboard - User Statistics</title>
   <link rel="icon" href="assets/logo.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="styling/dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,7 +19,7 @@
 
 <body>
    <nav class="sidebar">
-    <h2>Admin Panel</h2>
+    <h2>Admin Si Jete</h2>
 
     <a href="#" class="nav-link active" onclick="showSection('dashboard-section', this)">
       <i class="fas fa-user-shield"></i>
@@ -22,20 +28,20 @@
 
     <a href="#" class="nav-link" onclick="showSection('admin-table-section', this)">
       <i class="fas fa-user-shield"></i>
-      Admins
+      Data Admin
     </a>
 
     <a href="#" class="nav-link" onclick="showSection('user-table-section', this)">
       <i class="fas fa-users"></i>
-      Users
+      Data Pengguna
     </a>
 
     <a href="#" class="nav-link" onclick="showSection('file-upload-section', this)">
       <i class="fas fa-cloud-upload-alt"></i>
-      File Upload
+      Unggah File
     </a>
      <a href="#" class="nav-link" onclick="showSection('file-manager-section', this)">
-      <i class="fas fa-folder-open"></i> File Managers
+      <i class="fas fa-folder-open"></i> Pengelola File
     </a>
 
     <a href="#" class="nav-link" onclick="logout()">
@@ -55,15 +61,15 @@
 
       <section class="stats">
         <div class="stat-card gradient-blue">
-          <div class="stat-title"><i class="fas fa-user-shield"></i> Total Admins</div>
+          <div class="stat-title"><i class="fas fa-user-shield"></i> Total Admin</div>
           <div class="stat-value" id="totalAdmins">0</div>
         </div>
         <div class="stat-card gradient-green">
-          <div class="stat-title"><i class="fas fa-users"></i> Active Users</div>
+          <div class="stat-title"><i class="fas fa-users"></i> Pengguna Aktif</div>
           <div class="stat-value" id="activeUsers">128</div>
         </div>
         <div class="stat-card gradient-yellow">
-          <div class="stat-title"><i class="fas fa-user-plus"></i> New Users (30d)</div>
+          <div class="stat-title"><i class="fas fa-user-plus"></i> Pengguna Baru (30hr)</div>
           <div class="stat-value" id="newUsers">58</div>
         </div>
       </section>
@@ -106,7 +112,7 @@
 
   <section id="user-table-section" class="hidden-section">
   <header>
-    <h1>Data User</h1>
+    <h1>Data Pengguna</h1>
   </header>
 
 
@@ -137,18 +143,24 @@
 
     <!-- Modal Tambah Admin -->
     <div class="modal hidden" id="add-admin-modal">
-      <div class="modal-content">
-        <h3>Tambah Admin Baru</h3>
-        <form id="add-admin-form">
-          <input type="text" id="new-username" placeholder="Username" required />
-          <input type="password" id="new-password" placeholder="Password" required />
-          <div class="modal-actions">
-            <button type="submit" class="primary-btn">Simpan</button>
-            <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
-          </div>
+    <div class="modal-content">
+        <h3 class="modal-title">Tambah Admin Baru</h3>
+        <form id="add-admin-form" novalidate> 
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="new-username" placeholder="Username Baru" required />
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="new-password" placeholder="Password Baru" required />
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="primary-btn"><i class="fas fa-save"></i> Simpan</button>
+                <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
+            </div>
         </form>
-      </div>
     </div>
+</div>
 
     <div id="float-alert" class="alert-float hidden">
   <span id="float-alert-text"></span>
@@ -163,7 +175,7 @@
   </header>
 
   <div class="upload-container">
-    <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload">
+    <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload" novalidate>
       <label for="file-input">
         <i class="fas fa-file-upload"></i> Pilih Dokumen:
       </label>
@@ -173,7 +185,6 @@
         name="file"
         multiple
         accept=".pdf,.doc,.docx,.xls,.xlsx"
-        required
       />
 
       <button type="submit" class="primary-btn">
@@ -187,7 +198,7 @@
 
 <section id="file-manager-section" class="hidden-section">
       <header>
-        <h1><i class="fas fa-folder-open"></i> File Managers</h1>
+        <h1><i class="fas fa-folder-open"></i> Pengelola File</h1>
       </header>
       <div class="chart-container">
         <table>

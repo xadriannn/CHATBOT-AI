@@ -587,6 +587,53 @@ app.get("/api/get-user-data", requireUserLogin, (req, res) => {
   });
 });
 
+app.post("/api/update-profile", requireUserLogin, async (req, res) => {
+  const { username, email, password } = req.body;
+  const userId = req.session.user.id;
+
+  if (!username || !email) {
+    return res.status(400).json({ success: false, error: "Username dan email tidak boleh kosong." });
+  }
+
+  try {
+    // Cek apakah username/email baru sudah digunakan oleh user lain
+    const existingUser = await new Promise((resolve, reject) => {
+      db.get("SELECT * FROM users WHERE (username = ? OR email = ?) AND id != ?", [username, email, userId], (err, row) => {
+        if (err) reject(err);
+        resolve(row);
+      });
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ success: false, error: "Username atau email sudah digunakan oleh pengguna lain." });
+    }
+
+    // Jika password diisi, hash password baru
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      db.run("UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?", [username, email, hashedPassword, userId], function(err) {
+        if (err) throw err;
+      });
+    } else {
+      // Jika password kosong, update username dan email saja
+      db.run("UPDATE users SET username = ?, email = ? WHERE id = ?", [username, email, userId], function(err) {
+        if (err) throw err;
+      });
+    }
+
+    // Perbarui data di sesi
+    req.session.user.username = username;
+    req.session.user.email = email;
+    req.session.save();
+
+    res.json({ success: true, message: "Profil berhasil diperbarui!" });
+
+  } catch (err) {
+    console.error("Error updating profile:", err);
+    res.status(500).json({ success: false, error: "Terjadi kesalahan pada server." });
+  }
+});
+
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
 });
@@ -609,6 +656,10 @@ app.get("/", (req, res) => {
   } else {
     res.sendFile(path.join(__dirname, "public", "login.html")); // DIUBAH
   }
+});
+
+app.get("/edit-profile", requireUserLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "edit-profile.html")); 
 });
 
 app.post("/add-admin", (req, res) => {
