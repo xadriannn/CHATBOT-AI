@@ -12,8 +12,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 1. Ambil data user saat ini dan isi form ---
     try {
-        const response = await fetch('/api/get-user-data');
-        const data = await response.json();
+        const res = await fetch('/api/get-user-data', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include' // penting untuk kirim cookie JWT
+        });
+        const data = await res.json();
 
         if (data.success && data.user) {
             usernameInput.value = data.user.username;
@@ -81,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const res = await fetch('/api/update-profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // penting untuk kirim cookie JWT
                 body: JSON.stringify(updatedData)
             });
 

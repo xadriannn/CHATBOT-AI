@@ -106,29 +106,71 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  async function fetchAdmins() {
-    try {
-      const res = await fetch("/admin-list");
-      const admins = await res.json();
-      document.getElementById("totalAdmins").textContent = admins.length;
-      const tbody = document.getElementById("admin-table-body");
-      tbody.innerHTML = "";
-      admins.forEach((admin) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${admin.username}</td>
-          <td><span class="status-active">Aktif</span></td>
-          <td>-</td>
-          <td class="action-cell">
-            <button class="danger-btn" onclick="deleteAdmin('${admin.username}')"><i class="fas fa-trash"></i> Hapus</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    } catch (err) {
-      console.error("Gagal memuat data admin:", err);
-    }
+async function fetchAdmins() {
+  try {
+    const res = await fetch("/api/admin-list", {
+      method: "GET",
+      credentials: "include" // penting untuk kirim cookie JWT
+    });
+
+    if (!res.ok) throw new Error("Gagal fetch admin list");
+
+    const admins = await res.json();
+
+    const tbody = document.getElementById("admin-table-body");
+    tbody.innerHTML = "";
+
+    admins.forEach((admin) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${admin.username}</td>
+        <td>${admin.lastActivity}</td>
+        <td class="action-cell">
+          <button class="danger-btn" onclick="deleteAdmin('${admin.username}')"><i class="fas fa-trash"></i> Hapus</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error("Gagal memuat data admin:", err);
   }
+}
+
+
+  async function logActivity(activity) {
+  try {
+    await fetch("/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: currentUser, activity }) // pastikan currentUser tersedia
+    });
+  } catch (error) {
+    console.error("Gagal mengirim log:", error);
+  }
+}
+
+async function fetchLogs() {
+  try {
+    const res = await fetch("/logs");
+    const logs = await res.json();
+    const tbody = document.getElementById("log-table-body");
+    tbody.innerHTML = "";
+    logs.forEach(log => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${log.username}</td>
+        <td>${log.activity}</td>
+        <td>${new Date(log.timestamp).toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error("Gagal mengambil log:", err);
+  }
+}
+
+
 
   async function fetchUsers() {
     try {
@@ -159,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
         tr.innerHTML = `
           <td><input type="checkbox" class="select-user" value="${user.username}"></td>
           <td>${user.username}</td>
-          <td>${user.password}</td>
           <td>${createdAtStr}</td>
           <td class="action-cell">
             <button class="danger-btn" onclick="deleteUser('${user.username}')"><i class="fas fa-trash"></i> Hapus</button>
@@ -175,7 +216,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function fetchUploadedFiles() {
     try {
-      const res = await fetch("/files");
+      const res = await fetch("/api/files", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include" // penting untuk kirim cookie JWT
+    });
       const files = await res.json();
       const tbody = document.getElementById("file-manager-body");
       tbody.innerHTML = "";
@@ -221,14 +266,27 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (isConfirmed) {
       try {
-        const res = await fetch("/delete-admin", {
+        const res = await fetch("/api/delete-admin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include", // penting untuk kirim cookie JWT
           body: JSON.stringify({ username }),
         });
         const data = await res.json();
         if (res.ok) {
           PopupNotify.success(`Admin ${username} berhasil dihapus.`);
+          // ✅ Catat log aktivitas
+      await fetch("/log", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          activity: "Menghapus akun admin"
+        })
+      });
+      
           fetchAdmins();
         } else {
           PopupNotify.failed(data.message || "Gagal menghapus admin.");
@@ -246,9 +304,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (isConfirmed) {
       try {
-        const res = await fetch("/delete-user", {
+        const res = await fetch("/api/delete-user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include", // penting untuk kirim cookie JWT
           body: JSON.stringify({ username }),
         });
         const data = await res.json();
@@ -271,8 +330,10 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (isConfirmed) {
       try {
-        const res = await fetch(`/files/${encodeURIComponent(filename)}`, {
+        const res = await fetch(`/api/files/${encodeURIComponent(filename)}`, {
           method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // penting untuk kirim cookie JWT
         });
         if (res.ok) {
           PopupNotify.success(`File "${filename}" berhasil dihapus.`);
@@ -365,8 +426,10 @@ document.addEventListener("DOMContentLoaded", () => {
       statusDiv.style.color = "inherit";
 
       try {
-        const res = await fetch("/upload-multiple", {
+        const res = await fetch("/api/upload-multiple", {
           method: "POST",
+          headers: { "Accept": "application/json" },
+          credentials: "include", // penting untuk kirim cookie JWT
           body: formData,
         });
         const text = await res.text();
@@ -411,9 +474,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = document.getElementById("new-password").value;
 
       try {
-        const res = await fetch("/add-admin", {
+        const res = await fetch("/api/add-admin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include", // penting untuk kirim cookie JWT
           body: JSON.stringify({ username, password }),
         });
         const data = await res.json();

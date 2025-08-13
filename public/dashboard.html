@@ -98,7 +98,6 @@
           <thead>
             <tr>
               <th>Username</th>
-              <th>Status</th>
               <th>Aktivitas Terakhir</th>
               <th class="action-cell">Aksi</th>
             </tr>
@@ -109,6 +108,24 @@
         </table>
       </section>
     </section>
+
+    <section id="log-section" class="hidden-section">
+  <header><h1>Riwayat Aktivitas Admin</h1></header>
+  <section class="chart-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Aktivitas</th>
+          <th>Waktu</th>
+        </tr>
+      </thead>
+      <tbody id="log-table-body">
+        <!-- Baris log akan diisi lewat JavaScript -->
+      </tbody>
+    </table>
+  </section>
+</section>
 
   <section id="user-table-section" class="hidden-section">
   <header>
@@ -129,7 +146,6 @@
   <input type="checkbox" id="select-all-users" aria-label="Pilih Semua User" />
 </th>
           <th>Username</th>
-          <th>Password</th>
           <th>Tanggal Pembuatan</th>
           <th class="action-cell">Aksi</th>
         </tr>
@@ -215,11 +231,6 @@
         </table>
       </div>
     </section>
-
-
-
-
-
     <footer>
       &copy; 2025 Admin Dashboard. All rights reserved.
     </footer>
