@@ -10,8 +10,7 @@ db.serialize(() => {
   CREATE TABLE IF NOT EXISTS admin (
     id INTEGER PRIMARY KEY, 
     username TEXT UNIQUE NOT NULL, 
-    password TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'admin'
+    password TEXT NOT NULL
   )
 `);
   db.run(`
@@ -23,14 +22,23 @@ db.serialize(() => {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )
     `);
-  db.run(`
-  CREATE TABLE IF NOT EXISTS logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT,
-    activity TEXT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-  )
-`);
+//   db.run(`
+//   CREATE TABLE IF NOT EXISTS logs (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     username TEXT,
+//     activity TEXT,
+//     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+//   )
+// `);
+db.run(
+    `CREATE TABLE IF NOT EXISTS faqs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      question TEXT NOT NULL,
+      answer TEXT NOT NULL,
+      sort_order INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`
+  );
 });
 
 export default db;

@@ -106,71 +106,69 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-async function fetchAdmins() {
-  try {
-    const res = await fetch("/api/admin-list", {
-      method: "GET",
-      credentials: "include" // penting untuk kirim cookie JWT
-    });
+  async function fetchAdmins() {
+    try {
+      const res = await fetch("/api/admin-list", {
+        method: "GET",
+        credentials: "include" // penting untuk kirim cookie JWT
+      });
 
-    if (!res.ok) throw new Error("Gagal fetch admin list");
+      if (!res.ok) throw new Error("Gagal fetch admin list");
 
-    const admins = await res.json();
+      const admins = await res.json();
 
-    const tbody = document.getElementById("admin-table-body");
-    tbody.innerHTML = "";
+      const tbody = document.getElementById("admin-table-body");
+      tbody.innerHTML = "";
 
-    admins.forEach((admin) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+      admins.forEach((admin) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
         <td>${admin.username}</td>
         <td>${admin.lastActivity}</td>
         <td class="action-cell">
           <button class="danger-btn" onclick="deleteAdmin('${admin.username}')"><i class="fas fa-trash"></i> Hapus</button>
         </td>
       `;
-      tbody.appendChild(tr);
-    });
+        tbody.appendChild(tr);
+      });
 
-  } catch (err) {
-    console.error("Gagal memuat data admin:", err);
+    } catch (err) {
+      console.error("Gagal memuat data admin:", err);
+    }
   }
-}
 
 
   async function logActivity(activity) {
-  try {
-    await fetch("/log", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: currentUser, activity }) // pastikan currentUser tersedia
-    });
-  } catch (error) {
-    console.error("Gagal mengirim log:", error);
+    try {
+      await fetch("/log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: currentUser, activity }) // pastikan currentUser tersedia
+      });
+    } catch (error) {
+      console.error("Gagal mengirim log:", error);
+    }
   }
-}
 
-async function fetchLogs() {
-  try {
-    const res = await fetch("/logs");
-    const logs = await res.json();
-    const tbody = document.getElementById("log-table-body");
-    tbody.innerHTML = "";
-    logs.forEach(log => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+  async function fetchLogs() {
+    try {
+      const res = await fetch("/logs");
+      const logs = await res.json();
+      const tbody = document.getElementById("log-table-body");
+      tbody.innerHTML = "";
+      logs.forEach(log => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
         <td>${log.username}</td>
         <td>${log.activity}</td>
         <td>${new Date(log.timestamp).toLocaleString()}</td>
       `;
-      tbody.appendChild(tr);
-    });
-  } catch (err) {
-    console.error("Gagal mengambil log:", err);
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error("Gagal mengambil log:", err);
+    }
   }
-}
-
-
 
   async function fetchUsers() {
     try {
@@ -217,10 +215,10 @@ async function fetchLogs() {
   async function fetchUploadedFiles() {
     try {
       const res = await fetch("/api/files", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include" // penting untuk kirim cookie JWT
-    });
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include" // penting untuk kirim cookie JWT
+      });
       const files = await res.json();
       const tbody = document.getElementById("file-manager-body");
       tbody.innerHTML = "";
@@ -232,11 +230,11 @@ async function fetchLogs() {
           <td class="action-cell">
             <div class="file-action-buttons">
               <a href="/uploads/${encodeURIComponent(
-                file.name
-              )}" download class="primary-btn">Download</a>
-              <button class="danger-btn" onclick="deleteFileFromManager('${
-                file.name
-              }')">
+          file.name
+        )}" download class="primary-btn">
+              <i class="fa-solid fa-download"></i>Download</a>
+              <button class="danger-btn" onclick="deleteFileFromManager('${file.name
+          }')">
                 <i class="fas fa-trash"></i> Hapus
               </button>
             </div>
@@ -246,6 +244,39 @@ async function fetchLogs() {
       });
     } catch (err) {
       console.error("Gagal memuat daftar file:", err);
+    }
+  }
+
+  async function fetchFaqsForAdmin() {
+    try {
+      const res = await fetch('/api/faq',{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include'
+      });
+      const data = await res.json();
+      const tbody = document.getElementById('faq-table-body');
+      tbody.innerHTML = '';
+
+      if (data.success && data.faqs) {
+        data.faqs.forEach(faq => {
+          const tr = document.createElement('tr');
+          // Memotong konten jawaban untuk preview
+          const answerPreview = faq.answer.length > 50 ? faq.answer.substring(0, 50) + '...' : faq.answer;
+          tr.innerHTML = `
+            <td><input type="checkbox" class="select-faq" value="${faq.id}"></td>
+            <td>${faq.question}</td>
+            <td>${answerPreview}</td>
+            <td class="action-cell">
+                <button class="primary-btn" onclick="openEditFaqModal(${faq.id}, '${faq.question}', '${faq.answer}')"><i class="fas fa-edit"></i> Edit</button>
+                <button class="danger-btn" onclick="deleteFaq(${faq.id})"><i class="fas fa-trash"></i> Hapus</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    } catch (err) {
+      console.error('Gagal memuat daftar FAQ:', err);
     }
   }
 
@@ -276,17 +307,17 @@ async function fetchLogs() {
         if (res.ok) {
           PopupNotify.success(`Admin ${username} berhasil dihapus.`);
           // ✅ Catat log aktivitas
-      await fetch("/log", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username,
-          activity: "Menghapus akun admin"
-        })
-      });
-      
+          await fetch("/log", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              username,
+              activity: "Menghapus akun admin"
+            })
+          });
+
           fetchAdmins();
         } else {
           PopupNotify.failed(data.message || "Gagal menghapus admin.");
@@ -348,6 +379,39 @@ async function fetchLogs() {
     }
   };
 
+  window.deleteFaq = async function (id) {
+    const isConfirmed = await PopupNotify.confirm('Data yang dihapus tidak dapat dikembalikan.', 'Yakin ingin menghapus FAQ ini?');
+    if (isConfirmed) {
+      try {
+        const res = await fetch('/api/delete-faq', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // penting untuk kirim cookie JWT
+          body: JSON.stringify({ id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          PopupNotify.success('FAQ berhasil dihapus.');
+          fetchFaqsForAdmin(); // Refresh tabel
+        } else {
+          PopupNotify.failed(data.error || 'Gagal menghapus FAQ.');
+        }
+      } catch (err) {
+        PopupNotify.failed('Terjadi kesalahan pada server.');
+      }
+    }
+  }
+
+  // Buka modal untuk mengedit FAQ (mengisi form dengan data lama)
+  window.openEditFaqModal = function (id, question, answer) {
+    document.getElementById('faq-modal-title').textContent = 'Edit FAQ';
+    document.getElementById('faq-id').value = id; // Simpan ID untuk update
+    document.getElementById('faq-question').value = question;
+    document.getElementById('faq-answer').value = answer;
+    document.getElementById('faq-modal').classList.remove('hidden');
+  }
+
+
   // ===================================================================
   // FUNGSI INISIALISASI & EVENT LISTENER LAINNYA
   // ===================================================================
@@ -377,9 +441,10 @@ async function fetchLogs() {
         let failedCount = 0;
         for (const cb of checked) {
           try {
-            const res = await fetch("/delete-user", {
+            const res = await fetch("api/delete-user", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
+              credentials: "include", // penting untuk kirim cookie JWT
               body: JSON.stringify({ username: cb.value }),
             });
             if (res.ok) {
@@ -507,11 +572,132 @@ async function fetchLogs() {
     });
   }
 
+  // --- BARU: Event Listener untuk Pengelola FAQ ---
+
+  const addFaqButton = document.getElementById('add-faq-button');
+  const faqModal = document.getElementById('faq-modal');
+  const faqCancelModalButton = document.getElementById('faq-cancel-modal');
+  const faqForm = document.getElementById('faq-form');
+  const faqIdInput = document.getElementById('faq-id');
+
+  // Tombol "Tambahkan FAQ" untuk membuka modal kosong
+  addFaqButton.addEventListener('click', () => {
+    faqForm.reset(); // Kosongkan form
+    faqIdInput.value = ''; // Pastikan ID kosong untuk mode 'tambah'
+    document.getElementById('faq-modal-title').textContent = 'Tambah FAQ Baru';
+    faqModal.classList.remove('hidden');
+  });
+
+  // Tombol batal di dalam modal
+  faqCancelModalButton.addEventListener('click', () => {
+    faqModal.classList.add('hidden');
+  });
+
+  // Submit form untuk Tambah atau Edit FAQ
+// Ganti seluruh blok event listener faqForm dengan ini
+
+faqForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = faqIdInput.value;
+    const question = document.getElementById('faq-question').value;
+    const answer = document.getElementById('faq-answer').value;
+
+    if (!question.trim() || !answer.trim()) {
+        return PopupNotify.info('Judul dan Konten tidak boleh kosong.');
+    }
+
+    const isEditing = !!id;
+    const url = isEditing ? `/api/update-faq` : `/api/create-faq`;
+    const method = isEditing ? 'PUT' : 'POST';
+    const body = isEditing ? { id, question, answer } : { question, answer };
+
+    try {
+        const res = await fetch(url, {
+            method: method,
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include', 
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            PopupNotify.success(`FAQ berhasil ${isEditing ? 'diperbarui' : 'ditambahkan'}.`);
+            faqModal.classList.add('hidden');
+            fetchFaqsForAdmin();
+        } else {
+            PopupNotify.failed(data.error || 'Gagal menyimpan data.');
+        }
+    } catch (err) {
+        PopupNotify.failed('Terjadi kesalahan pada server.');
+    }
+});
+
+  // Select All FAQs
+  const selectAllFaqsCheckbox = document.getElementById('select-all-faqs');
+  if (selectAllFaqsCheckbox) {
+    selectAllFaqsCheckbox.addEventListener('change', (e) => {
+      const isChecked = e.target.checked;
+      document.querySelectorAll('.select-faq').forEach(cb => {
+        cb.checked = isChecked;
+      });
+    });
+  }
+
+document
+  .getElementById("delete-selected-faqs-button")
+  .addEventListener("click", async () => {
+    const checked = Array.from(
+      document.querySelectorAll(".select-faq:checked")
+    );
+    if (checked.length === 0) {
+      // PERBAIKAN: Pesan disesuaikan untuk FAQ
+      PopupNotify.info(
+        "Pilih minimal satu FAQ yang ingin dihapus.",
+        "Tidak ada FAQ terpilih"
+      );
+      return;
+    }
+    const isConfirmed = await PopupNotify.confirm(
+      `Anda akan menghapus ${checked.length} FAQ secara permanen.`, // PERBAIKAN: Teks disesuaikan
+      "Hapus FAQ terpilih?"
+    );
+    if (isConfirmed) {
+      let successCount = 0;
+      let failedCount = 0;
+      for (const cb of checked) {
+        try {
+          const res = await fetch("/api/delete-faq", { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ id: cb.value }),
+          });
+          if (res.ok) {
+            successCount++;
+          } else {
+            failedCount++;
+          }
+        } catch {
+          failedCount++;
+        }
+      }
+      if (failedCount > 0) {
+        PopupNotify.failed(
+          `${failedCount} FAQ gagal dihapus.`, // PERBAIKAN: Teks disesuaikan
+          "Sebagian Gagal"
+        );
+      } else {
+        PopupNotify.success(`${successCount} FAQ berhasil dihapus.`); // PERBAIKAN: Teks disesuaikan
+      }
+      fetchFaqsForAdmin(); // Refresh tabel FAQ
+    }
+  });
   // --- Panggil semua fungsi inisialisasi saat halaman dimuat ---
   fetchAdminGreeting();
   fetchAdmins();
   fetchUsers();
   fetchUploadedFiles();
+  fetchFaqsForAdmin();
 }); // Akhir dari DOMContentLoaded
 
 // Fungsi navigasi sidebar (bisa ditaruh di luar DOMContentLoaded)

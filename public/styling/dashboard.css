@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -13,7 +12,7 @@ input,
 select,
 textarea {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #f8f9fa;
   color: #333;
 }
@@ -22,7 +21,10 @@ textarea {
   position: fixed;
   height: 100vh;
   width: 250px;
-  background: linear-gradient(135deg, #1e3a8a, #2c3e50); /* Gradient lebih halus */
+  background: linear-gradient(135deg,
+      #1e3a8a,
+      #2c3e50);
+  /* Gradient lebih halus */
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -30,7 +32,8 @@ textarea {
 }
 
 .sidebar h2 {
-  text-align: center; /* Teks di tengah */
+  text-align: center;
+  /* Teks di tengah */
   font-weight: 700;
   margin-bottom: 2rem;
   letter-spacing: 1px;
@@ -91,7 +94,7 @@ header h1 {
 
 .stat-card {
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgb(30 58 138 / 0.10);
+  box-shadow: 0 4px 24px rgb(30 58 138 / 0.1);
   padding: 1.8rem 2rem;
   display: flex;
   flex-direction: column;
@@ -145,7 +148,7 @@ header h1 {
   font-weight: 700;
   color: inherit;
   margin-top: 0.3rem;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
 .chart-container {
@@ -174,36 +177,46 @@ footer {
   display: none;
 }
 
-/* === GAYA TABEL UMUM === */
+/* GAYA TABEL UMUM */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
 }
 
-th, td {
+/* Aturan umum untuk semua sel */
+th,
+td {
   padding: 14px 16px;
   border-bottom: 1px solid #e2e8f0;
-  text-align: left;
-  font-size: 0.95rem;
   vertical-align: middle;
+  font-size: 0.95rem;
 }
 
+/* 1. Header tabel dibuat rata tengah */
 thead th {
   background-color: #f8fafc;
   color: #475569;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align: center;
   border-bottom: 2px solid #e2e8f0;
+}
+
+/* 2. Isi data tabel (default) dibuat rata kiri agar mudah dibaca */
+tbody td {
+  text-align: left;
+}
+
+/* 3. KHUSUS untuk sel aksi, kita buat rata tengah */
+/* Ini akan menengahkan tombol 'Hapus' tunggal di tabel Admin/User */
+tbody td.action-cell {
+  text-align: center;
 }
 
 tbody tr:hover {
   background-color: #f1f5f9;
-}
-
-.action-cell {
-  text-align: right;
 }
 
 /* === GAYA TOMBOL UMUM === */
@@ -220,6 +233,7 @@ tbody tr:hover {
   align-items: center;
   gap: 8px;
 }
+
 .primary-btn:hover {
   background-color: #1d4ed8;
   transform: translateY(-2px);
@@ -239,6 +253,7 @@ tbody tr:hover {
   align-items: center;
   gap: 8px;
 }
+
 .danger-btn:hover {
   background-color: #b91c1c;
 }
@@ -253,6 +268,7 @@ tbody tr:hover {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .cancel-btn:hover {
   background-color: #cbd5e1;
 }
@@ -261,7 +277,7 @@ tbody tr:hover {
   margin-bottom: 1.5rem;
 }
 
-/* === GAYA MODAL YANG DIPERBARUI === */
+/* === GAYA MODAL === */
 .modal {
   position: fixed;
   top: 0;
@@ -276,11 +292,13 @@ tbody tr:hover {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 20px;
+  /* Jarak aman di layar kecil */
 }
 
 .modal:not(.hidden) {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 .modal-content {
@@ -288,14 +306,15 @@ tbody tr:hover {
   padding: 2.5rem;
   border-radius: 20px;
   width: 100%;
-  max-width: 420px;
+  /* PERBAIKAN: Lebar maksimal diperbesar */
+  max-width: 700px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   transform: scale(0.95);
   transition: transform 0.3s ease;
 }
 
 .modal:not(.hidden) .modal-content {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 .modal-content h3 {
@@ -313,13 +332,17 @@ tbody tr:hover {
 
 .modal-content .input-group i {
   position: absolute;
-  top: 50%;
+  /* PERBAIKAN: Posisikan ikon agar sejajar dengan baris pertama textarea */
+  top: 15px;
   left: 15px;
-  transform: translateY(-50%);
+  transform: translateY(0);
+  /* Hapus transform Y */
   color: #6c757d;
 }
 
-.modal-content .input-group input {
+/* Aturan ini sekarang berlaku untuk input DAN textarea */
+.modal-content .input-group input,
+.modal-content .input-group textarea {
   width: 100%;
   padding: 15px 15px 15px 45px;
   border: 2px solid #e9ecef;
@@ -329,7 +352,16 @@ tbody tr:hover {
   transition: all 0.3s ease;
 }
 
-.modal-content .input-group input:focus {
+/* BARU: Gaya spesifik untuk textarea */
+.modal-content .input-group textarea {
+  min-height: 150px;
+  /* Atur tinggi minimal yang lebih besar */
+  resize: none;
+  /* KUNCI: Mencegah user mengubah ukurannya */
+}
+
+.modal-content .input-group input:focus,
+.modal-content .input-group textarea:focus {
   border-color: #4361ee;
   box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
   outline: none;
@@ -376,22 +408,27 @@ tbody tr:hover {
     justify-content: center;
     overflow-x: auto;
   }
+
   .sidebar h2 {
     display: none;
   }
+
   .nav-link {
     margin: 0 0.5rem;
     padding: 0.5rem 0.8rem;
     flex-shrink: 0;
   }
+
   main {
     margin-left: 0;
     padding: 1.5rem 1rem;
   }
+
   .stats {
     grid-template-columns: 1fr;
     gap: 1.2rem;
   }
+
   header {
     flex-direction: column;
     align-items: flex-start;
@@ -455,4 +492,69 @@ tbody tr:hover {
   margin-top: 1rem;
   text-align: center;
   font-weight: 500;
+}
+
+/* === GAYA KHUSUS UNTUK TOMBOL DI PENGELOLA FILE === */
+
+/* 1. Mengatur posisi GRUP tombol agar di tengah sel tabel */
+#file-manager-body td.action-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 2. Mengatur tata letak DI DALAM grup tombol (berdampingan + jarak) */
+.file-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* 3. Mengatur tampilan SETIAP tombol (lebar sama + isi di tengah) */
+.file-action-buttons .primary-btn,
+.file-action-buttons .danger-btn {
+  width: 120px;
+  /* Atur lebar yang sama */
+  display: flex;
+  align-items: center;
+  /* Rata tengah vertikal untuk ikon & teks */
+  justify-content: center;
+  /* Rata tengah horizontal untuk ikon & teks */
+}
+
+/* 1. Membuat tombol "Tambah FAQ" dan "Hapus" sejajar */
+#faq-manager-section .admin-action {
+  display: flex;
+  gap: 12px; /* Memberi jarak antar tombol */
+  align-items: center;
+}
+
+/* 2. Mengatur lebar kolom-kolom di tabel FAQ */
+#faq-manager-section table th:nth-child(1), /* Checkbox */
+#faq-manager-section table td:nth-child(1) {
+  width: 5%;
+  text-align: center;
+}
+
+#faq-manager-section table th:nth-child(2), /* Judul */
+#faq-manager-section table td:nth-child(2) {
+  width: 30%; /* Batasi lebar kolom judul */
+}
+
+#faq-manager-section table th:nth-child(3), /* Konten */
+#faq-manager-section table td:nth-child(3) {
+  width: 40%; /* Beri ruang lebih untuk preview konten */
+}
+
+#faq-manager-section table th:nth-child(4), /* Aksi */
+#faq-manager-section table td:nth-child(4) {
+  width: 25%;
+  text-align: center;
+}
+
+/* 3. Membuat teks yang terlalu panjang menjadi "..." */
+#faq-manager-section table td {
+  white-space: nowrap;      /* Mencegah teks turun baris */
+  overflow: hidden;         /* Sembunyikan teks yang meluber */
+  text-overflow: ellipsis;  /* Tampilkan "..." */
+  max-width: 0;             /* Trik agar text-overflow bekerja dengan baik di tabel */
 }

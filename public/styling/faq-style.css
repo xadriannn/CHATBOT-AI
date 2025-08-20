@@ -1,0 +1,149 @@
+:root {
+  --primary: #0066cc;
+  --primary-dark: #0052a3;
+  --light-gray: #f8f9fa;
+  --border-color: #e9ecef;
+  --text-dark: #212529;
+  --text-light: #6c757d;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f7ff;
+  color: var(--text-dark);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Ubah ke flex-start agar tidak terpotong */
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.faq-container {
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.faq-header {
+  padding: 40px;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+}
+
+.faq-header .logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.faq-header h1 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.faq-header p {
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faq-content {
+  padding: 20px 40px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border-color);
+  opacity: 0;
+}
+
+.faq-item.visible {
+  animation: itemFadeInUp 0.5s ease forwards;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: left;
+}
+
+.faq-question i {
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.faq-answer p {
+  padding: 0 0 20px 0;
+  line-height: 1.7;
+  color: var(--text-light);
+}
+
+.faq-footer {
+  padding: 30px 40px;
+  background-color: var(--light-gray);
+  text-align: center;
+}
+
+.back-to-chat-btn {
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.back-to-chat-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+@keyframes itemFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

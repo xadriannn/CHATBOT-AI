@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Dashboard - User Statistics</title>
   <link rel="icon" href="assets/logo.png" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styling/dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,7 +16,7 @@
 </head>
 
 <body>
-   <nav class="sidebar">
+  <nav class="sidebar">
     <h2>Admin Si Jete</h2>
 
     <a href="#" class="nav-link active" onclick="showSection('dashboard-section', this)">
@@ -40,9 +38,14 @@
       <i class="fas fa-cloud-upload-alt"></i>
       Unggah File
     </a>
-     <a href="#" class="nav-link" onclick="showSection('file-manager-section', this)">
+    <a href="#" class="nav-link" onclick="showSection('file-manager-section', this)">
       <i class="fas fa-folder-open"></i> Pengelola File
     </a>
+
+    <a href="#" class="nav-link" onclick="showSection('faq-manager-section', this)">
+      <i class="fas fa-question-circle"></i>
+      Pengelola FAQ
+      </a>
 
     <a href="#" class="nav-link" onclick="logout()">
       <i class="fas fa-sign-out-alt"></i>
@@ -90,7 +93,17 @@
       </header>
 
       <div class="admin-action">
-        <button id="add-admin-button" class="primary-btn"> Tambahkan Admin</button>
+        <button id="add-admin-button" class="primary-btn">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+            style="margin-right: 1.5px; vertical-align: middle;" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+
+          Tambahkan Admin
+        </button>
       </div>
 
       <section class="chart-container">
@@ -99,7 +112,7 @@
             <tr>
               <th>Username</th>
               <th>Aktivitas Terakhir</th>
-              <th class="action-cell">Aksi</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="admin-table-body">
@@ -110,109 +123,106 @@
     </section>
 
     <section id="log-section" class="hidden-section">
-  <header><h1>Riwayat Aktivitas Admin</h1></header>
-  <section class="chart-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Aktivitas</th>
-          <th>Waktu</th>
-        </tr>
-      </thead>
-      <tbody id="log-table-body">
-        <!-- Baris log akan diisi lewat JavaScript -->
-      </tbody>
-    </table>
-  </section>
-</section>
+      <header>
+        <h1>Riwayat Aktivitas Admin</h1>
+      </header>
+      <section class="chart-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Aktivitas</th>
+              <th>Waktu</th>
+            </tr>
+          </thead>
+          <tbody id="log-table-body">
+            <!-- Baris log akan diisi lewat JavaScript -->
+          </tbody>
+        </table>
+      </section>
+    </section>
 
-  <section id="user-table-section" class="hidden-section">
-  <header>
-    <h1>Data Pengguna</h1>
-  </header>
+    <section id="user-table-section" class="hidden-section">
+      <header>
+        <h1>Data Pengguna</h1>
+      </header>
 
 
-  <div class="admin-action">
-    <button id="delete-user-button" class="danger-btn">Hapus User Terpilih</button>
-  </div>
+      <div class="admin-action">
+        <button id="delete-user-button" class="danger-btn">
+          <i class="fas fa-user-minus"></i>Hapus User Terpilih</button>
+      </div>
 
-  <section class="chart-container">
-    <table>
-      <thead>
-        <tr>
-          <th>
-  <label for="select-all-users" class="visually-hidden">Pilih Semua User</label>
-  <input type="checkbox" id="select-all-users" aria-label="Pilih Semua User" />
-</th>
-          <th>Username</th>
-          <th>Tanggal Pembuatan</th>
-          <th class="action-cell">Aksi</th>
-        </tr>
-      </thead>
-      <tbody id="user-table-body">
-      </tbody>
-    </table>
-  </section>
-</section>
+      <section class="chart-container">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <label for="select-all-users" class="visually-hidden">Pilih Semua User</label>
+                <input type="checkbox" id="select-all-users" aria-label="Pilih Semua User" />
+              </th>
+              <th>Username</th>
+              <th>Tanggal Pembuatan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body">
+          </tbody>
+        </table>
+      </section>
+    </section>
 
 
     <!-- Modal Tambah Admin -->
     <div class="modal hidden" id="add-admin-modal">
-    <div class="modal-content">
+      <div class="modal-content">
         <h3 class="modal-title">Tambah Admin Baru</h3>
-        <form id="add-admin-form" novalidate> 
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="new-username" placeholder="Username Baru" required />
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="new-password" placeholder="Password Baru" required />
-            </div>
-            <div class="modal-actions">
-                <button type="submit" class="primary-btn"><i class="fas fa-save"></i> Simpan</button>
-                <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
-            </div>
+        <form id="add-admin-form" novalidate>
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" id="new-username" placeholder="Username Baru" required />
+          </div>
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="new-password" placeholder="Password Baru" required />
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="primary-btn"><i class="fas fa-save"></i> Simpan</button>
+            <button type="button" id="cancel-modal" class="cancel-btn">Batal</button>
+          </div>
         </form>
+      </div>
     </div>
-</div>
 
     <div id="float-alert" class="alert-float hidden">
-  <span id="float-alert-text"></span>
-</div>
+      <span id="float-alert-text"></span>
+    </div>
 
-  <span id="float-alert-text"></span>
-</div>
+    <span id="float-alert-text"></span>
+    </div>
 
     <section id="file-upload-section" class="hidden-section">
-  <header>
-    <h1><i class="fas fa-cloud-upload-alt"></i> Upload Dokumen</h1>
-  </header>
+      <header>
+        <h1><i class="fas fa-cloud-upload-alt"></i> Unggah File</h1>
+      </header>
 
-  <div class="upload-container">
-    <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload" novalidate>
-      <label for="file-input">
-        <i class="fas fa-file-upload"></i> Pilih Dokumen:
-      </label>
-      <input
-        type="file"
-        id="file-input"
-        name="file"
-        multiple
-        accept=".pdf,.doc,.docx,.xls,.xlsx"
-      />
+      <div class="upload-container">
+        <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload" novalidate>
+          <label for="file-input">
+            <i class="fas fa-file-upload"></i> Pilih Dokumen:
+          </label>
+          <input type="file" id="file-input" name="file" multiple accept=".pdf,.doc,.docx,.xls,.xlsx" />
 
-      <button type="submit" class="primary-btn">
-        <i class="fas fa-upload"></i> Upload File
-      </button>
-    </form>
+          <button type="submit" class="primary-btn">
+            <i class="fas fa-upload"></i> Upload File
+          </button>
+        </form>
 
-    <div id="upload-status"></div>
-  </div>
-</section>
+        <div id="upload-status"></div>
+      </div>
+    </section>
 
-<section id="file-manager-section" class="hidden-section">
+    <section id="file-manager-section" class="hidden-section">
       <header>
         <h1><i class="fas fa-folder-open"></i> Pengelola File</h1>
       </header>
@@ -222,7 +232,7 @@
             <tr>
               <th>Nama File</th>
               <th>Tanggal Upload</th>
-              <th class="action-cell">Aksi</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="file-manager-body">
@@ -231,6 +241,66 @@
         </table>
       </div>
     </section>
+
+    <section id="faq-manager-section" class="hidden-section">
+      <header>
+        <h1><i class="fas fa-question-circle"></i> Pengelola FAQ</h1>
+      </header>
+
+      <div class="admin-action">
+        <button id="add-faq-button" class="primary-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+            style="margin-right: 1.5px; vertical-align: middle;" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Tambahkan FAQ
+        </button>
+        <button id="delete-selected-faqs-button" class="danger-btn">
+          <i class="fas fa-trash"></i> Hapus yang Dipilih
+        </button>
+      </div>
+
+      <section class="chart-container">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" id="select-all-faqs" aria-label="Pilih Semua FAQ" />
+              </th>
+              <th>Judul Pertanyaan</th>
+              <th>Konten Jawaban</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="faq-table-body">
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <div class="modal hidden" id="faq-modal">
+      <div class="modal-content">
+        <h3 class="modal-title" id="faq-modal-title">Tambah FAQ Baru</h3>
+        <form id="faq-form" novalidate>
+          <input type="hidden" id="faq-id">
+          <div class="input-group">
+            <i class="fas fa-heading"></i>
+            <input type="text" id="faq-question" placeholder="Judul Pertanyaan" required />
+          </div>
+          <div class="input-group">
+            <i class="fas fa-align-left"></i>
+            <textarea id="faq-answer" placeholder="Isi Jawaban..." rows="5" required></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="primary-btn"><i class="fas fa-save"></i> Simpan</button>
+            <button type="button" id="faq-cancel-modal" class="cancel-btn">Batal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <footer>
       &copy; 2025 Admin Dashboard. All rights reserved.
     </footer>
@@ -238,4 +308,5 @@
 
   <script src="/dashboard-script.js"></script>
 </body>
+
 </html>

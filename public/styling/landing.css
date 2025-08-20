@@ -1,0 +1,315 @@
+/* CSS Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.landing-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f5f7ff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* DITAMBAHKAN: Style untuk tombol FAQ */
+.faq-button {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    z-index: 10;
+    font-size: 1.8rem;
+    color: #ffffff; /* Warna ikon putih */
+    background-color: #4361ee; /* Warna latar belakang diubah menjadi solid */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow agar sedikit terangkat */
+}
+
+.faq-button:hover {
+    background-color: #3a54d5; /* Warna hover sedikit lebih gelap */
+    transform: scale(1.1);
+    color: #fff;
+}
+
+.background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.background-animation .shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(67, 97, 238, 0.1), rgba(63, 55, 201, 0.05));
+}
+
+.background-animation .shape:first-child {
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    left: -200px;
+}
+
+.background-animation .shape:last-child {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: -100px;
+}
+
+.left-section {
+    flex: 0.6; 
+    background: linear-gradient(135deg, #4361ee, #4cc9f0); 
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    clip-path: ellipse(85% 70% at 12% 50%);
+    position: relative; /* Dinaikkan agar di atas animasi */
+    z-index: 1;
+}
+
+.si-jete-mascot {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+}
+
+.si-jete-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Bagian Kanan (Teks) */
+.right-section {
+    flex: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    position: relative; /* Dinaikkan agar di atas animasi */
+    z-index: 1;
+}
+
+.content-wrapper {
+    max-width: 530px;
+    width: 100%;
+    text-align: left;
+    margin-left: -5vw;
+}
+
+.right-section h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.right-section .sub-title {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.right-section .main-description {
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* Tombol CTA & Info Agensi */
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.start-chat-button {
+    background-color: #4361ee;
+    color: white;
+    border: 2px solid #4361ee;
+    padding: 14px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+
+    animation: pulse 2s infinite, glowing 5s infinite linear;
+}
+
+.start-chat-button:hover {
+    background-color: #3a54d5;
+    border-color: #3a54d5;
+    transform: translateY(-2px);
+}
+
+.agency-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #888;
+    font-size: 0.9rem;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.jakartatimur-logo {
+    max-height: 40px;
+}
+
+.content-wrapper {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.content-wrapper.fade-out {
+    opacity: 0;
+}
+
+/* Tampilan Mobile */
+@media (max-width: 900px) {
+    html, body {
+        overflow: auto;
+    }
+    .landing-container {
+        flex-direction: column;
+        height: auto;
+        background-color: #ffffff;
+    }
+
+    .faq-button {
+        top: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
+
+    .left-section {
+        flex: none;
+        clip-path: none;
+        min-height: auto;
+        padding: 40px 30px 80px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .left-section::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -50%;
+        width: 200%;
+        height: 80px;
+        background-color: #ffffff;
+        border-radius: 50% 50% 0 0;
+        transform: translateY(50%);
+    }
+    .si-jete-mascot {
+        max-width: 180px;
+        margin-bottom: 0;
+    }
+    .si-jete-title {
+        display: none;
+    }
+    .right-section {
+        flex: none;
+        min-height: auto;
+        padding: 60px 30px 40px;
+    }
+    .background-animation {
+        display: none;
+    }
+    .content-wrapper {
+        margin-left: 0;
+        text-align: center;
+    }
+    .right-section h1 {
+        font-size: 2.2rem;
+    }
+    .cta-buttons, .agency-info {
+        justify-content: center;
+    }
+}
+
+/* --- Definisi Animasi & Gaya Ikon --- */
+
+/* Gaya untuk ikon panah */
+.start-chat-button .fas {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Efek ikon bergerak saat hover */
+.start-chat-button:hover .fas {
+    transform: translateX(5px);
+}
+
+/* Animasi Pulse (Berdenyut) */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(67, 97, 238, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+    }
+}
+
+/* Animasi Glowing (Bersinar) */
+.start-chat-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+    transform: translate(-50%, -50%);
+    animation: glowing-rotate 5s infinite linear;
+    z-index: -1;
+}
+
+@keyframes glowing-rotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}

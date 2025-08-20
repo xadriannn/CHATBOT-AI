@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Si Jete - Asisten Virtual Jakarta Timur</title>
+    <link rel="icon" href="assets/logo.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styling/landing.css">
+</head>
+
+<body>
+    <div class="landing-container">
+        <a href="/faq" class="faq-button">
+            <i class="fas fa-question-circle"></i>
+        </a>
+
+        <div class="background-animation">
+        </div>
+
+        <div class="left-section">
+            <img src="assets/SI JETE.svg" alt="Si Jete Maskot" class="si-jete-mascot">
+        </div>
+        <div class="right-section">
+            <div class="content-wrapper">
+                <h1 id="greeting">Halo!👋</h1>
+                <h1 id="welcome-message">Selamat Datang di Si Jete</h1>
+                <p class="sub-title" id="sub-title">Asisten Virtual Pemerintah Kota Jakarta Timur</p>
+                <p class="main-description" id="main-description">
+                    Butuh informasi cepat seputar layanan publik Jakarta Timur? <br>
+                    Si Jete siap membantu Anda 24 jam!
+                </p>
+               <div class="cta-buttons">
+                    <a href="/chat" class="start-chat-button" id="cta-button">
+                        Mulai Percakapan <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="agency-info">
+                    <a href="https://timur.jakarta.go.id/" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/logo.png" alt="Logo Jakarta Timur" class="jakartatimur-logo">
+                    </a>
+                    <a href="https://kominfotikjt.jakarta.go.id/" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/logo-kominfotik-jt.png" alt="Logo Kominfotik Jakarta Timur"
+                            class="jakartatimur-logo">
+                    </a>
+                    <p id="agency-name">Pemerintah Kota Administrasi Jakarta Timur</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script untuk transisi bahasa (tetap sama) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                id: {
+                    greeting: 'Halo!👋',
+                    welcomeMessage: 'Selamat Datang di Si Jete',
+                    subTitle: 'Asisten Virtual Pemerintah Kota Jakarta Timur',
+                    mainDescription: 'Butuh informasi cepat seputar layanan publik Jakarta Timur? <br> Si Jete siap membantu Anda 24 jam!',
+                    ctaButton: 'Mulai Percakapan',
+                    agencyName: 'Pemerintah Kota Administrasi Jakarta Timur'
+                },
+                en: {
+                    greeting: 'Hello!👋',
+                    welcomeMessage: 'Welcome to Si Jete',
+                    subTitle: 'Virtual Assistant of the East Jakarta City Government',
+                    mainDescription: 'Need quick information about public services in East Jakarta? <br> Si Jete is ready to help you 24/7!',
+                    ctaButton: 'Start Chat',
+                    agencyName: 'East Jakarta City Administration Government'
+                }
+            };
+
+            const elements = {
+                greeting: document.getElementById('greeting'),
+                welcomeMessage: document.getElementById('welcome-message'),
+                subTitle: document.getElementById('sub-title'),
+                mainDescription: document.getElementById('main-description'),
+                ctaButton: document.getElementById('cta-button'),
+                agencyName: document.getElementById('agency-name')
+            };
+
+            let currentLang = 'id';
+
+            const changeLanguage = () => {
+                const contentWrapper = document.querySelector('.content-wrapper');
+                contentWrapper.classList.add('fade-out');
+
+                setTimeout(() => {
+                    currentLang = currentLang === 'id' ? 'en' : 'id';
+                    const langPack = translations[currentLang];
+
+                    elements.greeting.innerHTML = langPack.greeting;
+                    elements.welcomeMessage.innerHTML = langPack.welcomeMessage;
+                    elements.subTitle.innerHTML = langPack.subTitle;
+                    elements.mainDescription.innerHTML = langPack.mainDescription;
+                    elements.ctaButton.innerHTML = langPack.ctaButton + ' <i class="fas fa-arrow-right"></i>';
+                    elements.agencyName.innerHTML = langPack.agencyName;
+
+                    contentWrapper.classList.remove('fade-out');
+                }, 500);
+            };
+
+            setInterval(changeLanguage, 5000);
+        });
+    </script>
+</body>
+
+</html>

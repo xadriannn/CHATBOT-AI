@@ -55,6 +55,10 @@ app.get("/edit-profile", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "edit-profile.html"));
 }); 
 
+app.get("/faq", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "faq.html")); 
+});
+
 app.get("/dashboard", (req, res) => {
   const token = req.cookies.token;
   const decoded = verifyToken(token);
@@ -76,12 +80,8 @@ app.get("/chat", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  const token = req.cookies.token;
-  if (verifyToken(token)) {
-    res.redirect("/chat");
-  } else {
-    res.sendFile(path.join(__dirname, "public", "login.html"));
-  }
+  // Selalu sajikan landing.html sebagai halaman utama
+  res.sendFile(path.join(__dirname, "public", "landing.html"));
 });
 
 

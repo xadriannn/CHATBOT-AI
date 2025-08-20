@@ -5,6 +5,7 @@ import { deleteUser, getUserList, getUserData, updateProfile } from '../controll
 import { uploadFile, uploadedFile, deleteFile } from '../controllers/fileController.js';
 
 import { upload } from '../config/multer.js';
+import { createFaqs, deleteFaq, getFaqs, updateFaq } from '../controllers/faqController.js';
 
 const router = express.Router();
 
@@ -19,5 +20,8 @@ router.post("/update-profile", authenticate, updateProfile);
 router.get('/files', authenticate, uploadedFile);
 router.post("/upload-multiple", upload.array("files"), uploadFile);
 router.delete('/files/:filename', authenticate, deleteFile);
-
+router.get('/faq', getFaqs);
+router.post('/create-faq', authenticate, createFaqs);
+router.post('/delete-faq', authenticate, deleteFaq);
+router.put('/update-faq', authenticate, updateFaq);
 export default router;
