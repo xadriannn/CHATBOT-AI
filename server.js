@@ -4,12 +4,13 @@ import cors from "cors";
 import path from "path";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
-import { verifyToken } from "./utils/token.js"; // Import verifyToken function
+import { verifyToken } from "./utils/token.js";
 import cookieParser from "cookie-parser";
 import { dirname } from "path";
 import dotenv from "dotenv";
-import authRoutes from "./routes/authRoute.js"; // Import auth routes
-import webRoutes from "./routes/webRoute.js"; // Import web routes
+import authRoutes from "./routes/authRoute.js";
+import webRoutes from "./routes/webRoute.js";
+import { indexPdfs } from "./services/documentService.js";
 
 dotenv.config({ path: "./api.env" });
 
@@ -87,5 +88,5 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
-
+  indexPdfs(); // <-- 2. PANGGIL FUNGSI INDEXING DI SINI
 });
