@@ -41,7 +41,7 @@ export async function chatHandler(req, res) {
     const reply = await askAI(
       SYSTEM_PROMPT, 
       userMessage, 
-      process.env.OPENROUTER_API_KEY
+      process.env.GROQ_API_KEY
     );
 
     res.json({ reply });

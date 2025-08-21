@@ -1,0 +1,67 @@
+
+
+PANDUAN UNTUK SIMULASI PERHITUNGAN PAJAK DI 
+DKI JAKARTA 
+ 
+ 
+1. Pajak Bumi dan Bangunan (PBB-P2) 
+Rumus: 
+PBB = (NJOP - NJOPTKP) x Tarif Pajak 
+Penjelasan: 
+● NJOP (Nilai Jual Objek Pajak) adalah nilai pasar atas tanah dan bangunan 
+yang ditentukan pemerintah. 
+● NJOPTKP (Nilai Jual Objek Tidak Kena Pajak) adalah batas nilai NJOP 
+yang tidak dikenakan pajak. Di Jakarta, biasanya sebesar Rp12.000.000. 
+● Tarif PBB untuk rumah tinggal biasanya 0,1%. 
+Contoh: 
+ Jika NJOP tanah dan bangunan adalah Rp275.000.000, maka: 
+ PBB = (275.000.000 - 12.000.000) x 0,1% = Rp263.000 
+2. BPHTB (Bea Perolehan Hak atas Tanah dan Bangunan) 
+Rumus: 
+ BPHTB = (NPOP - NPOPTKP) x 5% 
+Penjelasan: 
+● NPOP (Nilai Perolehan Objek Pajak) adalah harga transaksi jual beli atau 
+NJOP, dipilih yang lebih tinggi. 
+● NPOPTKP (Nilai Perolehan Objek Pajak Tidak Kena Pajak) di Jakarta 
+adalah Rp2.000.000.000. 
+● Tarif BPHTB adalah 5%. 
+ 
+Contoh: 
+ Jika harga rumah Rp3.000.000.000, maka: 
+ BPHTB = (3.000.000.000 - 2.000.000.000) x 5% = Rp50.000.000 
+3. PKB (Pajak Kendaraan Bermotor) 
+
+Rumus: 
+PKB = NJKB x Tarif PKB 
+Penjelasan: 
+● NJKB (Nilai Jual Kendaraan Bermotor) ditentukan oleh pemerintah 
+daerah (biasanya Samsat). 
+● Tarif PKB kendaraan pertama adalah 2%, dan akan naik 0,5% untuk 
+kendaraan kedua dan seterusnya. 
+Contoh: 
+ Jika NJKB mobil adalah Rp150.000.000, maka: 
+ PKB = 150.000.000 x 2% = Rp3.000.000 
+4. Pajak Restoran 
+Rumus: 
+Pajak Restoran = Omzet Kena Pajak x 10% 
+Penjelasan: 
+● Omzet kena pajak adalah total pendapatan dari penjualan makanan dan 
+minuman. 
+● Berlaku jika omzet usaha lebih dari Rp200 juta per tahun. 
+● Tarifnya adalah 10%. 
+ 
+Contoh: 
+Jika omzet restoran per bulan adalah Rp50.000.000, maka:  
+Pajak Restoran = 50.000.000 x 10% = Rp5.000.000 
+5. Pajak Reklame 
+Rumus: 
+Pajak Reklame = Nilai Sewa Reklame x 25% 
+Penjelasan: 
+● Nilai sewa reklame dihitung berdasarkan ukuran, lokasi, durasi 
+pemasangan, dan jenis media reklame. 
+
+● Tarif pajaknya adalah 25%. 
+Contoh: 
+ Jika nilai sewa reklame adalah Rp10.000.000, maka: 
+ Pajak Reklame = 10.000.000 x 25% = Rp2.500.000 
+ 
